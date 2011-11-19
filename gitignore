@@ -1,0 +1,24 @@
+# xcode noise
+build/*
+*.mode1v3
+*.mode2v3
+*.pbxuser
+*.perspective
+*.perspectivev3
+*xcuserdata
+
+# old school
+.svn
+
+# osx noise
+.DS_Store
+
+.emacs-project
+GPATH
+GRTAGS
+GTAGS
+
+#appcode
+.idea
+
+tags

@@ -1,0 +1,51 @@
+[submodule ".vim/bundle/vim-align"]
+	path = .vim/bundle/vim-align
+	url = https://github.com/tsaleh/vim-align
+[submodule ".vim/bundle/vim-command-t"]
+	path = .vim/bundle/vim-command-t
+	url = git://git.wincent.com/command-t.git
+[submodule ".vim/bundle/vim-supertab"]
+	path = .vim/bundle/vim-supertab
+	url = git://github.com/ervandew/supertab.git
+[submodule ".vim/bundle/vim-snipmate"]
+	path = .vim/bundle/vim-snipmate
+	url = git://github.com/msanders/snipmate.vim.git
+[submodule ".vim/bundle/vim-javascript"]
+	path = .vim/bundle/vim-javascript
+	url = git://github.com/pangloss/vim-javascript.git
+[submodule ".vim/bundle/vim-nerdtree"]
+	path = .vim/bundle/vim-nerdtree
+	url = git://github.com/scrooloose/nerdtree.git
+[submodule ".vim/bundle/vim-fugitive"]
+	path = .vim/bundle/vim-fugitive
+	url = git://github.com/tpope/vim-fugitive.git
+[submodule ".vim/bundle/vim-surround"]
+	path = .vim/bundle/vim-surround
+	url = git://github.com/tpope/vim-surround.git
+[submodule ".vim/bundle/vim-repeat"]
+	path = .vim/bundle/vim-repeat
+	url = git://github.com/tpope/vim-repeat.git
+[submodule ".vim/bundle/vim-ack"]
+	path = .vim/bundle/vim-ack
+	url = git://github.com/mileszs/ack.vim.git
+[submodule ".vim/bundle/vim-cocoa"]
+	path = .vim/bundle/vim-cocoa
+	url = https://github.com/msanders/cocoa.vim.git
+[submodule ".vim/bundle/vim-easytags"]
+	path = .vim/bundle/vim-easytags
+	url = https://github.com/xolox/vim-easytags.git
+[submodule ".vim/bundle/vim-nerdcommenter"]
+	path = .vim/bundle/vim-nerdcommenter
+	url = https://github.com/vim-scripts/The-NERD-Commenter.git
+[submodule ".vim/bundle/vim-zoomwin"]
+	path = .vim/bundle/vim-zoomwin
+	url = https://github.com/vim-scripts/ZoomWin.git
+[submodule ".vim/bundle/vim-syntastic"]
+	path = .vim/bundle/vim-syntastic
+	url = https://github.com/scrooloose/syntastic/
+[submodule ".vim/bundle/vim-unimpaired"]
+	path = .vim/bundle/vim-unimpaired
+	url = https://github.com/tpope/vim-unimpaired.git
+[submodule ".vim/bundle/vim-gist"]
+	path = .vim/bundle/vim-gist
+	url = https://github.com/mattn/gist-vim
