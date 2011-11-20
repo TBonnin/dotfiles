@@ -12,3 +12,6 @@ Configuraiton files (vim, bash, git, etc...)
     cd ~/.dotfiles
     rake install
 
+## THANK YOU NOTE
+
+Inspired by ryanb: https://github.com/ryanb/

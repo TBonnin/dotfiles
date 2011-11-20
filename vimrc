@@ -39,6 +39,14 @@ set incsearch
 set ignorecase
 set smartcase
 nmap <silent> ,/ :nohlsearch<CR>
+" turn off highlighted results ( nohlsearch) when pressing enter. 
+" just pressing n or N will turn the highlight back again 
+nnoremap <cr> :noh <cr>
+
+" Keep search matches in the middle of the window and pulse the line when moving
+" to them.
+nnoremap n nzzzv:call PulseCursorLine()<cr>
+nnoremap N Nzzzv:call PulseCursorLine()<cr>
 
 " Tab completion
 set wildmode=list:longest,list:full
@@ -187,4 +195,51 @@ if filereadable(expand("~/.vimrc.local"))
   source ~/.vimrc.local
 endif
 
+"-------------------------------------------------------------------
+function! PulseCursorLine()
+    let current_window = winnr()
 
+    windo set nocursorline
+    execute current_window . 'wincmd w'
+
+    setlocal cursorline
+
+    redir => old_hi
+        silent execute 'hi CursorLine'
+    redir END
+    let old_hi = split(old_hi, '\n')[0]
+    let old_hi = substitute(old_hi, 'xxx', '', '')
+
+    hi CursorLine guibg=#2a2a2a ctermbg=233
+    redraw
+    sleep 20m
+
+    hi CursorLine guibg=#333333 ctermbg=235
+    redraw
+    sleep 20m
+
+    hi CursorLine guibg=#3a3a3a ctermbg=237
+    redraw
+    sleep 20m
+
+    hi CursorLine guibg=#444444 ctermbg=239
+    redraw
+    sleep 20m
+
+    hi CursorLine guibg=#3a3a3a ctermbg=237
+    redraw
+    sleep 20m
+
+    hi CursorLine guibg=#333333 ctermbg=235
+    redraw
+    sleep 20m
+
+    hi CursorLine guibg=#2a2a2a ctermbg=233
+    redraw
+    sleep 20m
+
+    execute 'hi ' . old_hi
+
+    windo set cursorline
+    execute current_window . 'wincmd w'
+endfunction
