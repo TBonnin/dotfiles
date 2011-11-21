@@ -49,3 +49,6 @@
 [submodule ".vim/bundle/vim-gist"]
 	path = .vim/bundle/vim-gist
 	url = https://github.com/mattn/gist-vim
+[submodule "vim/bundle/vim-delimitmate"]
+	path = vim/bundle/vim-delimitmate
+	url = https://github.com/Raimondi/delimitMate.git
