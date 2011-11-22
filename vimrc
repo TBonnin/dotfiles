@@ -33,6 +33,8 @@ set expandtab
 set smarttab      " insert tabs on the start of a line according to shiftwidth, not tabstop
 set list listchars=tab:\ \ ,trail:·
 
+map <unique> <C-y> :GotoSymbol 
+
 " Searching
 set hlsearch
 set incsearch
@@ -77,8 +79,8 @@ map <Leader><Leader> :ZoomWin<CR>
 " map <Leader>rt :!ctags --extra=+f -R *<CR><CR>
 " map <Leader>re :!ctags --language-force=ObjectiveC --extra=+f -R *<CR><CR>
 map <C-\> :tnext<CR>
-" let tlist_objc_settings = 'ObjectiveC;i:interface;c:class;m:method;p:property'
-" let Tlist_Ctags_Cmd = '/usr/local/bin/ctags'
+let tlist_objc_settings = 'ObjectiveC;i:interface;c:class;m:method;p:property'
+let Tlist_Ctags_Cmd = '/usr/local/bin/ctags'
 
 " Easytags
 :set tags=./tags;

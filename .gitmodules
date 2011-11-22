@@ -52,3 +52,9 @@
 [submodule "vim/bundle/vim-delimitmate"]
 	path = vim/bundle/vim-delimitmate
 	url = https://github.com/Raimondi/delimitMate.git
+[submodule "vim/bundle/vim-fuzzyfinder"]
+	path = vim/bundle/vim-fuzzyfinder
+	url = https://github.com/itspriddle/vim-fuzzyfinder-pathogen
+[submodule "vim/bundle/vim-gotosymbol"]
+	path = vim/bundle/vim-gotosymbol
+	url = https://github.com/travisjeffery/vim-gotosymbol.git
