@@ -65,7 +65,6 @@ set noequalalways
 " NERDTree configuration
 let NERDTreeIgnore=['\.pyc$', '\.rbc$', '\~$']
 map <Leader>n :NERDTreeToggle<CR>
-autocmd VimEnter * NERDTreeClose
 
 " Command-T configuration
 let g:CommandTMaxHeight=20
@@ -75,6 +74,12 @@ let g:CommandTMaxHeight=20
 " ZoomWin configuration
 map <Leader><Leader> :ZoomWin<CR>
 
+" easier navigation between split windows
+nnoremap <c-j> <c-w>j
+nnoremap <c-k> <c-w>k
+nnoremap <c-h> <c-w>h
+nnoremap <c-l> <c-w>l
+
 " CTags
 " map <Leader>rt :!ctags --extra=+f -R *<CR><CR>
 " map <Leader>re :!ctags --language-force=ObjectiveC --extra=+f -R *<CR><CR>
@@ -83,8 +88,9 @@ let tlist_objc_settings = 'ObjectiveC;i:interface;c:class;m:method;p:property'
 let Tlist_Ctags_Cmd = '/usr/local/bin/ctags'
 
 " Easytags
-:set tags=./tags;
-:let g:easytags_dynamic_files = 1
+:let g:easytags_cmd = '/usr/local/bin/ctags'
+:set tags=./tags,tags;
+:let g:easytags_dynamic_files = 2
 
 " Remember last location in file
 if has("autocmd")
@@ -190,6 +196,9 @@ cmap w!! w !sudo tee % >/dev/null
 " DelimitMate
 let delimitMate_expand_cr = 1
 let delimitMate_balance_matchpairs = 1
+
+" Supertab
+" CrMapping = 0 to avoid conflict with DelimitMate
 let g:SuperTabCrMapping = 0
 
 " Include user's local vim config
