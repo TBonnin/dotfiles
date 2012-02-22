@@ -54,7 +54,7 @@ renames = true
 summary = true
 keepBackup = false
 keepTemporaries = false
-tool = opendiff
+	tool = opendiff
 
 [mergetool]
 keepBackup = false

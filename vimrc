@@ -7,6 +7,12 @@ set number
 set ruler
 syntax on
 
+set ttyfast
+
+" highlight current line in insert mode
+:autocmd InsertEnter * set cul
+:autocmd InsertLeave * set nocul
+
 " Leader key
 let mapleader = ","
 
@@ -33,7 +39,7 @@ set expandtab
 set smarttab      " insert tabs on the start of a line according to shiftwidth, not tabstop
 set list listchars=tab:\ \ ,trail:·
 
-map <unique> <C-y> :GotoSymbol 
+
 
 " Searching
 set hlsearch
@@ -71,8 +77,15 @@ let g:CommandTMaxHeight=20
 " let g:CommandTAcceptSelectionMap = '<C-t>'
 " let g:CommandTAcceptSelectionTabMap = '<CR>'
 
+map <Leader>y :FufBufferTag<CR>
+imap <Leader>y <Esc>:FufBufferTag<CR>
+
 " ZoomWin configuration
 map <Leader><Leader> :ZoomWin<CR>
+
+" Powerline
+set t_Co=256
+let g:Powerline_symbols = 'fancy'
 
 " easier navigation between split windows
 nnoremap <c-j> <c-w>j
@@ -81,16 +94,12 @@ nnoremap <c-h> <c-w>h
 nnoremap <c-l> <c-w>l
 
 " CTags
-" map <Leader>rt :!ctags --extra=+f -R *<CR><CR>
-" map <Leader>re :!ctags --language-force=ObjectiveC --extra=+f -R *<CR><CR>
 map <C-\> :tnext<CR>
-let tlist_objc_settings = 'ObjectiveC;i:interface;c:class;m:method;p:property'
-let Tlist_Ctags_Cmd = '/usr/local/bin/ctags'
 
 " Easytags
 :let g:easytags_cmd = '/usr/local/bin/ctags'
 :set tags=./tags,tags;
-:let g:easytags_dynamic_files = 2
+":let g:easytags_dynamic_files = 2
 
 " Remember last location in file
 if has("autocmd")

@@ -7,6 +7,9 @@ if has("gui_macvim")
   map <D-t> :CommandT<CR>
   imap <D-t> <Esc>:CommandT<CR>
 
+  map <D-y> :FufBufferTag<CR>
+  imap <D-y> <Esc>:FufBufferTag<CR>
+
   " Command-Return for fullscreen
   macmenu Window.Toggle\ Full\ Screen\ Mode key=<D-CR>
 
@@ -62,6 +65,9 @@ if has("gui_macvim")
   imap <Leader>= <Esc> <C-w>=
 endif
 
+" Powerline
+set guifont=Menlo\ for\ Powerline
+
 " Don't beep
 set visualbell
 
@@ -81,7 +87,7 @@ endfunction
 autocmd VimEnter * call s:CdIfDirectory(expand("<amatch>"))
 autocmd FocusGained * call s:UpdateNERDTree()
 autocmd WinEnter * call s:CloseIfOnlyNerdTreeLeft()
-autocmd VimEnter * NERDTreeClose
+"autocmd VimEnter * NERDTreeClose
 
 " Close all open buffers on entering a window if the only
 " buffer that's left is the NERDTree buffer

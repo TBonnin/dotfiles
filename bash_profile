@@ -1,4 +1,4 @@
-PATH=$PATH:.
+PATH=$PATH:.:~/bin/
 
 export CLICOLOR=1
 export LSCOLORS=ExFxCxDxBxegedabagacad
@@ -127,5 +127,4 @@ export GIT_PS1_SHOWDIRTYSTATE=1 GIT_PS1_SHOWUNTRACKEDFILES=1 GIT_PS1_SHOWSTASHST
 # En fait l'important ici c'est le "\033[1;32m\]$(__git_ps1)\[\033[0m\]", le reste c'est mon prompt usuel…
 export PS1='\[\033[0;37m\]\u@\h:\[\033[0;33m\]\W\[\033[0m\]\[\033[1;32m\]$(__git_ps1)\[\033[0m\] \$ '
 
-# MacPorts Installer addition on 2011-01-09_at_06:14:46: adding an appropriate PATH variable for use with MacPorts.
-export PATH=/opt/local/bin:/opt/local/sbin:$PATH
+. ~/.nvm/nvm.sh
