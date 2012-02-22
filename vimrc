@@ -77,11 +77,11 @@ let g:CommandTMaxHeight=20
 " let g:CommandTAcceptSelectionMap = '<C-t>'
 " let g:CommandTAcceptSelectionTabMap = '<CR>'
 
-map <Leader>y :FufBufferTag<CR>
-imap <Leader>y <Esc>:FufBufferTag<CR>
+map T :FufBufferTag<CR>
+imap T <Esc>:FufBufferTag<CR>
 
-" ZoomWin configuration
-map <Leader><Leader> :ZoomWin<CR>
+"ZoomWin configuration
+"map <Leader><Leader> :ZoomWin<CR>
 
 " Powerline
 set t_Co=256
