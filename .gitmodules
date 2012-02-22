@@ -52,9 +52,6 @@
 [submodule "vim/bundle/vim-delimitmate"]
 	path = vim/bundle/vim-delimitmate
 	url = https://github.com/Raimondi/delimitMate.git
-[submodule "vim/bundle/vim-fuzzyfinder"]
-	path = vim/bundle/vim-fuzzyfinder
-	url = https://github.com/itspriddle/vim-fuzzyfinder-pathogen
 [submodule "vim/bundle/vim-gotosymbol"]
 	path = vim/bundle/vim-gotosymbol
 	url = https://github.com/travisjeffery/vim-gotosymbol.git
@@ -70,3 +67,18 @@
 [submodule "vim/bundle/vim-markdown"]
 	path = vim/bundle/vim-markdown
 	url = https://github.com/hallison/vim-markdown.git
+[submodule "vim/bundle/vim-powerline"]
+	path = vim/bundle/vim-powerline
+	url = https://github.com/Lokaltog/vim-powerline.git
+[submodule "vim/bundle/vim-netrw"]
+	path = vim/bundle/vim-netrw
+	url = https://github.com/vim-scripts/netrw.vim.git
+[submodule "vim/bundle/vim-fuzzyfinder"]
+	path = vim/bundle/vim-fuzzyfinder
+	url = https://github.com/vim-scripts/FuzzyFinder.git
+[submodule "vim/bundle/vim-L9"]
+	path = vim/bundle/vim-L9
+	url = https://github.com/vim-scripts/L9.git
+[submodule "vim/bundle/vim-coffee-script"]
+	path = vim/bundle/vim-coffee-script
+	url = https://github.com/vim-scripts/vim-coffee-script.git
