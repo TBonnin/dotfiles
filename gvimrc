@@ -6,9 +6,8 @@ if has("gui_macvim")
   macmenu &File.New\ Tab key=<D-T>
   map <D-t> :CommandT<CR>
   imap <D-t> <Esc>:CommandT<CR>
-
-  map <D-y> :FufBufferTag<CR>
-  imap <D-y> <Esc>:FufBufferTag<CR>
+  map <D-y> :CommandTTag<CR>
+  imap <D-y> <Esc>:CommandTTag<CR>
 
   " Command-Return for fullscreen
   macmenu Window.Toggle\ Full\ Screen\ Mode key=<D-CR>
@@ -75,7 +74,7 @@ set visualbell
 set guioptions-=T
 
 " Default gui color scheme
-color ir_black
+" color ir_black
 
 " ConqueTerm wrapper
 function StartTerm()

@@ -3,13 +3,14 @@ Thomas Bonnin Dot Files
 
 ## DESCRIPTION
 
-Configuraiton files (vim, bash, git, etc...)
+Configuraiton files (vim, zsh, git, etc...)
 
 
 ## INSTALLATION
 
-    git clone git://github.com/tbonnin/dotfiles ~/.dotfiles
+    git clone git@github.com:TBonnin/dotfiles.git ~/.dotfiles
     cd ~/.dotfiles
+    git submodule update --init
     rake install
 
 ## THANK YOU NOTE

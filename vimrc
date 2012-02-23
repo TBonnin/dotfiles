@@ -77,8 +77,8 @@ let g:CommandTMaxHeight=20
 " let g:CommandTAcceptSelectionMap = '<C-t>'
 " let g:CommandTAcceptSelectionTabMap = '<CR>'
 
-map T :FufBufferTag<CR>
-imap T <Esc>:FufBufferTag<CR>
+map <Leader>y :CommandTTag<CR>
+imap <Leader>y <Esc>:CommandTTag<CR>
 
 "ZoomWin configuration
 "map <Leader><Leader> :ZoomWin<CR>
@@ -98,7 +98,7 @@ map <C-\> :tnext<CR>
 
 " Easytags
 :let g:easytags_cmd = '/usr/local/bin/ctags'
-:set tags=./tags,tags;
+:set tags=./.tags,.tags;
 ":let g:easytags_dynamic_files = 2
 
 " Remember last location in file
@@ -179,7 +179,7 @@ set modeline
 set modelines=10
 
 " Default color scheme
-color desert
+color Tomorrow-Night
 
 " Directories for swp files
 set backupdir=~/.vim/backup

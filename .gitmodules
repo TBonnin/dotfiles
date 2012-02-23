@@ -7,9 +7,6 @@
 [submodule "vim/bundle/vim-supertab"]
 	path = vim/bundle/vim-supertab
 	url = git://github.com/ervandew/supertab.git
-[submodule "vim/bundle/vim-snipmate"]
-	path = vim/bundle/vim-snipmate
-	url = git://github.com/msanders/snipmatevim.git
 [submodule "vim/bundle/vim-javascript"]
 	path = vim/bundle/vim-javascript
 	url = git://github.com/pangloss/vim-javascript.git
@@ -25,12 +22,6 @@
 [submodule "vim/bundle/vim-repeat"]
 	path = vim/bundle/vim-repeat
 	url = git://github.com/tpope/vim-repeat.git
-[submodule "vim/bundle/vim-ack"]
-	path = vim/bundle/vim-ack
-	url = git://github.com/mileszs/ackvim.git
-[submodule "vim/bundle/vim-cocoa"]
-	path = vim/bundle/vim-cocoa
-	url = https://github.com/msanders/cocoavim.git
 [submodule "vim/bundle/vim-easytags"]
 	path = vim/bundle/vim-easytags
 	url = https://github.com/xolox/vim-easytags.git
@@ -73,15 +64,18 @@
 [submodule "vim/bundle/vim-netrw"]
 	path = vim/bundle/vim-netrw
 	url = https://github.com/vim-scripts/netrw.vim.git
-[submodule "vim/bundle/vim-fuzzyfinder"]
-	path = vim/bundle/vim-fuzzyfinder
-	url = https://github.com/vim-scripts/FuzzyFinder.git
-[submodule "vim/bundle/vim-L9"]
-	path = vim/bundle/vim-L9
-	url = https://github.com/vim-scripts/L9.git
 [submodule "vim/bundle/vim-coffee-script"]
 	path = vim/bundle/vim-coffee-script
 	url = https://github.com/vim-scripts/vim-coffee-script.git
 [submodule "vim/bundle/vim-easymotion"]
 	path = vim/bundle/vim-easymotion
 	url = git://github.com/Lokaltog/vim-easymotion.git
+[submodule "vim/bundle/vim-ack"]
+	path = vim/bundle/vim-ack
+	url = https://github.com/mileszs/ack.vim.git
+[submodule "vim/bundle/vim-cocoa"]
+	path = vim/bundle/vim-cocoa
+	url = git://github.com/msanders/cocoa.vim.git
+[submodule "vim/bundle/vim-snipmate"]
+	path = vim/bundle/vim-snipmate
+	url = git://github.com/msanders/snipmate.vim.git
