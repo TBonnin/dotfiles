@@ -1,9 +1,9 @@
 [submodule "vim/bundle/vim-align"]
 	path = vim/bundle/vim-align
 	url = https://github.com/tsaleh/vim-align
-[submodule "vim/bundle/vim-command-t"]
-	path = vim/bundle/vim-command-t
-	url = git://git.wincent.com/command-t.git
+;[submodule "vim/bundle/vim-command-t"]
+	;path = vim/bundle/vim-command-t
+	;url = git://git.wincent.com/command-t.git
 [submodule "vim/bundle/vim-supertab"]
 	path = vim/bundle/vim-supertab
 	url = git://github.com/ervandew/supertab.git
@@ -37,24 +37,24 @@
 [submodule "vim/bundle/vim-unimpaired"]
 	path = vim/bundle/vim-unimpaired
 	url = https://github.com/tpope/vim-unimpaired.git
-[submodule "vim/bundle/vim-gist"]
-	path = vim/bundle/vim-gist
-	url = https://github.com/mattn/gist-vim
+;[submodule "vim/bundle/vim-gist"]
+	;path = vim/bundle/vim-gist
+	;url = https://github.com/mattn/gist-vim
 [submodule "vim/bundle/vim-delimitmate"]
 	path = vim/bundle/vim-delimitmate
 	url = https://github.com/Raimondi/delimitMate.git
 [submodule "vim/bundle/vim-gotosymbol"]
 	path = vim/bundle/vim-gotosymbol
 	url = https://github.com/travisjeffery/vim-gotosymbol.git
-[submodule "vim/bundle/vim-ios"]
-	path = vim/bundle/vim-ios
-	url = https://github.com/eraserhd/vim-ios.git
-[submodule "vim/bundle/vim-clangcomplete"]
-	path = vim/bundle/vim-clangcomplete
-	url = https://github.com/Rip-Rip/clang_complete.git
-[submodule "vim/bundle/vim-shell"]
-	path = vim/bundle/vim-shell
-	url = https://github.com/xolox/vim-shell.git
+;[submodule "vim/bundle/vim-ios"]
+	;path = vim/bundle/vim-ios
+	;url = https://github.com/eraserhd/vim-ios.git
+;[submodule "vim/bundle/vim-clangcomplete"]
+	;path = vim/bundle/vim-clangcomplete
+	;url = https://github.com/Rip-Rip/clang_complete.git
+;[submodule "vim/bundle/vim-shell"]
+	;path = vim/bundle/vim-shell
+	;url = https://github.com/xolox/vim-shell.git
 [submodule "vim/bundle/vim-markdown"]
 	path = vim/bundle/vim-markdown
 	url = https://github.com/hallison/vim-markdown.git
@@ -73,9 +73,15 @@
 [submodule "vim/bundle/vim-ack"]
 	path = vim/bundle/vim-ack
 	url = https://github.com/mileszs/ack.vim.git
-[submodule "vim/bundle/vim-cocoa"]
-	path = vim/bundle/vim-cocoa
-	url = git://github.com/msanders/cocoa.vim.git
+;[submodule "vim/bundle/vim-cocoa"]
+	;path = vim/bundle/vim-cocoa
+	;url = git://github.com/msanders/cocoa.vim.git
 [submodule "vim/bundle/vim-snipmate"]
 	path = vim/bundle/vim-snipmate
 	url = git://github.com/msanders/snipmate.vim.git
+[submodule "vim/bundle/vim-orgmode"]
+	path = vim/bundle/vim-orgmode
+	url = git://github.com/jceb/vim-orgmode.git
+[submodule "vim/bundle/vim-ctrlp"]
+	path = vim/bundle/vim-ctrlp
+	url = git://github.com/kien/ctrlp.vim.git

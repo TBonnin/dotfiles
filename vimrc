@@ -22,6 +22,9 @@ set encoding=utf-8
 " exit to normal mode with 'jj'
 inoremap jj <ESC>
 
+" split line at cursor
+nnoremap K i<CR><Esc>
+
 " Wrapping
 :set wrap
 :set linebreak
@@ -38,8 +41,6 @@ set shiftround    " use multiple of shiftwidth when indenting with '<' and '>'
 set expandtab
 set smarttab      " insert tabs on the start of a line according to shiftwidth, not tabstop
 set list listchars=tab:\ \ ,trail:·
-
-
 
 " Searching
 set hlsearch
@@ -72,13 +73,13 @@ set noequalalways
 let NERDTreeIgnore=['\.pyc$', '\.rbc$', '\~$']
 map <Leader>n :NERDTreeToggle<CR>
 
-" Command-T configuration
-let g:CommandTMaxHeight=20
-" let g:CommandTAcceptSelectionMap = '<C-t>'
-" let g:CommandTAcceptSelectionTabMap = '<CR>'
+"Command-T configuration
+"let g:CommandTMaxHeight=20
+"let g:CommandTAcceptSelectionMap = '<C-t>'
+"let g:CommandTAcceptSelectionTabMap = '<CR>'
 
-map <Leader>y :CommandTTag<CR>
-imap <Leader>y <Esc>:CommandTTag<CR>
+"map <Leader>y :CommandTTag<CR>
+"imap <Leader>y <Esc>:CommandTTag<CR>
 
 "ZoomWin configuration
 "map <Leader><Leader> :ZoomWin<CR>
