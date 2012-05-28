@@ -3,7 +3,7 @@ Thomas Bonnin Dot Files
 
 ## DESCRIPTION
 
-Configuraiton files (vim, zsh, git, etc...)
+Configuration files (vim, zsh, git, etc...)
 
 
 ## INSTALLATION
