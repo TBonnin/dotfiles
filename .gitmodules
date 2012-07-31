@@ -1,3 +1,6 @@
+[submodule "oh-my-zsh"]
+	path = oh-my-zsh
+	url = https://github.com/robbyrussell/oh-my-zsh.git
 [submodule "vim/bundle/vim-align"]
 	path = vim/bundle/vim-align
 	url = https://github.com/tsaleh/vim-align
@@ -85,3 +88,9 @@
 [submodule "vim/bundle/vim-ctrlp"]
 	path = vim/bundle/vim-ctrlp
 	url = git://github.com/kien/ctrlp.vim.git
+[submodule "vim/bundle/vim-yankring"]
+	path = vim/bundle/vim-yankring
+	url = https://github.com/vim-scripts/YankRing.vim.git
+[submodule "z"]
+	path = z
+	url = https://github.com/rupa/z.git
