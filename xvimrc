@@ -1,0 +1,5 @@
+set ignorecase
+set wrapscan
+set guioptions=r
+imap jj <Esc>
+nmap K i<cr><Esc> 
