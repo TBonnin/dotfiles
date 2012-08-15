@@ -82,15 +82,12 @@
 [submodule "vim/bundle/vim-snipmate"]
 	path = vim/bundle/vim-snipmate
 	url = git://github.com/msanders/snipmate.vim.git
-[submodule "vim/bundle/vim-orgmode"]
-	path = vim/bundle/vim-orgmode
-	url = git://github.com/jceb/vim-orgmode.git
 [submodule "vim/bundle/vim-ctrlp"]
 	path = vim/bundle/vim-ctrlp
 	url = git://github.com/kien/ctrlp.vim.git
 [submodule "vim/bundle/vim-yankring"]
 	path = vim/bundle/vim-yankring
 	url = https://github.com/vim-scripts/YankRing.vim.git
-[submodule "z"]
-	path = z
-	url = https://github.com/rupa/z.git
+[submodule "vim/bundle/vim-taskpaper"]
+	path = vim/bundle/vim-taskpaper
+	url = https://github.com/davidoc/taskpaper.vim.git
