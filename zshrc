@@ -43,3 +43,5 @@ PATH=$PATH:$HOME/.rvm/bin # Add RVM to PATH for scripting
 alias .='echo $PWD'
 alias lbin='/usr/local/bin/'
 alias dotfiles='~/.dotfiles'
+
+bindkey -M viins 'jj' vi-cmd-mode
