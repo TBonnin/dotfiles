@@ -264,3 +264,10 @@ function! PulseCursorLine()
     windo set cursorline
     execute current_window . 'wincmd w'
 endfunction
+
+"-------------------------------------------------------------------
+function! s:setupMarkup()
+    nnoremap <leader>p :silent !open -a Mou.app '%:p'<cr>
+endfunction
+
+au BufRead,BufNewFile *.{md,markdown,mdown,mkd,mkdn} call s:setupMarkup()
