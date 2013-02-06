@@ -1,5 +1,5 @@
 [user]
-	name = Thomas Bonnin
+name = Thomas Bonnin
 email = ***REMOVED***
 
 [github]
@@ -52,6 +52,7 @@ branch-name = !git branch --no-color 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \\
 pullc = !git pull origin `git branch-name`
 pushc = !git push origin `git branch-name`
 ct = "!f() { git fetch && git co -b $1 origin/$1; }; f"
+pullall = "!f(){ git pull \"$@\" && git submodule update --init --recursive; }; f"
 
 [diff]  
 renamelimit = 0
@@ -61,7 +62,7 @@ renames = true
 summary = true
 keepBackup = false
 keepTemporaries = false
-	tool = opendiff
+tool = opendiff
 
 [mergetool]
 keepBackup = false
