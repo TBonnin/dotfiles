@@ -41,6 +41,7 @@ native = true
 st = status
 ci = commit
 co = checkout
+cb = checkout -b
 br = branch
 w = whatchanged
 lg = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative
@@ -48,9 +49,6 @@ uncommit = reset --soft HEAD^
 d = diff HEAD
 b = browse
 bi = browse -- issues
-branch-name = !git branch --no-color 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \\(.*\\)/\\1/'
-pullc = !git pull origin `git branch-name`
-pushc = !git push origin `git branch-name`
 ct = "!f() { git fetch && git co -b $1 origin/$1; }; f"
 pullall = "!f(){ git pull \"$@\" && git submodule update --init --recursive; }; f"
 
@@ -70,3 +68,5 @@ keepTemporaries = false
 trustExitCode = false
 
 
+[push]
+default = current

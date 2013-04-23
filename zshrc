@@ -36,6 +36,9 @@ plugins=(git github vi-mode history-substring-search autojump)
 
 source $ZSH/oh-my-zsh.sh
 
+# disable zsh correct feature
+unsetopt correct_all
+
 # Customize to your needs...
 
 PATH=$PATH:$HOME/.rvm/bin # Add RVM to PATH for scripting
