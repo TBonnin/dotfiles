@@ -27,12 +27,12 @@ ZSH_THEME="robbyrussell"
 # DISABLE_AUTO_TITLE="true"
 
 # Uncomment following line if you want red dots to be displayed while waiting for completion
-# COMPLETION_WAITING_DOTS="true"
+COMPLETION_WAITING_DOTS="true"
 
 # Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
-plugins=(git github vi-mode history-substring-search autojump)
+plugins=(git github history-substring-search autojump)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -46,5 +46,22 @@ PATH=$PATH:$HOME/.rvm/bin # Add RVM to PATH for scripting
 alias .='echo $PWD'
 alias lbin='/usr/local/bin/'
 alias dotfiles='~/.dotfiles'
+
+cssh() ( tmux-cssh $(host $@ | awk '{if (NR!=1) {printf $4 " "}}'); )
+
+# Sweep a git submodule out of the working copy
+git_remove_submodule() {
+  SMD_PATH=$1
+  if [ ! -d $SMD_PATH ]; then
+    echo "$SMD_PATH does not exist"
+    return 1
+  fi
+ 
+  git config -f .git/config --remove-section submodule.$SMD_PATH
+  git config -f .gitmodules --remove-section submodule.$SMD_PATH
+  git rm --cached $SMD_PATH
+  rm -rf $SMD_PATH
+  rm -rf .git/modules/$SMD_PATH
+}
 
 bindkey -M viins 'jj' vi-cmd-mode
