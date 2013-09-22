@@ -46,9 +46,6 @@
 [submodule "vim/bundle/vim-markdown"]
 	path = vim/bundle/vim-markdown
 	url = https://github.com/hallison/vim-markdown.git
-[submodule "vim/bundle/vim-powerline"]
-	path = vim/bundle/vim-powerline
-	url = https://github.com/Lokaltog/vim-powerline.git
 [submodule "vim/bundle/vim-netrw"]
 	path = vim/bundle/vim-netrw
 	url = https://github.com/vim-scripts/netrw.vim.git
@@ -58,9 +55,6 @@
 [submodule "vim/bundle/vim-ack"]
 	path = vim/bundle/vim-ack
 	url = https://github.com/mileszs/ack.vim.git
-[submodule "vim/bundle/vim-snipmate"]
-	path = vim/bundle/vim-snipmate
-	url = git://github.com/msanders/snipmate.vim.git
 [submodule "vim/bundle/vim-ctrlp"]
 	path = vim/bundle/vim-ctrlp
 	url = git://github.com/kien/ctrlp.vim.git
@@ -70,3 +64,18 @@
 [submodule "vim/bundle/vim-taskpaper"]
 	path = vim/bundle/vim-taskpaper
 	url = https://github.com/davidoc/taskpaper.vim.git
+[submodule "vim/bundle/vim-misc"]
+	path = vim/bundle/vim-misc
+	url = git@github.com:xolox/vim-misc.git
+[submodule "vim/bundle/vim-powerline"]
+	path = vim/bundle/vim-powerline
+	url = git@github.com:Lokaltog/powerline.git
+[submodule "vim/bundle/vim-yankstack"]
+	path = vim/bundle/vim-yankstack
+	url = git@github.com:maxbrunsfeld/vim-yankstack.git
+[submodule "/Users/thomas/.dotfiles/vim/bundle/vim-airline"]
+	path = /Users/thomas/.dotfiles/vim/bundle/vim-airline
+	url = https://github.com/bling/vim-airline
+[submodule "vim/bundle/vim-autopairs"]
+	path = vim/bundle/vim-autopairs
+	url = git@github.com:vim-scripts/Auto-Pairs.git

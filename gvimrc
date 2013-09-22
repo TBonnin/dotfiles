@@ -1,13 +1,9 @@
 if has("gui_macvim")
+
+  set macmeta
+
   " Fullscreen takes up entire screen
   set fuoptions=maxhorz,maxvert
-
-  " Command-T for CommandT
-  macmenu &File.New\ Tab key=<D-T>
-  map <D-t> :CommandT<CR>
-  imap <D-t> <Esc>:CommandT<CR>
-  map <D-y> :CommandTTag<CR>
-  imap <D-y> <Esc>:CommandTTag<CR>
 
   " Command-Return for fullscreen
   macmenu Window.Toggle\ Full\ Screen\ Mode key=<D-CR>
@@ -21,7 +17,6 @@ if has("gui_macvim")
   " Command-/ to toggle comments
   map <D-/> <plug>NERDCommenterToggle<CR>
   imap <D-/> <Esc><plug>NERDCommenterToggle<CR>i
-
 
   " Command-][ to increase/decrease indentation
   vmap <D-]> >gv
@@ -59,13 +54,7 @@ if has("gui_macvim")
   map <D-M-Left> <C-w>h
   imap <D-M-Left> <C-w>h
 
-  " Adjust viewports to the same size
-  map <Leader>= <C-w>=
-  imap <Leader>= <Esc> <C-w>=
 endif
-
-" Powerline
-set guifont=Menlo\ for\ Powerline
 
 " Don't beep
 set visualbell
@@ -75,12 +64,6 @@ set guioptions-=T
 
 " Default gui color scheme
 " color ir_black
-
-" ConqueTerm wrapper
-function StartTerm()
-  execute 'ConqueTerm ' . $SHELL . ' --login'
-  setlocal listchars=tab:\ \ 
-endfunction
 
 " Project Tree
 autocmd VimEnter * call s:CdIfDirectory(expand("<amatch>"))
@@ -145,9 +128,6 @@ function s:UpdateNERDTree(...)
     endif
   endif
 
-  if exists(":CommandTFlush") == 2
-    CommandTFlush
-  endif
 endfunction
 
 " Utility functions to create file commands

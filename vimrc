@@ -5,6 +5,7 @@ set nocompatible
 
 set number
 set ruler
+set cursorline
 syntax on
 
 set ttyfast
@@ -61,33 +62,6 @@ nnoremap N Nzzzv:call PulseCursorLine()<cr>
 set wildmode=list:longest,list:full
 set wildignore+=*.o,*.obj,.git,*.rbc,*.class,.svn,vendor/gems/*
 
-" Status bar
-set laststatus=2
-
-" Without setting this, ZoomWin restores windows in a way that causes
-" equalalways behavior to be triggered the next time CommandT is used.
-" This is likely a bludgeon to solve some other issue, but it works
-set noequalalways
-
-" NERDTree configuration
-let NERDTreeIgnore=['\.pyc$', '\.rbc$', '\~$']
-map <Leader>n :NERDTreeToggle<CR>
-
-"Command-T configuration
-"let g:CommandTMaxHeight=20
-"let g:CommandTAcceptSelectionMap = '<C-t>'
-"let g:CommandTAcceptSelectionTabMap = '<CR>'
-
-"map <Leader>y :CommandTTag<CR>
-"imap <Leader>y <Esc>:CommandTTag<CR>
-
-"ZoomWin configuration
-"map <Leader><Leader> :ZoomWin<CR>
-
-" Powerline
-set t_Co=256
-let g:Powerline_symbols = 'fancy'
-
 " easier navigation between split windows
 nnoremap <c-j> <c-w>j
 nnoremap <c-k> <c-w>k
@@ -99,8 +73,7 @@ map <C-\> :tnext<CR>
 
 " Easytags
 :let g:easytags_cmd = '/usr/local/bin/ctags'
-:set tags=./.tags,.tags;
-":let g:easytags_dynamic_files = 2
+:let g:easytags_dynamic_files = 2
 
 " Remember last location in file
 if has("autocmd")
@@ -142,30 +115,9 @@ map <Leader>e :e <C-R>=expand("%:p:h") . "/" <CR>
 " Normal mode: <Leader>t
 map <Leader>te :tabe <C-R>=expand("%:p:h") . "/" <CR>
 
-" Inserts the path of the currently edited file into a command
-" Command mode: Ctrl+P
-cmap <C-P> <C-R>=expand("%:p:h") . "/" <CR>
-
-" Unimpaired configuration
-" Bubble single lines
-nmap <C-Up> [e
-nmap <C-Down> ]e
-" Bubble multiple lines
-vmap <C-Up> [egv
-vmap <C-Down> ]egv
-
 " Enable syntastic syntax checking
 let g:syntastic_enable_signs=1
 let g:syntastic_quiet_warnings=1
-
-" gist-vim defaults
-if has("mac")
-  let g:gist_clip_command = 'pbcopy'
-elseif has("unix")
-  let g:gist_clip_command = 'xclip -selection clipboard'
-endif
-let g:gist_detect_filetype = 1
-let g:gist_open_browser_after_post = 1
 
 " Use modeline overrides
 set modeline
@@ -194,14 +146,6 @@ set showcmd
 " (typically /etc/hosts). This lets you use w!! to do that after you opened
 " the file already
 cmap w!! w !sudo tee % >/dev/null 
-
-" DelimitMate
-let delimitMate_expand_cr = 1
-let delimitMate_balance_matchpairs = 1
-
-" Supertab
-" CrMapping = 0 to avoid conflict with DelimitMate
-let g:SuperTabCrMapping = 0
 
 " Include user's local vim config
 if filereadable(expand("~/.vimrc.local"))
