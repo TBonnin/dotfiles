@@ -70,5 +70,3 @@ git_remove_submodule() {
 }
 
 bindkey -M viins 'jj' vi-cmd-mode
-
-[ -s "/Users/thomas/.scm_breeze/scm_breeze.sh" ] && source "/Users/thomas/.scm_breeze/scm_breeze.sh"
