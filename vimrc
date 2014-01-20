@@ -95,6 +95,9 @@ au BufRead,BufNewFile {Gemfile,Rakefile,Vagrantfile,Thorfile,config.ru}    set f
 " md, markdown, and mk are markdown and define buffer-local preview
 au BufRead,BufNewFile *.{md,markdown,mdown,mkd,mkdn} call s:setupMarkup()
 
+" Actionscript file
+au BufRead,BufNewFile *.as set ft=as3
+
 " add json syntax highlighting
 au BufNewFile,BufRead *.json set ft=javascript
 
