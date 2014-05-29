@@ -96,10 +96,16 @@ au BufRead,BufNewFile {Gemfile,Rakefile,Vagrantfile,Thorfile,config.ru}    set f
 au BufRead,BufNewFile *.{md,markdown,mdown,mkd,mkdn} call s:setupMarkup()
 
 " Actionscript file
-au BufRead,BufNewFile *.as set ft=as3
+au BufRead,BufNewFile *.as set ft=as3 ts=8 sw=8 noexpandtab
+
+" Brightscript
+au BufNewFile,BufRead *.brs setf brs
 
 " add json syntax highlighting
 au BufNewFile,BufRead *.json set ft=javascript
+ 
+" xlog file no backup, etc...
+au BufRead,BufNewFile *.xlog set tw=120 nobackup noswapfile nowritebackup
 
 " make Python follow PEP8 ( http://www.python.org/dev/peps/pep-0008/ )
 au FileType python set softtabstop=4 tabstop=4 shiftwidth=4 textwidth=79
@@ -120,7 +126,7 @@ map <Leader>te :tabe <C-R>=expand("%:p:h") . "/" <CR>
 
 " Enable syntastic syntax checking
 let g:syntastic_enable_signs=1
-let g:syntastic_quiet_warnings=1
+let g:syntastic_quiet_messages = {'level': 'warnings'}
 
 " Use modeline overrides
 set modeline

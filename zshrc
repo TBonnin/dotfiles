@@ -51,8 +51,10 @@ alias lbin='/usr/local/bin/'
 alias dotfiles='~/.dotfiles'
 alias devbox='cd ~/Code/Livestream/platform/firestorm_web && vagrant ssh'
 alias todo='vim ~/Dropbox/Livestream/todo.txt'
+alias vlc='/Applications/VLC.app/Contents/MacOS/VLC'
 
 cssh() ( tmux-cssh $(host $@ | awk '{if (NR!=1) {printf $4 " "}}'); )
+
 
 # Sweep a git submodule out of the working copy
 git_remove_submodule() {
