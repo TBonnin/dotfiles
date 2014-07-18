@@ -1,9 +1,6 @@
 [submodule "oh-my-zsh"]
 	path = oh-my-zsh
 	url = https://github.com/robbyrussell/oh-my-zsh.git
-[submodule "vim/bundle/vim-align"]
-	path = vim/bundle/vim-align
-	url = https://github.com/tsaleh/vim-align
 [submodule "vim/bundle/vim-supertab"]
 	path = vim/bundle/vim-supertab
 	url = git://github.com/ervandew/supertab.git
@@ -70,9 +67,6 @@
 [submodule "vim/bundle/vim-powerline"]
 	path = vim/bundle/vim-powerline
 	url = git@github.com:Lokaltog/powerline.git
-[submodule "vim/bundle/vim-yankstack"]
-	path = vim/bundle/vim-yankstack
-	url = git@github.com:maxbrunsfeld/vim-yankstack.git
 [submodule "/Users/thomas/.dotfiles/vim/bundle/vim-airline"]
 	path = /Users/thomas/.dotfiles/vim/bundle/vim-airline
 	url = https://github.com/bling/vim-airline
