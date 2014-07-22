@@ -32,7 +32,7 @@ COMPLETION_WAITING_DOTS="true"
 # Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
-plugins=(vi-mode git github history-substring-search autojump)
+plugins=(git github vi-mode history-substring-search autojump)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -40,35 +40,4 @@ source $ZSH/oh-my-zsh.sh
 unsetopt correct_all
 
 # Customize to your needs...
-
-PATH=$PATH:$HOME/.rvm/bin # Add RVM to PATH for scripting
-PATH=$PATH:$HOME/Code/adt-bundle-mac-x86_64-20130729/sdk/platform-tools
-
-alias l='ls -l'
-alias la='ls -la'
-alias .='echo $PWD'
-alias lbin='/usr/local/bin/'
-alias dotfiles='~/.dotfiles'
-alias devbox='cd ~/Code/Livestream/platform/firestorm_web && vagrant ssh'
-alias todo='vim ~/Dropbox/Livestream/todo.txt'
-alias vlc='/Applications/VLC.app/Contents/MacOS/VLC'
-
-cssh() ( tmux-cssh $(host $@ | awk '{if (NR!=1) {printf $4 " "}}'); )
-
-
-# Sweep a git submodule out of the working copy
-git_remove_submodule() {
-  SMD_PATH=$1
-  if [ ! -d $SMD_PATH ]; then
-    echo "$SMD_PATH does not exist"
-    return 1
-  fi
- 
-  git config -f .git/config --remove-section submodule.$SMD_PATH
-  git config -f .gitmodules --remove-section submodule.$SMD_PATH
-  git rm --cached $SMD_PATH
-  rm -rf $SMD_PATH
-  rm -rf .git/modules/$SMD_PATH
-}
-
 bindkey -M viins 'jj' vi-cmd-mode
