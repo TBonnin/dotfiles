@@ -96,6 +96,9 @@ nmap <silent> ,/ :nohlsearch<CR>
 " just pressing n or N will turn the highlight back again 
 nnoremap <cr> :noh <cr>
 
+" Easier buffers navigation
+:nnoremap <leader>b :buffers<CR>:buffer<Space>
+
 " Keep search matches in the middle of the window and pulse the line when moving
 " to them.
 nnoremap n nzzzv:call PulseCursorLine()<cr>
@@ -111,23 +114,23 @@ nnoremap <c-k> <c-w>k
 nnoremap <c-h> <c-w>h
 nnoremap <c-l> <c-w>l
 
+" Open NERDTree at startup and close vim when NERDTree is the last window open
+autocmd StdinReadPre * let s:std_in=1
+autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
+autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
+
 " CTags
 map <C-\> :tnext<CR>
 
 " Easytags
-:let g:easytags_cmd = '/usr/local/bin/ctags'
-:let g:easytags_dynamic_files = 2
+:let g:easytags_dynamic_files = 1
 
-" Remember last location in file
-if has("autocmd")
-  au BufReadPost * if line("'\"") > 0 && line("'\"") <= line("$")
-    \| exe "normal g'\"" | endif
+if !exists("*s:setupMarkup")
+    function s:setupMarkup()
+        call s:setupWrapping()
+        map <buffer> <Leader>p :Hammer<CR> 
+    endfunction
 endif
-
-function s:setupMarkup()
-  call s:setupWrapping()
-  map <buffer> <Leader>p :Hammer<CR>
-endfunction
 
 " make uses real tabs
 au FileType make set noexpandtab
@@ -136,14 +139,6 @@ au FileType make set noexpandtab
 au BufRead,BufNewFile {Gemfile,Rakefile,Vagrantfile,Thorfile,config.ru}    set ft=ruby
 
 " md, markdown, and mk are markdown and define buffer-local preview
-au BufRead,BufNewFile *.{md,markdown,mdown,mkd,mkdn} call s:setupMarkup()
-
-" Actionscript file
-au BufRead,BufNewFile *.as set ft=as3 ts=8 sw=8 noexpandtab
-
-" Brightscript
-au BufNewFile,BufRead *.brs setf brs
-
 " add json syntax highlighting
 au BufNewFile,BufRead *.json set ft=javascript
  
@@ -182,14 +177,8 @@ color Tomorrow-Night
 set backupdir=~/.vim/backup
 set directory=~/.vim/backup
 
-" Turn off jslint errors by default
-let g:JSLintHighlightErrorLine = 0
-
 " MacVIM shift+arrow-keys behavior (required in .vimrc)
 let macvim_hig_shift_movement = 1
-
-" % to bounce from do to end etc.
-runtime! macros/matchit.vim
 
 " Show (partial) command in the status line
 set showcmd
@@ -254,8 +243,3 @@ function! PulseCursorLine()
 endfunction
 
 "-------------------------------------------------------------------
-function! s:setupMarkup()
-    nnoremap <leader>p :silent !open -a Mou.app '%:p'<cr>
-endfunction
-
-au BufRead,BufNewFile *.{md,markdown,mdown,mkd,mkdn} call s:setupMarkup()
