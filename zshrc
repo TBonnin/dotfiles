@@ -35,6 +35,7 @@ COMPLETION_WAITING_DOTS="true"
 plugins=(git github vi-mode history-substring-search autojump)
 
 source $ZSH/oh-my-zsh.sh
+source $HOME/.zshrc.local
 
 # disable zsh correct feature
 unsetopt correct_all
