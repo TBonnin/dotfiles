@@ -38,23 +38,26 @@ autocrlf = false
 native = true
 
 [alias]
-st = status
+s = status
 ci = commit
 co = checkout
 cb = checkout -b
+ct = "!f() { git fetch && git co -b $1 origin/$1; }; f"
 br = branch
 w = whatchanged
-lg = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative
+l = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative
 uncommit = reset --soft HEAD^
 d = diff HEAD
 b = browse
 bi = browse -- issues
-ct = "!f() { git fetch && git co -b $1 origin/$1; }; f"
-pullall = "!f(){ git pull \"$@\" && git submodule update --init --recursive; }; f"
+rpull = pull --rebase
 
 [diff]  
 renamelimit = 0
 renames = true
+
+[diff "localizablestrings"]
+textconv = "iconv -f utf-16 -t utf-8"
 
 [merge]
 summary = true
@@ -70,3 +73,5 @@ trustExitCode = false
 
 [push]
 default = current
+[credential]
+	helper = osxkeychain
