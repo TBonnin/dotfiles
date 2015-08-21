@@ -1,23 +1,19 @@
 set nocompatible
 filetype off                  " required
 
-" set the runtime path to include Vundle and initialize
+" Vundle
 set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
-" alternatively, pass a path where Vundle should install plugins
-"call vundle#begin('~/some/path/here')
 
 " let Vundle manage Vundle, required
 Plugin 'gmarik/Vundle.vim'
 
-" The following are examples of different formats supported.
-" Keep Plugin commands between vundle#begin/end.
 " plugin on GitHub repo
 Plugin 'scrooloose/nerdtree'
 Plugin 'tpope/vim-fugitive'
 Plugin 'tpope/vim-surround'
 Plugin 'tpope/vim-repeat'
-Plugin 'xolox/vim-easytags'
+"Plugin 'xolox/vim-easytags'
 Plugin 'vim-scripts/The-NERD-Commenter'
 Plugin 'vim-scripts/ZoomWin'
 Plugin 'scrooloose/syntastic'
@@ -27,24 +23,17 @@ Plugin 'mileszs/ack.vim'
 Plugin 'kien/ctrlp.vim'
 Plugin 'davidoc/taskpaper.vim'
 Plugin 'xolox/vim-misc'
-Plugin 'bling/vim-airline'
+Plugin 'itchyny/lightline.vim'
 Plugin 'vim-scripts/Auto-Pairs'
-Plugin 'Valloric/YouCompleteMe'
+Plugin 'ervandew/supertab'
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
 filetype plugin indent on    " required
-" To ignore plugin indent changes, instead use:
-"filetype plugin on
-"
-" Brief help
-" :PluginList       - lists configured plugins
-" :PluginInstall    - installs plugins; append `!` to update or just :PluginUpdate
-" :PluginSearch foo - searches for foo; append `!` to refresh local cache
-" :PluginClean      - confirms removal of unused plugins; append `!` to auto-approve removal
-"
-" see :h vundle for more details or wiki for FAQ
-" Put your non-Plugin stuff after this line
+
+if !has('gui_running')
+    set t_Co=256
+endif
 
 set number
 set ruler
@@ -52,6 +41,8 @@ set cursorline
 syntax on
 
 set ttyfast
+
+" Watch for changes in your .vimrc and automatically reload the config.
 
 " highlight current line in insert mode
 :autocmd InsertEnter * set cul
@@ -97,12 +88,8 @@ nmap <silent> ,/ :nohlsearch<CR>
 nnoremap <cr> :noh <cr>
 
 " Easier buffers navigation
-:nnoremap <leader>b :buffers<CR>:buffer<Space>
-
-" Keep search matches in the middle of the window and pulse the line when moving
-" to them.
-nnoremap n nzzzv:call PulseCursorLine()<cr>
-nnoremap N Nzzzv:call PulseCursorLine()<cr>
+nnoremap <leader>b :CtrlPBuffer<CR>
+nnoremap <leader>nb :buffers<CR>:buffer<Space>
 
 " Tab completion
 set wildmode=list:longest,list:full
@@ -124,6 +111,15 @@ map <C-\> :tnext<CR>
 
 " Easytags
 :let g:easytags_dynamic_files = 1
+
+
+" Enable syntastic syntax checking
+let g:syntastic_enable_signs=1
+let g:syntastic_quiet_messages = {'level': 'warnings'}
+let g:syntastic_error_symbol = "✗"
+let g:syntastic_warning_symbol = "⚠"
+let g:syntastic_enable_balloons = 1
+let g:syntastic_phpcs_conf = "--standard=/home/".expand($USER)."/development/Etsyweb/tests/standards/stable-ruleset.xml"
 
 if !exists("*s:setupMarkup")
     function s:setupMarkup()
@@ -162,10 +158,6 @@ map <Leader>e :e <C-R>=expand("%:p:h") . "/" <CR>
 " Normal mode: <Leader>t
 map <Leader>te :tabe <C-R>=expand("%:p:h") . "/" <CR>
 
-" Enable syntastic syntax checking
-let g:syntastic_enable_signs=1
-let g:syntastic_quiet_messages = {'level': 'warnings'}
-
 " Use modeline overrides
 set modeline
 set modelines=10
@@ -180,6 +172,8 @@ set directory=~/.vim/backup
 " MacVIM shift+arrow-keys behavior (required in .vimrc)
 let macvim_hig_shift_movement = 1
 
+" Status Line
+set laststatus=2
 " Show (partial) command in the status line
 set showcmd
 
@@ -193,53 +187,16 @@ if filereadable(expand("~/.vimrc.local"))
   source ~/.vimrc.local
 endif
 
-"-------------------------------------------------------------------
-function! PulseCursorLine()
-    let current_window = winnr()
-
-    windo set nocursorline
-    execute current_window . 'wincmd w'
-
-    setlocal cursorline
-
-    redir => old_hi
-        silent execute 'hi CursorLine'
-    redir END
-    let old_hi = split(old_hi, '\n')[0]
-    let old_hi = substitute(old_hi, 'xxx', '', '')
-
-    hi CursorLine guibg=#2a2a2a ctermbg=233
+nnoremap <silent> n   nzz:call HLNext(0.4)<cr>
+nnoremap <silent> N   Nzz:call HLNext(0.4)<cr>
+ 
+function! HLNext (blinktime)
+    let [bufnum, lnum, col, off] = getpos('.')
+    let matchlen = strlen(matchstr(strpart(getline('.'),col-1),@/))
+    let target_pat = '\c\%#'.@/
+    let ring = matchadd('ErrorMsg', target_pat, 101)
     redraw
-    sleep 20m
-
-    hi CursorLine guibg=#333333 ctermbg=235
+    exec 'sleep ' . float2nr(a:blinktime * 1000) . 'm'
+    call matchdelete(ring)
     redraw
-    sleep 20m
-
-    hi CursorLine guibg=#3a3a3a ctermbg=237
-    redraw
-    sleep 20m
-
-    hi CursorLine guibg=#444444 ctermbg=239
-    redraw
-    sleep 20m
-
-    hi CursorLine guibg=#3a3a3a ctermbg=237
-    redraw
-    sleep 20m
-
-    hi CursorLine guibg=#333333 ctermbg=235
-    redraw
-    sleep 20m
-
-    hi CursorLine guibg=#2a2a2a ctermbg=233
-    redraw
-    sleep 20m
-
-    execute 'hi ' . old_hi
-
-    windo set cursorline
-    execute current_window . 'wincmd w'
 endfunction
-
-"-------------------------------------------------------------------
