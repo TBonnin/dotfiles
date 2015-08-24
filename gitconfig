@@ -2,6 +2,9 @@
 name = Thomas Bonnin
 email = not@myemail.com
 
+[credential]
+helper = osxkeychain
+
 [github]
 user = TBonnin	
 
@@ -43,7 +46,7 @@ ci = commit
 co = checkout
 cb = checkout -b
 ct = "!f() { git fetch && git co -b $1 origin/$1; }; f"
-br = branch
+b = branch
 w = whatchanged
 l = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative
 uncommit = reset --soft HEAD^
@@ -70,8 +73,5 @@ keepBackup = false
 keepTemporaries = false
 trustExitCode = false
 
-
 [push]
 default = current
-[credential]
-	helper = osxkeychain

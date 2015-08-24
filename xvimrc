@@ -1,3 +1,4 @@
+set debug
 set ignorecase
 set wrapscan
 set guioptions=r
