@@ -58,6 +58,7 @@
 [diff]  
     renamelimit = 0
     renames = true
+	indentHeuristic = true
 
 [diff "localizablestrings"]
     textconv = "iconv -f utf-16 -t utf-8"
@@ -75,3 +76,9 @@
 
 [push]
     default = current
+
+[rebase]
+	autostash = true
+
+[stash]
+	showPatch = true
