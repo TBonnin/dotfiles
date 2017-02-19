@@ -1,77 +1,77 @@
 [user]
-name = Thomas Bonnin
-email = not@myemail.com
+    name = Thomas Bonnin
+    email = not@myemail
 
 [credential]
-helper = osxkeychain
+    helper = osxkeychain
 
 [github]
-user = TBonnin	
+    user = TBonnin	
 
 [color]
-diff = auto
-status = auto
-branch = auto
-interactive = auto
-ui = true
-pager = true
+    diff = auto
+    status = auto
+    branch = auto
+    interactive = auto
+    ui = true
+    pager = true
 
 [color "branch"]
-current = yellow reverse
-local = yellow
-remote = green
+    current = yellow reverse
+    local = yellow
+    remote = green
 
 [color "diff"]
-meta = yellow bold
-frag = magenta bold
-old = red bold
-new = green bold
+    meta = yellow bold
+    frag = magenta bold
+    old = red bold
+    new = green bold
 
 [color "status"]
-added = yellow
-changed = green
-untracked = cyan
+    added = yellow
+    changed = green
+    untracked = cyan
 
 [core]
-pager = less -FRSX
-whitespace=fix,-indent-with-non-tab,trailing-space,cr-at-eol
-excludesfile = ~/.gitignore
-editor = vim
-autocrlf = false
-native = true
+    pager = less -FRSX
+    whitespace=fix,-indent-with-non-tab,trailing-space,cr-at-eol
+    excludesfile = ~/.gitignore
+    editor = vim
+    autocrlf = false
+    native = true
 
 [alias]
-s = status
-ci = commit
-co = checkout
-cb = checkout -b
-ct = "!f() { git fetch && git co -b $1 origin/$1; }; f"
-b = branch
-w = whatchanged
-l = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative
-uncommit = reset --soft HEAD^
-d = diff HEAD
-b = browse
-bi = browse -- issues
-rpull = pull --rebase
+    s = status
+    ci = commit
+    co = checkout
+    cb = checkout -b
+    ct = "!f() { git fetch && git co -b $1 origin/$1; }; f"
+    b = branch
+    w = whatchanged
+    l = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative
+    uncommit = reset --soft HEAD^
+    d = diff HEAD
+    b = browse
+    bi = browse -- issues
+    rpull = pull --rebase
 
 [diff]  
-renamelimit = 0
-renames = true
+    renamelimit = 0
+    renames = true
 
 [diff "localizablestrings"]
-textconv = "iconv -f utf-16 -t utf-8"
+    textconv = "iconv -f utf-16 -t utf-8"
 
 [merge]
-summary = true
-keepBackup = false
-keepTemporaries = false
-tool = opendiff
+    summary = true
+    keepBackup = false
+    keepTemporaries = false
+    tool = opendiff
 
 [mergetool]
-keepBackup = false
-keepTemporaries = false
-trustExitCode = false
+    keepBackup = false
+    keepTemporaries = false
+    trustExitCode = false
 
 [push]
-default = current
+    default = current
