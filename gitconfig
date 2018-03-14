@@ -42,7 +42,8 @@
 
 [alias]
     s = status
-    ci = commit
+    ci = commit -S -v
+    amend = commit --amend -C HEAD
     co = checkout
     cb = checkout -b
     ct = "!f() { git fetch && git co -b $1 origin/$1; }; f"
@@ -58,7 +59,7 @@
 [diff]  
     renamelimit = 0
     renames = true
-	indentHeuristic = true
+    indentHeuristic = true
 
 [diff "localizablestrings"]
     textconv = "iconv -f utf-16 -t utf-8"
@@ -78,7 +79,7 @@
     default = current
 
 [rebase]
-	autostash = true
+    autostash = true
 
 [stash]
-	showPatch = true
+    showPatch = true
