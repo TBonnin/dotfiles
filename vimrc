@@ -57,6 +57,9 @@ nnoremap <cr> :noh <cr>
 " exit to normal mode with 'jj'
 inoremap jj <ESC>
 
+" split line at cursor
+nnoremap K i<CR><Esc>
+
 nnoremap <leader>f :FZF<CR>
 
 " Kill the damned Ex mode.
