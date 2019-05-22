@@ -1,3 +1,6 @@
+# Homebrew provided bin before system provided ones
+export PATH=/usr/local/bin:~/.local/bin:$PATH
+
 # Path to your oh-my-zsh configuration.
 ZSH=$HOME/.oh-my-zsh
 

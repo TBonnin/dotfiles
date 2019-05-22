@@ -21,6 +21,7 @@ set smartcase
 set nobackup
 set nowb
 set noswapfile
+set nowritebackup
 
 " Always show the status line
 set laststatus=2
@@ -60,8 +61,6 @@ inoremap jj <ESC>
 " split line at cursor
 nnoremap K i<CR><Esc>
 
-nnoremap <leader>f :FZF<CR>
-
 " Kill the damned Ex mode.
 nnoremap Q <nop>
 
@@ -87,61 +86,126 @@ if has('nvim')
 else
     call plug#begin('~/.vim/plugged')
 endif
+Plug 'drewtempelmeyer/palenight.vim'
 Plug 'ctrlpvim/ctrlp.vim'
 Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
 Plug 'vim-airline/vim-airline'
-Plug 'w0rp/ale'
 Plug 'jiangmiao/auto-pairs'
 Plug 'mhinz/vim-startify'
-Plug 'tomtom/tcomment_vim'
 Plug 'ervandew/supertab'
-Plug 'drewtempelmeyer/palenight.vim'
+Plug 'dyng/ctrlsf.vim'
+" Scala
+Plug 'derekwyatt/vim-scala'
+Plug 'neoclide/coc.nvim', {'do': { -> coc#util#install()}}
+"" Haskell
 Plug 'neovimhaskell/haskell-vim'
 Plug 'alx741/vim-hindent'
-Plug 'parsonsmatt/intero-neovim'
 Plug 'Twinside/vim-hoogle'
-Plug 'eagletmt/neco-ghc'
-if has('nvim')
-    Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-" else
-"     Plug 'Shougo/deoplete.nvim'
-"     Plug 'roxma/nvim-yarp'
-"     Plug 'roxma/vim-hug-neovim-rpc'
-endif
 call plug#end()
 
 " theme
 set background=dark
 colorscheme palenight
 
-" deoplete
-if has('nvim')
-    let g:deoplete#enable_at_startup = 1
-endif
-
 " vim-airline
 let g:airline#extensions#tabline#enabled = 1
 
+" supertab
+let g:SuperTabDefaultCompletionType = "<c-n>"
+
 " hindent
 let g:hindent_line_length = 100
+"
+" Hoogle
+au FileType haskell nnoremap <buffer> <Leader>h :Hoogle<CR>
+au FileType haskell nnoremap <buffer> <Leader>hc :HoogleClose<CR>
+au FileType haskell nnoremap <buffer> <Leader>hi :HoogleInfo<CR>
 
-" ale
-let g:ale_sign_error = "✗"
-let g:ale_sign_warning = "⚠"
+" Scala
+au BufRead,BufNewFile *.sbt set filetype=scala
 
-" intero
-augroup interoMaps
-  au!
-  " Reloading (pick one)
-  " Automatically reload on save
-  au BufWritePost *.hs InteroReload
+" coc
 
-  " Type-related information
-  " Heads up! These next two differ from the rest.
-  au FileType haskell map <silent> <leader>t <Plug>InteroGenericType
-  au FileType haskell map <silent> <leader>T <Plug>InteroType
-  au FileType haskell nnoremap <silent> <leader>it :InteroTypeInsert<CR>
+" Smaller updatetime for CursorHold & CursorHoldI
+set updatetime=300
 
-  " Navigation
-  au FileType haskell nnoremap <silent> gd :InteroGoToDef<CR>
-augroup END
+" don't give |ins-completion-menu| messages.
+set shortmess+=c
+
+" always show signcolumns
+set signcolumn=yes
+
+" Better display for messages
+set cmdheight=2
+
+" Use <c-space> for trigger completion.
+inoremap <silent><expr> <leader>r coc#refresh()
+
+" Use <cr> for confirm completion, `<C-g>u` means break undo chain at current position.
+" Coc only does snippet and additional edit on confirm.
+inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+
+" Use `[c` and `]c` for navigate diagnostics
+nmap <silent> [c <Plug>(coc-diagnostic-prev)
+nmap <silent> ]c <Plug>(coc-diagnostic-next)
+
+" Remap keys for gotos
+nmap <silent> gd <Plug>(coc-definition)
+nmap <silent> gy <Plug>(coc-type-definition)
+nmap <silent> gi <Plug>(coc-implementation)
+nmap <silent> gr <Plug>(coc-references)
+
+" Remap for do codeAction of current line
+nmap <leader>ac <Plug>(coc-codeaction)
+
+" Remap for do action format
+nnoremap <silent> F :call CocAction('format')<CR>
+
+" Use K for show documentation in preview window
+nnoremap <silent> K :call <SID>show_documentation()<CR>
+
+function! s:show_documentation()
+  if &filetype == 'vim'
+    execute 'h '.expand('<cword>')
+  else
+    call CocAction('doHover')
+  endif
+endfunction
+
+" Highlight symbol under cursor on CursorHold
+autocmd CursorHold * silent call CocActionAsync('highlight')
+
+" Remap for rename current word
+nmap <leader>rn <Plug>(coc-rename)
+
+" Show all diagnostics
+nnoremap <silent> <space>a  :<C-u>CocList diagnostics<cr>
+" Find symbol of current document
+nnoremap <silent> <space>o  :<C-u>CocList outline<cr>
+" Search workspace symbols
+nnoremap <silent> <space>s  :<C-u>CocList -I symbols<cr>
+" Do default action for next item.
+nnoremap <silent> <space>j  :<C-u>CocNext<CR>
+" Do default action for previous item.
+nnoremap <silent> <space>k  :<C-u>CocPrev<CR>
+" Resume latest coc list
+nnoremap <silent> <space>p  :<C-u>CocListResume<CR>
+
+"NERDTree
+nnoremap ,n :NERDTreeFind<CR>
+
+" CtrlSF
+nmap     <C-o>f <Plug>CtrlSFPrompt
+vmap     <C-o>f <Plug>CtrlSFVwordExec
+nmap     <C-o>n <Plug>CtrlSFCwordPath
+nmap     <C-o>p <Plug>CtrlSFPwordPath
+nnoremap <C-o>o :CtrlSFOpen<CR>
+nnoremap <C-o>t :CtrlSFToggle<CR>
+inoremap <C-o>t <Esc>:CtrlSFToggle<CR>
+
+let g:ctrlsf_auto_focus = {
+    \ "at": "start"
+    \ }
+let g:ctrlsf_default_view_mode = 'compact'
+let g:ctrlsf_case_sensitive = 'no'
+
