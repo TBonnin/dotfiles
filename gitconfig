@@ -64,16 +64,22 @@
 [diff "localizablestrings"]
     textconv = "iconv -f utf-16 -t utf-8"
 
+[diff]
+    tool = vimdiff
+
 [merge]
     summary = true
     keepBackup = false
     keepTemporaries = false
-    tool = opendiff
+    tool = vimdiff
 
 [mergetool]
     keepBackup = false
     keepTemporaries = false
     trustExitCode = false
+
+[mergetool "vimdiff"]
+    cmd = nvim -d $LOCAL $REMOTE $MERGED -c '$wincmd w' -c 'wincmd J'
 
 [push]
     default = current
@@ -83,3 +89,6 @@
 
 [stash]
     showPatch = true
+
+[commit]
+	gpgsign = true
