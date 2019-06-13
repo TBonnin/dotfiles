@@ -69,6 +69,9 @@ nnoremap Q <nop>
 " the file already
 cmap w!! w !sudo tee % >/dev/null 
 
+" Use system clipboard
+set clipboard=unnamed
+
 " Return to last edit position when opening files (You want this!)
 augroup last_edit
   autocmd!
@@ -94,6 +97,8 @@ Plug 'jiangmiao/auto-pairs'
 Plug 'mhinz/vim-startify'
 Plug 'ervandew/supertab'
 Plug 'dyng/ctrlsf.vim'
+Plug 'tpope/vim-fugitive'
+Plug 'tonchis/vim-to-github'
 " Scala
 Plug 'derekwyatt/vim-scala'
 Plug 'neoclide/coc.nvim', {'do': { -> coc#util#install()}}
@@ -162,7 +167,7 @@ nmap <leader>ac <Plug>(coc-codeaction)
 nnoremap <silent> F :call CocAction('format')<CR>
 
 " Use K for show documentation in preview window
-nnoremap <silent> K :call <SID>show_documentation()<CR>
+nnoremap <silent> T :call <SID>show_documentation()<CR>
 
 function! s:show_documentation()
   if &filetype == 'vim'
@@ -192,20 +197,19 @@ nnoremap <silent> <space>k  :<C-u>CocPrev<CR>
 nnoremap <silent> <space>p  :<C-u>CocListResume<CR>
 
 "NERDTree
-nnoremap ,n :NERDTreeFind<CR>
+nnoremap <leader>n :NERDTreeFind<CR>
 
 " CtrlSF
-nmap     <C-o>f <Plug>CtrlSFPrompt
-vmap     <C-o>f <Plug>CtrlSFVwordExec
-nmap     <C-o>n <Plug>CtrlSFCwordPath
-nmap     <C-o>p <Plug>CtrlSFPwordPath
-nnoremap <C-o>o :CtrlSFOpen<CR>
-nnoremap <C-o>t :CtrlSFToggle<CR>
-inoremap <C-o>t <Esc>:CtrlSFToggle<CR>
+nmap     <c-o>f <Plug>CtrlSFCwordPath
+vmap     <c-o>f <Plug>CtrlSFVwordExec
+nmap     <c-o>s <Plug>CtrlSFPrompt
+nmap     <c-o>p <Plug>CtrlSFPwordPath
+nnoremap <c-o>o :CtrlSFOpen<CR>
+nnoremap <c-o>t :CtrlSFToggle<CR>
+inoremap <c-o>t <Esc>:CtrlSFToggle<CR>
 
 let g:ctrlsf_auto_focus = {
     \ "at": "start"
     \ }
-let g:ctrlsf_default_view_mode = 'compact'
 let g:ctrlsf_case_sensitive = 'no'
-
+let g:ctrlsf_default_view_mode = 'normal'
