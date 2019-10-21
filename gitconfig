@@ -57,6 +57,8 @@
     rpull = pull --rebase
 
 [diff]  
+    tool = vimdiff
+    algorithm = patience
     renamelimit = 0
     renames = true
     indentHeuristic = true
@@ -64,8 +66,8 @@
 [diff "localizablestrings"]
     textconv = "iconv -f utf-16 -t utf-8"
 
-[diff]
-    tool = vimdiff
+[difftool]
+    prompt = false
 
 [merge]
     summary = true
