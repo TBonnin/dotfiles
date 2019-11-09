@@ -3,8 +3,8 @@ set number
 set ruler
 
 " Set Proper Tabs
-set tabstop=4
-set shiftwidth=4
+set tabstop=2
+set shiftwidth=2
 set smarttab
 set expandtab
 
@@ -52,7 +52,6 @@ endif
 
 " add yaml stuffs
 au! BufNewFile,BufReadPost *.{yaml,yml} set filetype=yaml foldmethod=indent
-autocmd FileType yaml setlocal ts=2 sts=2 sw=2 expandtab
 
 " python
 let g:python2_host_prog = '/usr/bin/python'
