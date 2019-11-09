@@ -1,4 +1,6 @@
 {
+  "eslint.autoFixOnSave": true,
+	"eslint.filetypes": ["javascript", "typescript", "vue"],
   "languageserver": {
     "haskell": {
       "command": "hie-wrapper",
@@ -17,6 +19,22 @@
       "command": "metals-vim",
       "rootPatterns": ["build.sbt"],
       "filetypes": ["scala", "sbt"]
+    },
+    "vue": {
+      "command": "vls",
+      "args": [],
+      "configSection": "languageserver.vue.initializationOptions.config",
+      "filetypes": ["vue"],
+      "initializationOptions": {
+        "config": {
+          "html": {
+            "suggest": true
+          },
+          "vetur": {
+            "validation": {}
+          }
+        }
+      }
     }
   }
 }
