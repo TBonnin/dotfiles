@@ -183,6 +183,8 @@ nmap <leader>ac <Plug>(coc-codeaction)
 
 " Remap for do action format
 nnoremap <silent> F :call CocAction('format')<CR>
+" Fix autofix problem of current line
+nmap <leader>qf  <Plug>(coc-fix-current)
 
 " Use K for show documentation in preview window
 nnoremap <silent> T :call <SID>show_documentation()<CR>
