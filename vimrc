@@ -229,6 +229,8 @@ function NerdTreeToggleAndFind()
     endif
 endfunction
 nnoremap <leader>n :call NerdTreeToggleAndFind()<CR>
+" do not open buffer in NERDTree window
+au BufEnter * if bufname('#') =~ 'NERD_tree' && bufname('%') !~ 'NERD_tree' && winnr('$') > 1 | b# | exe "normal! \<c-w>\<c-w>" | :blast | endif
 
 " fzf
 set rtp+=/usr/local/opt/fzf
