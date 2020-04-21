@@ -115,6 +115,8 @@ Plug 'neoclide/coc.nvim', {'do': { -> coc#util#install()}}
 Plug 'neovimhaskell/haskell-vim'
 Plug 'alx741/vim-hindent'
 Plug 'Twinside/vim-hoogle'
+"" Rust
+Plug 'rust-lang/rust.vim'
 call plug#end()
 
 " theme

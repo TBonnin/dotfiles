@@ -1,4 +1,5 @@
 {
+  "coc.preferences.formatOnSaveFiletypes": ["rust"],
   "eslint.autoFixOnSave": true,
 	"eslint.filetypes": ["javascript", "typescript", "vue"],
   "languageserver": {
