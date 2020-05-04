@@ -50,7 +50,7 @@ if &listchars ==# 'eol:$'
   set listchars=tab:>\ ,trail:-,extends:>,precedes:<,nbsp:+
 endif
 
-" add yaml stuffs
+" yaml
 au! BufNewFile,BufReadPost *.{yaml,yml} set filetype=yaml foldmethod=indent
 
 " python
@@ -79,9 +79,9 @@ nnoremap Q <nop>
 cmap w!! w !sudo tee % >/dev/null 
 
 " Use system clipboard
-set clipboard=unnamed
+" set clipboard=unnamed
 
-" Return to last edit position when opening files (You want this!)
+" Return to last edit position when opening files
 augroup last_edit
   autocmd!
   autocmd BufReadPost *
@@ -108,9 +108,9 @@ Plug 'tpope/vim-fugitive'
 Plug 'tonchis/vim-to-github'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --no-bash' }
 Plug 'junegunn/fzf.vim'
+Plug 'neoclide/coc.nvim', {'do': { -> coc#util#install()}}
 " Scala
 Plug 'derekwyatt/vim-scala'
-Plug 'neoclide/coc.nvim', {'do': { -> coc#util#install()}}
 "" Haskell
 Plug 'neovimhaskell/haskell-vim'
 Plug 'alx741/vim-hindent'
@@ -140,7 +140,7 @@ let g:SuperTabDefaultCompletionType = "<c-n>"
 
 " hindent
 let g:hindent_line_length = 100
-"
+
 " Hoogle
 au FileType haskell nnoremap <buffer> <Leader>h :Hoogle<CR>
 au FileType haskell nnoremap <buffer> <Leader>hc :HoogleClose<CR>
@@ -150,7 +150,6 @@ au FileType haskell nnoremap <buffer> <Leader>hi :HoogleInfo<CR>
 au BufRead,BufNewFile *.sbt set filetype=scala
 
 " coc
-
 " Smaller updatetime for CursorHold & CursorHoldI
 set updatetime=300
 
@@ -188,7 +187,7 @@ nnoremap <silent> F :call CocAction('format')<CR>
 " Fix autofix problem of current line
 nmap <leader>qf  <Plug>(coc-fix-current)
 
-" Use K for show documentation in preview window
+" Use T for show documentation in preview window
 nnoremap <silent> T :call <SID>show_documentation()<CR>
 
 function! s:show_documentation()
