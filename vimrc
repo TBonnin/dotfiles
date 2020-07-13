@@ -23,12 +23,6 @@ set nowb
 set noswapfile
 set nowritebackup
 
-" Folding
-set foldmethod=indent   
-set foldnestmax=10
-set nofoldenable
-set foldlevel=2
-
 " Always show the status line
 set laststatus=2
 
@@ -51,11 +45,14 @@ if &listchars ==# 'eol:$'
 endif
 
 " yaml
-au! BufNewFile,BufReadPost *.{yaml,yml} set filetype=yaml foldmethod=indent
+au! BufNewFile,BufReadPost *.{yaml,yml} set filetype=yaml foldmethod=indent foldlevel=10
 
 " python
 let g:python2_host_prog = '/usr/bin/python'
 let g:python3_host_prog = '/usr/local/bin/python3'
+
+" golang
+autocmd Filetype go setlocal tabstop=4 softtabstop=0 shiftwidth=4 noexpandtab
 
 " Leader key
 let mapleader = ","
@@ -108,7 +105,8 @@ Plug 'tpope/vim-fugitive'
 Plug 'tonchis/vim-to-github'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --no-bash' }
 Plug 'junegunn/fzf.vim'
-Plug 'neoclide/coc.nvim', {'do': { -> coc#util#install()}}
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
+
 " Scala
 Plug 'derekwyatt/vim-scala'
 "" Haskell
@@ -168,10 +166,6 @@ inoremap <sileft><expr> <leader>rf coc#refresh()
 " Use <cr> for confirm completion, `<C-g>u` means break undo chain at current position.
 " Coc only does snippet and additional edit on confirm.
 inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
-
-" Use `[c` and `]c` for navigate diagnostics
-nmap <silent> [c <Plug>(coc-diagnostic-prev)
-nmap <silent> ]c <Plug>(coc-diagnostic-next)
 
 " Remap keys for gotos
 nmap <silent> gd <Plug>(coc-definition)
