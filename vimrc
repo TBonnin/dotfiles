@@ -11,6 +11,9 @@ set expandtab
 " show current line
 set cursorline
 
+" highlight matching bracket
+set showmatch matchtime=3
+
 " Searching
 set hlsearch
 set incsearch
