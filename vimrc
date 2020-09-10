@@ -128,10 +128,15 @@ call plug#end()
 set background=dark
 colorscheme palenight
 
-" Triger `autoread` when files changes on disk
-" https://unix.stackexchange.com/questions/149209/refresh-changed-content-of-file-opened-in-vim/383044#383044
-" https://vi.stackexchange.com/questions/13692/prevent-focusgained-autocmd-running-in-command-line-editing-mode
-autocmd FocusGained,BufEnter,CursorHold,CursorHoldI * if mode() != 'c' | checktime | endif
+augroup auto_checktime
+  autocmd!
+  " Notify if file is changed outside of vim
+  " Trigger `checktime` when files changes on disk
+  " https://unix.stackexchange.com/questions/149209/refresh-changed-content-of-file-opened-in-vim/383044#383044
+  " https://vi.stackexchange.com/questions/13692/prevent-focusgained-autocmd-running-in-command-line-editing-mode
+  autocmd FocusGained,BufEnter,CursorHold,CursorHoldI *
+    \ if mode() !~ '\v(c|r.?|!|t)' && getcmdwintype() == '' | checktime | endif
+augroup END
 " Notification after file change
 " https://vi.stackexchange.com/questions/13091/autocmd-event-for-autoread
 autocmd FileChangedShellPost *
