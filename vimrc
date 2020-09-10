@@ -60,6 +60,10 @@ autocmd Filetype go setlocal tabstop=4 softtabstop=0 shiftwidth=4 noexpandtab
 " Leader key
 let mapleader = ","
 
+" Move up and down DISPLAYED line
+nnoremap k gk
+nnoremap j gj
+
 " turn off highlighted results (nohlsearch) when pressing Enter. 
 " just pressing n or N will turn the highlight back again 
 nnoremap <cr> :noh <cr>
