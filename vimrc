@@ -98,9 +98,13 @@ set viminfo^=%
 
 " Plugins
 if has('nvim')
-    call plug#begin('~/.local/share/nvim/plugged')
+  call plug#begin('~/.local/share/nvim/plugged')
+  Plug 'neovim/nvim-lspconfig' " Collection of common configurations for the Nvim LSP client
+  Plug 'tjdevries/lsp_extensions.nvim' " Extensions to built-in LSP, for example, providing type inlay hints
+  Plug 'nvim-lua/completion-nvim' " Autocompletion framework for built-in LSP
+  Plug 'nvim-lua/diagnostic-nvim' " Diagnostic navigation and settings for built-in LSP
 else
-    call plug#begin('~/.vim/plugged')
+  call plug#begin('~/.vim/plugged')
 endif
 Plug 'drewtempelmeyer/palenight.vim'
 Plug 'scrooloose/nerdtree'
@@ -112,16 +116,6 @@ Plug 'tpope/vim-fugitive'
 Plug 'tonchis/vim-to-github'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --no-bash' }
 Plug 'junegunn/fzf.vim'
-Plug 'neoclide/coc.nvim', {'branch': 'release'}
-
-" Scala
-Plug 'derekwyatt/vim-scala'
-"" Haskell
-Plug 'neovimhaskell/haskell-vim'
-Plug 'alx741/vim-hindent'
-Plug 'Twinside/vim-hoogle'
-"" Rust
-Plug 'rust-lang/rust.vim'
 call plug#end()
 
 " theme
@@ -147,82 +141,6 @@ let g:airline#extensions#tabline#enabled = 1
 
 " supertab
 let g:SuperTabDefaultCompletionType = "<c-n>"
-
-" hindent
-let g:hindent_line_length = 100
-
-" Hoogle
-au FileType haskell nnoremap <buffer> <Leader>h :Hoogle<CR>
-au FileType haskell nnoremap <buffer> <Leader>hc :HoogleClose<CR>
-au FileType haskell nnoremap <buffer> <Leader>hi :HoogleInfo<CR>
-
-" Scala
-au BufRead,BufNewFile *.sbt set filetype=scala
-
-" coc
-" Smaller updatetime for CursorHold & CursorHoldI
-set updatetime=300
-
-" don't give |ins-completion-menu| messages.
-set shortmess+=c
-
-" always show signcolumns
-set signcolumn=yes
-
-" Better display for messages
-set cmdheight=2
-
-" CoC
-inoremap <sileft><expr> <leader>rf coc#refresh()
-
-" Use <cr> for confirm completion, `<C-g>u` means break undo chain at current position.
-" Coc only does snippet and additional edit on confirm.
-inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
-
-" Remap keys for gotos
-nmap <silent> gd <Plug>(coc-definition)
-nmap <silent> gy <Plug>(coc-type-definition)
-nmap <silent> gi <Plug>(coc-implementation)
-nmap <silent> gr <Plug>(coc-references)
-
-" Remap for do codeAction of current line
-nmap <leader>a <Plug>(coc-codeaction)
-
-" Remap for do action format
-nnoremap <silent> F :call CocAction('format')<CR>
-" Fix autofix problem of current line
-nmap <leader>qf  <Plug>(coc-fix-current)
-
-" Use T for show documentation in preview window
-nnoremap <silent> T :call <SID>show_documentation()<CR>
-
-function! s:show_documentation()
-  if &filetype == 'vim'
-    execute 'h '.expand('<cword>')
-  else
-    call CocAction('doHover')
-  endif
-endfunction
-
-" Highlight symbol under cursor on CursorHold
-autocmd CursorHold * silent call CocActionAsync('highlight')
-
-" Remap for rename current word
-nmap <leader>rn <Plug>(coc-rename)
-" Show commands
-nnoremap <silent> <leader>c  :<C-u>CocList commands<cr>
-" Show all diagnostics
-nnoremap <silent> <leader>d  :<C-u>CocList diagnostics<cr>
-" Find symbol of current document
-nnoremap <silent> <leader>o  :<C-u>CocList outline<cr>
-" Do default action for next item.
-nnoremap <silent> <leader>j  :<C-u>CocNext<CR>
-" Do default action for previous item.
-nnoremap <silent> <leader>k  :<C-u>CocPrev<CR>
-" Resume latest coc list
-nnoremap <silent> <leader>t  :<C-u>CocListResume<CR>
-
-command! ScalaImport :call CocRequestAsync('metals', 'workspace/executeCommand', { 'command': 'build-import' }) 
 
 :"NERDTree
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
@@ -280,3 +198,84 @@ nnoremap <leader>s :Rg <C-R><C-W><CR>
 nnoremap <leader>t :Files<CR>
 nnoremap <leader>b :Buffers<CR>
 nnoremap <leader>h :History:<CR>
+
+if has('nvim')
+  " Set completeopt to have a better completion experience
+  " :help completeopt
+  " menuone: popup even when there's only one match
+  " noinsert: Do not insert text until a selection is made
+  " noselect: Do not select, force user to select one from the menu
+  set completeopt=menuone,noinsert,noselect
+
+  " Avoid showing extra messages when using completion
+  set shortmess+=c
+
+  " Configure LSP
+  " https://github.com/neovim/nvim-lspconfig
+  lua <<EOF
+
+  local nvim_lsp = require'nvim_lsp'
+
+  local on_attach = function(client)
+    require'completion'.on_attach(client)
+    require'diagnostic'.on_attach(client)
+  end
+
+  nvim_lsp.pyls.setup{on_attach=on_attach}
+EOF
+
+  " Trigger completion with <Tab>
+  inoremap <silent><expr> <TAB>
+    \ pumvisible() ? "\<C-n>" :
+    \ <SID>check_back_space() ? "\<TAB>" :
+    \ completion#trigger_completion()
+
+  function! s:check_back_space() abort
+      let col = col('.') - 1
+      return !col || getline('.')[col - 1]  =~ '\s'
+  endfunction
+
+  " Code navigation shortcuts
+  nnoremap <silent> gd <cmd>lua vim.lsp.buf.definition()<CR>
+  nnoremap <silent> T <cmd>lua vim.lsp.buf.hover()<CR>
+  nnoremap <silent> rn <cmd>lua vim.lsp.buf.rename()<CR>
+  nnoremap <silent> ga <cmd>lua vim.lsp.buf.code_action()<CR>
+  nnoremap <silent> gr <cmd>lua vim.lsp.buf.references()<CR>
+
+  command! Format :lua vim.lsp.buf.formatting()
+
+"  nnoremap <silent> gD    <cmd>lua vim.lsp.buf.implementation()<CR>
+"  nnoremap <silent> <c-k> <cmd>lua vim.lsp.buf.signature_help()<CR>
+"  nnoremap <silent> 1gD   <cmd>lua vim.lsp.buf.type_definition()<CR>
+"  nnoremap <silent> g0    <cmd>lua vim.lsp.buf.document_symbol()<CR>
+"  nnoremap <silent> gW    <cmd>lua vim.lsp.buf.workspace_symbol()<CR>
+"  nnoremap <silent> ge    <cmd>lua vim.lsp.buf.declaration()<CR>
+
+  " Visualize diagnostics
+  let g:diagnostic_enable_virtual_text = 1
+  let g:diagnostic_trimmed_virtual_text = '40'
+  " Don't show diagnostics while in insert mode
+  let g:diagnostic_insert_delay = 1
+
+  " Set updatetime for CursorHold
+  " 300ms of no cursor movement to trigger CursorHold
+  set updatetime=300
+  " Show diagnostic popup on cursor hold
+  autocmd CursorHold * lua vim.lsp.util.show_line_diagnostics()
+
+  " Goto previous/next diagnostic warning/error
+  nnoremap <silent> g[ <cmd>PrevDiagnosticCycle<cr>
+  nnoremap <silent> g] <cmd>NextDiagnosticCycle<cr>
+
+  " have a fixed column for the diagnostics to appear in
+  " this removes the jitter when warnings/errors flow in
+  set signcolumn=yes
+
+  " Enable type inlay hints
+  autocmd CursorMoved,InsertLeave,BufEnter,BufWinEnter,TabEnter,BufWritePost *
+  \ lua require'lsp_extensions'.inlay_hints{ prefix = '', highlight = "Comment" }
+
+    " Auto-format pythong files prior to saving them
+  autocmd BufWritePre *.py lua vim.lsp.buf.formatting_sync(nil, 1000)
+
+endif
