@@ -187,27 +187,58 @@ if has('nvim')
 
   " Configure LSP
   " https://github.com/neovim/nvim-lspconfig
-  lua <<EOF
+lua << EOF
+local nvim_lsp = require('lspconfig')
+local on_attach = function(client, bufnr)
+  local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
+  local function buf_set_option(...) vim.api.nvim_buf_set_option(bufnr, ...) end
 
-  local nvim_lsp = require'lspconfig'
+  buf_set_option('omnifunc', 'v:lua.vim.lsp.omnifunc')
 
-  local on_attach = function(client)
-    require'completion'.on_attach(client)
+  -- Mappings.
+  local opts = { noremap=true, silent=true }
+  buf_set_keymap('n', 'gD', '<Cmd>lua vim.lsp.buf.declaration()<CR>', opts)
+  buf_set_keymap('n', 'gd', '<Cmd>lua vim.lsp.buf.definition()<CR>', opts)
+  buf_set_keymap('n', 'T', '<Cmd>lua vim.lsp.buf.hover()<CR>', opts)
+  buf_set_keymap('n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<CR>', opts)
+  buf_set_keymap('n', '<C-k>', '<cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
+  buf_set_keymap('n', '<space>wa', '<cmd>lua vim.lsp.buf.add_workspace_folder()<CR>', opts)
+  buf_set_keymap('n', '<space>wr', '<cmd>lua vim.lsp.buf.remove_workspace_folder()<CR>', opts)
+  buf_set_keymap('n', '<space>wl', '<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>', opts)
+  buf_set_keymap('n', '<space>D', '<cmd>lua vim.lsp.buf.type_definition()<CR>', opts)
+  buf_set_keymap('n', '<space>rn', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
+  buf_set_keymap('n', 'gr', '<cmd>lua vim.lsp.buf.references()<CR>', opts)
+  buf_set_keymap('n', '<space>e', '<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>', opts)
+  buf_set_keymap('n', '[d', '<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>', opts)
+  buf_set_keymap('n', ']d', '<cmd>lua vim.lsp.diagnostic.goto_next()<CR>', opts)
+  buf_set_keymap('n', '<space>d', '<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>', opts)
+
+  -- Set some keybinds conditional on server capabilities
+  if client.resolved_capabilities.document_formatting then
+    buf_set_keymap("n", "<space>f", "<cmd>lua vim.lsp.buf.formatting()<CR>", opts)
+  elseif client.resolved_capabilities.document_range_formatting then
+    buf_set_keymap("n", "<space>f", "<cmd>lua vim.lsp.buf.formatting()<CR>", opts)
   end
+end
 
-  nvim_lsp.rust_analyzer.setup{on_attach=on_attach}
+-- Use a loop to conveniently both setup defined servers 
+-- and map buffer local keybindings when the language server attaches
+local servers = { "pyright", "rust_analyzer", "tsserver" }
+for _, lsp in ipairs(servers) do
+  nvim_lsp[lsp].setup { on_attach = on_attach }
+end
 
-  vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
-    vim.lsp.diagnostic.on_publish_diagnostics, {
-      underline = true,
-      virtual_text = {
-        spacing = 4,
-        prefix = '~',
-      },
-      signs = true,
-      update_in_insert = false,
-    }
-  )
+vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
+  vim.lsp.diagnostic.on_publish_diagnostics, {
+    underline = true,
+    virtual_text = {
+      spacing = 2,
+      prefix = '~',
+    },
+    signs = true,
+    update_in_insert = false,
+  }
+)
 EOF
 
   " Trigger completion with <Tab>
@@ -220,22 +251,6 @@ EOF
       let col = col('.') - 1
       return !col || getline('.')[col - 1]  =~ '\s'
   endfunction
-
-  " Code navigation shortcuts
-  nnoremap <silent> gd <cmd>lua vim.lsp.buf.definition()<CR>
-  nnoremap <silent> T <cmd>lua vim.lsp.buf.hover()<CR>
-  nnoremap <silent> rn <cmd>lua vim.lsp.buf.rename()<CR>
-  nnoremap <silent> ga <cmd>lua vim.lsp.buf.code_action()<CR>
-  nnoremap <silent> gr <cmd>lua vim.lsp.buf.references()<CR>
-
-  command! Format :lua vim.lsp.buf.formatting()
-
-"  nnoremap <silent> gD    <cmd>lua vim.lsp.buf.implementation()<CR>
-"  nnoremap <silent> <c-k> <cmd>lua vim.lsp.buf.signature_help()<CR>
-"  nnoremap <silent> 1gD   <cmd>lua vim.lsp.buf.type_definition()<CR>
-"  nnoremap <silent> g0    <cmd>lua vim.lsp.buf.document_symbol()<CR>
-"  nnoremap <silent> gW    <cmd>lua vim.lsp.buf.workspace_symbol()<CR>
-"  nnoremap <silent> ge    <cmd>lua vim.lsp.buf.declaration()<CR>
 
   " have a fixed column for the diagnostics to appear in
   " this removes the jitter when warnings/errors flow in
