@@ -102,7 +102,6 @@ if has('nvim')
   Plug 'neovim/nvim-lspconfig' " Collection of common configurations for the Nvim LSP client
   Plug 'tjdevries/lsp_extensions.nvim' " Extensions to built-in LSP, for example, providing type inlay hints
   Plug 'nvim-lua/completion-nvim' " Autocompletion framework for built-in LSP
-  Plug 'nvim-lua/diagnostic-nvim' " Diagnostic navigation and settings for built-in LSP
 else
   call plug#begin('~/.vim/plugged')
 endif
@@ -152,8 +151,6 @@ function NerdTreeToggleAndFind()
     endif
 endfunction
 nnoremap <leader>n :call NerdTreeToggleAndFind()<CR>
-" do not open buffer in NERDTree window
-au BufEnter * if bufname('#') =~ 'NERD_tree' && bufname('%') !~ 'NERD_tree' && winnr('$') > 1 | b# | exe "normal! \<c-w>\<c-w>" | :blast | endif
 
 " fzf
 set rtp+=/usr/local/opt/fzf
@@ -192,14 +189,25 @@ if has('nvim')
   " https://github.com/neovim/nvim-lspconfig
   lua <<EOF
 
-  local nvim_lsp = require'nvim_lsp'
+  local nvim_lsp = require'lspconfig'
 
   local on_attach = function(client)
     require'completion'.on_attach(client)
-    require'diagnostic'.on_attach(client)
   end
 
-  nvim_lsp.pyls.setup{on_attach=on_attach}
+  nvim_lsp.rust_analyzer.setup{on_attach=on_attach}
+
+  vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
+    vim.lsp.diagnostic.on_publish_diagnostics, {
+      underline = true,
+      virtual_text = {
+        spacing = 4,
+        prefix = '~',
+      },
+      signs = true,
+      update_in_insert = false,
+    }
+  )
 EOF
 
   " Trigger completion with <Tab>
@@ -229,31 +237,27 @@ EOF
 "  nnoremap <silent> gW    <cmd>lua vim.lsp.buf.workspace_symbol()<CR>
 "  nnoremap <silent> ge    <cmd>lua vim.lsp.buf.declaration()<CR>
 
-  " Visualize diagnostics
-  let g:diagnostic_enable_virtual_text = 1
-  let g:diagnostic_trimmed_virtual_text = '40'
-  " Don't show diagnostics while in insert mode
-  let g:diagnostic_insert_delay = 1
-
-  " Set updatetime for CursorHold
-  " 300ms of no cursor movement to trigger CursorHold
-  set updatetime=300
-  " Show diagnostic popup on cursor hold
-  autocmd CursorHold * lua vim.lsp.util.show_line_diagnostics()
-
-  " Goto previous/next diagnostic warning/error
-  nnoremap <silent> g[ <cmd>PrevDiagnosticCycle<cr>
-  nnoremap <silent> g] <cmd>NextDiagnosticCycle<cr>
-
   " have a fixed column for the diagnostics to appear in
   " this removes the jitter when warnings/errors flow in
   set signcolumn=yes
+
+  sign define LspDiagnosticsSignError text=🔴
+  sign define LspDiagnosticsSignWarning text=🟠
+  sign define LspDiagnosticsSignInformation text=🔵
+  sign define LspDiagnosticsSignHint text=🟢
+  " Errors in Red
+  hi LspDiagnosticsVirtualTextError guifg=Red ctermfg=Red
+  " Warnings in Yellow
+  hi LspDiagnosticsVirtualTextWarning guifg=Yellow ctermfg=Yellow
+  " Info and Hints in White
+  hi LspDiagnosticsVirtualTextInformation guifg=White ctermfg=White
+  hi LspDiagnosticsVirtualTextHint guifg=White ctermfg=White
 
   " Enable type inlay hints
   autocmd CursorMoved,InsertLeave,BufEnter,BufWinEnter,TabEnter,BufWritePost *
   \ lua require'lsp_extensions'.inlay_hints{ prefix = '', highlight = "Comment" }
 
-    " Auto-format pythong files prior to saving them
+    " Auto-format python files prior to saving them
   autocmd BufWritePre *.py lua vim.lsp.buf.formatting_sync(nil, 1000)
 
 endif
