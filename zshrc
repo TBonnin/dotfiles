@@ -50,6 +50,7 @@ test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 bindkey '^o' fzf-history-widget
+FZF_DEFAULT_OPTS='--height 50% --layout=reverse --border'
 
 export GPG_TTY=$(tty)
 
