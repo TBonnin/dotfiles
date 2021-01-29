@@ -272,7 +272,4 @@ EOF
   autocmd CursorMoved,InsertLeave,BufEnter,BufWinEnter,TabEnter,BufWritePost *
   \ lua require'lsp_extensions'.inlay_hints{ prefix = '', highlight = "Comment" }
 
-    " Auto-format python files prior to saving them
-  autocmd BufWritePre *.py lua vim.lsp.buf.formatting_sync(nil, 1000)
-
 endif
