@@ -102,6 +102,7 @@ if has('nvim')
   Plug 'neovim/nvim-lspconfig' " Collection of common configurations for the Nvim LSP client
   Plug 'tjdevries/lsp_extensions.nvim' " Extensions to built-in LSP, for example, providing type inlay hints
   Plug 'nvim-lua/completion-nvim' " Autocompletion framework for built-in LSP
+  Plug 'ojroques/nvim-lspfuzzy'
 else
   call plug#begin('~/.vim/plugged')
 endif
@@ -158,6 +159,7 @@ set rtp+=/usr/local/opt/fzf
 let $FZF_DEFAULT_COMMAND =  "find * -path '*/\.*' -prune -o -path 'node_modules/**' -prune -o -path 'target/**' -prune -o -path 'dist/**' -prune -o  -type f -print -o -type l -print 2> /dev/null"
 let $FZF_DEFAULT_OPTS=' --color=dark --color=fg:15,bg:-1,hl:1,fg+:#ffffff,bg+:0,hl+:1 --color=info:0,prompt:0,pointer:12,marker:4,spinner:11,header:-1 --layout=reverse  --margin=1,4'
 let g:fzf_layout = { 'window': { 'width': 1.0, 'height': 1.0 } }
+let g:fzf_preview_window = ['down:50%', 'ctrl-/']
 
 command! -bang -nargs=* Rg
   \ call fzf#vim#grep(
@@ -173,6 +175,10 @@ nnoremap <leader>s :Rg <C-R><C-W><CR>
 nnoremap <leader>t :Files<CR>
 nnoremap <leader>b :Buffers<CR>
 nnoremap <leader>h :History:<CR>
+" fzf-lsp.nvim
+nnoremap <leader>r :References<CR>
+nnoremap <leader>e :DocumentSymbols<CR>
+nnoremap <leader>E :WorkspaceSymbols<CR>
 
 if has('nvim')
   " Set completeopt to have a better completion experience
@@ -197,18 +203,18 @@ local on_attach = function(client, bufnr)
 
   -- Mappings.
   local opts = { noremap=true, silent=true }
-  buf_set_keymap('n', 'gD', '<Cmd>lua vim.lsp.buf.declaration()<CR>', opts)
   buf_set_keymap('n', 'gd', '<Cmd>lua vim.lsp.buf.definition()<CR>', opts)
+  buf_set_keymap('n', 'gD', '<Cmd>lua vim.lsp.buf.declaration()<CR>', opts)
+  buf_set_keymap('n', '<space>D', '<cmd>lua vim.lsp.buf.type_definition()<CR>', opts)
   buf_set_keymap('n', 'T', '<Cmd>lua vim.lsp.buf.hover()<CR>', opts)
+  buf_set_keymap('n', 'gS', '<cmd>lua vim.lsp.buf.document_symbol()<CR>', opts)
+  buf_set_keymap('n', 'gs', '<cmd>lua vim.lsp.buf.workspace_symbol()<CR>', opts)
   buf_set_keymap('n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<CR>', opts)
   buf_set_keymap('n', '<C-k>', '<cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
-  buf_set_keymap('n', '<space>wa', '<cmd>lua vim.lsp.buf.add_workspace_folder()<CR>', opts)
-  buf_set_keymap('n', '<space>wr', '<cmd>lua vim.lsp.buf.remove_workspace_folder()<CR>', opts)
-  buf_set_keymap('n', '<space>wl', '<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>', opts)
-  buf_set_keymap('n', '<space>D', '<cmd>lua vim.lsp.buf.type_definition()<CR>', opts)
   buf_set_keymap('n', '<space>rn', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
   buf_set_keymap('n', 'gr', '<cmd>lua vim.lsp.buf.references()<CR>', opts)
   buf_set_keymap('n', '<space>e', '<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>', opts)
+  buf_set_keymap('n', '<space>a', '<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
   buf_set_keymap('n', '[d', '<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>', opts)
   buf_set_keymap('n', ']d', '<cmd>lua vim.lsp.diagnostic.goto_next()<CR>', opts)
   buf_set_keymap('n', '<space>d', '<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>', opts)
@@ -223,10 +229,12 @@ end
 
 -- Use a loop to conveniently both setup defined servers 
 -- and map buffer local keybindings when the language server attaches
-local servers = { "pyls", "rust_analyzer" }
+local servers = { "pyls", "rust_analyzer", "metals" }
 for _, lsp in ipairs(servers) do
   nvim_lsp[lsp].setup { on_attach = on_attach }
 end
+
+require('lspfuzzy').setup {}
 
 vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
   vim.lsp.diagnostic.on_publish_diagnostics, {
@@ -269,7 +277,7 @@ EOF
   hi LspDiagnosticsVirtualTextHint guifg=White ctermfg=White
 
   " Enable type inlay hints
-  autocmd CursorMoved,InsertLeave,BufEnter,BufWinEnter,TabEnter,BufWritePost *
+  autocmd CursorMoved,InsertLeave,BufEnter,BufWinEnter,TabEnter,BufWritePost *.rs
   \ lua require'lsp_extensions'.inlay_hints{ prefix = '', highlight = "Comment" }
 
 endif
