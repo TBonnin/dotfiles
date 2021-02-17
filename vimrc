@@ -57,6 +57,9 @@ let g:python3_host_prog = '/usr/local/bin/python3'
 " golang
 autocmd Filetype go setlocal tabstop=4 softtabstop=0 shiftwidth=4 noexpandtab
 
+" java
+autocmd Filetype java setlocal tabstop=4 softtabstop=0 shiftwidth=4 noexpandtab
+
 " Leader key
 let mapleader = ","
 
@@ -99,10 +102,8 @@ set viminfo^=%
 " Plugins
 if has('nvim')
   call plug#begin('~/.local/share/nvim/plugged')
-  Plug 'neovim/nvim-lspconfig' " Collection of common configurations for the Nvim LSP client
-  Plug 'tjdevries/lsp_extensions.nvim' " Extensions to built-in LSP, for example, providing type inlay hints
-  Plug 'nvim-lua/completion-nvim' " Autocompletion framework for built-in LSP
-  Plug 'ojroques/nvim-lspfuzzy'
+  Plug 'neoclide/coc.nvim', {'branch': 'release'}
+  Plug 'antoinemadec/coc-fzf'
 else
   call plug#begin('~/.vim/plugged')
 endif
@@ -111,7 +112,6 @@ Plug 'scrooloose/nerdtree'
 Plug 'vim-airline/vim-airline'
 Plug 'jiangmiao/auto-pairs'
 Plug 'mhinz/vim-startify'
-Plug 'ervandew/supertab'
 Plug 'tpope/vim-fugitive'
 Plug 'tonchis/vim-to-github'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --no-bash' }
@@ -138,9 +138,6 @@ autocmd FileChangedShellPost *
 
 " vim-airline
 let g:airline#extensions#tabline#enabled = 1
-
-" supertab
-let g:SuperTabDefaultCompletionType = "<c-n>"
 
 :"NERDTree
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
@@ -175,10 +172,6 @@ nnoremap <leader>s :Rg <C-R><C-W><CR>
 nnoremap <leader>t :Files<CR>
 nnoremap <leader>b :Buffers<CR>
 nnoremap <leader>h :History:<CR>
-" fzf-lsp.nvim
-nnoremap <leader>r :References<CR>
-nnoremap <leader>e :DocumentSymbols<CR>
-nnoremap <leader>E :WorkspaceSymbols<CR>
 
 if has('nvim')
   " Set completeopt to have a better completion experience
@@ -191,69 +184,16 @@ if has('nvim')
   " Avoid showing extra messages when using completion
   set shortmess+=c
 
-  " Configure LSP
-  " https://github.com/neovim/nvim-lspconfig
-lua << EOF
-local nvim_lsp = require('lspconfig')
-local on_attach = function(client, bufnr)
-  local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
-  local function buf_set_option(...) vim.api.nvim_buf_set_option(bufnr, ...) end
-
-  buf_set_option('omnifunc', 'v:lua.vim.lsp.omnifunc')
-
-  -- Mappings.
-  local opts = { noremap=true, silent=true }
-  buf_set_keymap('n', 'gd', '<Cmd>lua vim.lsp.buf.definition()<CR>', opts)
-  buf_set_keymap('n', 'gD', '<Cmd>lua vim.lsp.buf.declaration()<CR>', opts)
-  buf_set_keymap('n', '<space>D', '<cmd>lua vim.lsp.buf.type_definition()<CR>', opts)
-  buf_set_keymap('n', 'T', '<Cmd>lua vim.lsp.buf.hover()<CR>', opts)
-  buf_set_keymap('n', 'gS', '<cmd>lua vim.lsp.buf.document_symbol()<CR>', opts)
-  buf_set_keymap('n', 'gs', '<cmd>lua vim.lsp.buf.workspace_symbol()<CR>', opts)
-  buf_set_keymap('n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<CR>', opts)
-  buf_set_keymap('n', '<C-k>', '<cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
-  buf_set_keymap('n', '<space>rn', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
-  buf_set_keymap('n', 'gr', '<cmd>lua vim.lsp.buf.references()<CR>', opts)
-  buf_set_keymap('n', '<space>e', '<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>', opts)
-  buf_set_keymap('n', '<space>a', '<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
-  buf_set_keymap('n', '[d', '<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>', opts)
-  buf_set_keymap('n', ']d', '<cmd>lua vim.lsp.diagnostic.goto_next()<CR>', opts)
-  buf_set_keymap('n', '<space>d', '<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>', opts)
-
-  -- Set some keybinds conditional on server capabilities
-  if client.resolved_capabilities.document_formatting then
-    buf_set_keymap("n", "<space>f", "<cmd>lua vim.lsp.buf.formatting()<CR>", opts)
-  elseif client.resolved_capabilities.document_range_formatting then
-    buf_set_keymap("n", "<space>f", "<cmd>lua vim.lsp.buf.formatting()<CR>", opts)
-  end
-end
-
--- Use a loop to conveniently both setup defined servers 
--- and map buffer local keybindings when the language server attaches
-local servers = { "pyls", "rust_analyzer", "metals" }
-for _, lsp in ipairs(servers) do
-  nvim_lsp[lsp].setup { on_attach = on_attach }
-end
-
-require('lspfuzzy').setup {}
-
-vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
-  vim.lsp.diagnostic.on_publish_diagnostics, {
-    underline = true,
-    virtual_text = {
-      spacing = 2,
-      prefix = '~',
-    },
-    signs = true,
-    update_in_insert = false,
-  }
-)
-EOF
-
-  " Trigger completion with <Tab>
+  " CoC 
+  
+  " Use tab for trigger completion with characters ahead and navigate.
+  " NOTE: Use command ':verbose imap <tab>' to make sure tab is not mapped by
+  " other plugin before putting this into your config.
   inoremap <silent><expr> <TAB>
-    \ pumvisible() ? "\<C-n>" :
-    \ <SID>check_back_space() ? "\<TAB>" :
-    \ completion#trigger_completion()
+        \ pumvisible() ? "\<C-n>" :
+        \ <SID>check_back_space() ? "\<TAB>" :
+        \ coc#refresh()
+  inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
 
   function! s:check_back_space() abort
       let col = col('.') - 1
@@ -264,20 +204,33 @@ EOF
   " this removes the jitter when warnings/errors flow in
   set signcolumn=yes
 
-  sign define LspDiagnosticsSignError text=🔴
-  sign define LspDiagnosticsSignWarning text=🟠
-  sign define LspDiagnosticsSignInformation text=🔵
-  sign define LspDiagnosticsSignHint text=🟢
-  " Errors in Red
-  hi LspDiagnosticsVirtualTextError guifg=Red ctermfg=Red
-  " Warnings in Yellow
-  hi LspDiagnosticsVirtualTextWarning guifg=Yellow ctermfg=Yellow
-  " Info and Hints in White
-  hi LspDiagnosticsVirtualTextInformation guifg=White ctermfg=White
-  hi LspDiagnosticsVirtualTextHint guifg=White ctermfg=White
+  " GoTo code navigation.
+  nmap <silent> gd <Plug>(coc-definition)
+  nmap <silent> gy <Plug>(coc-type-definition)
+  nmap <silent> gi <Plug>(coc-implementation)
+  nmap <silent> gr <Plug>(coc-references)
 
-  " Enable type inlay hints
-  autocmd CursorMoved,InsertLeave,BufEnter,BufWinEnter,TabEnter,BufWritePost *.rs
-  \ lua require'lsp_extensions'.inlay_hints{ prefix = '', highlight = "Comment" }
+  " Use K to show documentation in preview window.
+  nnoremap <silent> T :call <SID>show_documentation()<CR>
+
+  function! s:show_documentation()
+    if (index(['vim','help'], &filetype) >= 0)
+      execute 'h '.expand('<cword>')
+    elseif (coc#rpc#ready())
+      call CocActionAsync('doHover')
+    else
+      execute '!' . &keywordprg . " " . expand('<cword>')
+    endif
+  endfunction
+
+  " Remap keys for applying codeAction to the current buffer.
+  nmap <leader>a  <Plug>(coc-codeaction)
+  " Apply AutoFix to problem on the current line.
+  nmap <leader>qf  <Plug>(coc-fix-current)
+  " Symbol renaming.
+  nmap <leader>rn <Plug>(coc-rename)
+
+  " Add `:Format` command to format current buffer.
+  command! -nargs=0 Format :call CocAction('format')
 
 endif
