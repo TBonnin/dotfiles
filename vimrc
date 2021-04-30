@@ -116,6 +116,7 @@ Plug 'tpope/vim-fugitive'
 Plug 'tonchis/vim-to-github'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --no-bash' }
 Plug 'junegunn/fzf.vim'
+Plug 'junegunn/vim-peekaboo'
 call plug#end()
 
 " theme
@@ -170,7 +171,7 @@ command! -bang -nargs=? -complete=dir Files
 nnoremap <leader>f :Rg<CR>
 nnoremap <leader>s :Rg <C-R><C-W><CR>
 nnoremap <leader>t :Files<CR>
-nnoremap <leader>b :Buffers<CR>
+nnoremap <leader>w :Buffers<CR>
 nnoremap <leader>h :History:<CR>
 
 if has('nvim')
