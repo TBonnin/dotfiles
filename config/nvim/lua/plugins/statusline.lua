@@ -4,6 +4,18 @@ if not present then
     return
 end
 
+local function lsp_clients()
+    local clients = vim.lsp.get_active_clients()
+    if #clients == 0 then
+      return
+    end
+    local status = {}
+    for _, client in pairs(clients) do
+        table.insert(status, client.name)
+    end
+    return "LSP[" .. table.concat(status, " | ") .. "]"
+end
+
 lualine.setup {
     options = {
         icons_enabled = true,
@@ -26,10 +38,10 @@ lualine.setup {
                     info = ' ',
                     hint = ' '
                 }
-            }, -- 'encoding',
+            },
             'filetype'
         },
-        lualine_y = {'progress'},
+        lualine_y = {lsp_clients},
         lualine_z = {'location'}
     },
     inactive_sections = {
@@ -41,5 +53,5 @@ lualine.setup {
         lualine_z = {}
     },
     tabline = {},
-    extensions = {'fugitive'}
+    extensions = {'fugitive', 'nvim-tree', 'quickfix'}
 }
