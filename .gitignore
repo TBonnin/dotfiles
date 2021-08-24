@@ -2,3 +2,5 @@ vim/.netrwhist
 *.swp
 *.swn
 *.swo
+
+config/nvim/plugin/*_compiled.lua
