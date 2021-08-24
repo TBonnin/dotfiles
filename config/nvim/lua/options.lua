@@ -1,5 +1,3 @@
-vim.cmd 'colorscheme material'
-
 vim.o.errorbells = false
 
 vim.o.termguicolors = true

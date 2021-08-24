@@ -11,12 +11,15 @@ local use = packer.use
 
 return packer.startup(function()
 
-    use 'kaicataldo/material.vim'
-
     use {
         'wbthomason/packer.nvim',
         event = 'VimEnter',
         config = function() require('plugins.packer') end
+    }
+
+    use { 
+        'kaicataldo/material.vim',
+        config = function() vim.cmd 'colorscheme material' end
     }
 
     use {

@@ -1,7 +1,7 @@
 [user]
     name = Thomas Bonnin
     email = 233326+TBonnin@users.noreply.github.com
-    signingkey = notMyKey
+    signingkey = notmykey
 
 [credential]
     helper = osxkeychain
