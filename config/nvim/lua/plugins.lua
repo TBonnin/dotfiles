@@ -18,8 +18,8 @@ return packer.startup(function()
     }
 
     use { 
-        'kaicataldo/material.vim',
-        config = function() vim.cmd 'colorscheme material' end
+        'drewtempelmeyer/palenight.vim',
+        config = function() vim.cmd 'colorscheme palenight' end
     }
 
     use {
