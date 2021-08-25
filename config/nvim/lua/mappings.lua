@@ -8,6 +8,11 @@ local M = {}
 local opt = {}
 
 M.startup = function()
+    map('n', 'jj', '<nop>', opt)
+    map('n', 'kk', '<nop>', opt)
+    map('n', 'hh', '<nop>', opt)
+    map('n', 'll', '<nop>', opt)
+
     map('i', 'jj', '<esc>', opt)
 
     -- Move up and down DISPLAYED line
