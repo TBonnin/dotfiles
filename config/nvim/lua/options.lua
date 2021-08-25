@@ -20,6 +20,7 @@ vim.o.softtabstop = 2
 vim.o.shiftwidth = 2
 vim.o.expandtab = true
 vim.o.smarttab = true
+vim.o.scrolloff = 7
 vim.bo.autoindent = true
 vim.bo.smartindent = true
 
