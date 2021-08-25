@@ -12,6 +12,10 @@ M.startup = function()
     map('n', 'kk', '<nop>', opt)
     map('n', 'hh', '<nop>', opt)
     map('n', 'll', '<nop>', opt)
+    map('v', 'jj', '<nop>', opt)
+    map('v', 'kk', '<nop>', opt)
+    map('v', 'hh', '<nop>', opt)
+    map('v', 'll', '<nop>', opt)
 
     map('i', 'jj', '<esc>', opt)
 
@@ -21,10 +25,10 @@ M.startup = function()
 
     -- turn off highlighted results (nohlsearch) when pressing Enter.
     -- just pressing n or N will turn the highlight back again
-    map('n', '<cr>', ':noh<cr>', opt)
+    map('n', '<CR>', ':noh<CR>', opt)
 
     -- split line at cursor
-    map('n', 'K', 'i<cr><esc>', opt)
+    map('n', 'K', 'i<CR><esc>', opt)
 
     -- Kill the damned Ex mode.
     map('n', 'Q', '<nop>', opt)

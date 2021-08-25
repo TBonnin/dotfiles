@@ -135,4 +135,10 @@ return packer.startup(function()
        after = 'plenary.nvim',
        setup = function() require('mappings').dap() end
     }
+
+    use {
+        'karb94/neoscroll.nvim',
+        event = "WinScrolled",
+        config = function() require('neoscroll').setup() end
+    }
 end)
