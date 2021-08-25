@@ -35,15 +35,19 @@ M.nvimtree = function() map('n', '<leader>n', ':NvimTreeFindFile<CR>', opt) end
 
 M.telescope = function()
     map('n', '<leader>f', ':Telescope live_grep<CR>', opt)
-    map('n', '<leader>gs', ':Telescope git_status <CR>', opt)
-    map('n', '<leader>gc', ':Telescope git_commits <CR>', opt)
     map('n', '<leader>t', ':Telescope find_files <CR>', opt)
     map('n', '<leader>w', ':Telescope buffers<CR>', opt)
-    map('n', '<leader>h', ':Telescope help_tags<CR>', opt)
     map('n', '<leader>r', ':Telescope oldfiles<CR>', opt)
-end
+    map('n', '<leader>gh', ':Telescope help_tags<CR>', opt)
+    map('n', '<leader>ch', ':Telescope command_history <CR>', opt)
+    map('n', '<leader>gs', ':Telescope git_status <CR>', opt)
+    map('n', '<leader>gc', ':Telescope git_commits <CR>', opt)
 
-M.neoformat = function() map('n', '<leader>df', ':Neoformat<CR>', opt) end
+    map('n', 'gd', ":Telescope lsp_definitions<CR>", opt)
+    map('n', 'gr', ":Telescope lsp_references<CR>", opt)
+    map('n', '<leader>a', ":lua require('telescope.builtin').lsp_code_actions({layout_config={width=0.6,height=0.6}})<CR>", opt)
+    map('n', '<leader>d', ":Telescope lsp_workspace_diagnostics<CR>", opt)
+end
 
 M.comment = function()
     map('n', '<leader>/', ':CommentToggle<CR>', opt)
