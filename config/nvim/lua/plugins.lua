@@ -128,7 +128,10 @@ return packer.startup(function()
         setup = function() require('mappings').fugitive() end
     }
 
-    use 'tpope/vim-sleuth'
+    use {
+        'tpope/vim-sleuth',
+        event = 'BufEnter',
+    }
 
     use {
        'mfussenegger/nvim-dap',
@@ -141,4 +144,5 @@ return packer.startup(function()
         event = "WinScrolled",
         config = function() require('neoscroll').setup() end
     }
+
 end)

@@ -32,7 +32,7 @@ COMPLETION_WAITING_DOTS="true"
 # Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
-plugins=(vi-mode git github history-substring-search fzf-tab)
+plugins=(git github history-substring-search fzf-tab zsh-vi-mode)
 
 source $ZSH/oh-my-zsh.sh
 source $HOME/.zshrc.local
@@ -40,43 +40,19 @@ source $HOME/.zshrc.local
 # disable zsh correct feature
 unsetopt correct_all
 
-# Customize to your needs...
-bindkey -M viins 'jj' vi-cmd-mode
+ZVM_VI_INSERT_ESCAPE_BINDKEY=jj
+ZVM_VI_EDITOR=nvim
 
-# autojump (brew installed)
-[ -f /usr/local/etc/profile.d/autojump.sh ] && . /usr/local/etc/profile.d/autojump.sh
+function zvm_after_init() {
+  # autojump (brew installed)
+  [ -f /usr/local/etc/profile.d/autojump.sh ] && . /usr/local/etc/profile.d/autojump.sh
 
-test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
+  test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
+  [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+  bindkey '^o' fzf-history-widget
+  FZF_DEFAULT_OPTS='--height 50% --layout=reverse --border'
 
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-bindkey '^o' fzf-history-widget
-FZF_DEFAULT_OPTS='--height 50% --layout=reverse --border'
+  source $ZSH/custom/plugins/fzf-tab/fzf-tab.zsh
 
-export GPG_TTY=$(tty)
-
-# edit current command in vim by pressing ESC then v
-autoload -U edit-command-line
-zle -N edit-command-line 
-bindkey -M vicmd v edit-command-line
-
-# Change cursor depending on editing mode
-function zle-keymap-select zle-line-init
-{
-    # change cursor shape in iTerm2
-    case $KEYMAP in
-        vicmd)      print -n -- "\E]50;CursorShape=0\C-G";;  # block cursor
-        viins|main) print -n -- "\E]50;CursorShape=1\C-G";;  # line cursor
-    esac
-
-    zle reset-prompt
-    zle -R
+  export GPG_TTY=$(tty)
 }
-
-function zle-line-finish
-{
-    print -n -- "\E]50;CursorShape=0\C-G"  # block cursor
-}
-
-zle -N zle-line-init
-zle -N zle-line-finish
-zle -N zle-keymap-select

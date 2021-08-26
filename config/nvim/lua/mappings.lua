@@ -64,8 +64,6 @@ M.comment = function()
 end
 
 M.fugitive = function()
-    map('n', '<leader>gi', ':Git<CR>', opt)
-    map('n', '<leader>gb', ':Git blame<CR>', opt)
 end
 
 M.dap = function()
