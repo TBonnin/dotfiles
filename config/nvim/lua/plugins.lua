@@ -144,5 +144,4 @@ return packer.startup(function()
         event = "WinScrolled",
         config = function() require('neoscroll').setup() end
     }
-
 end)

@@ -8,15 +8,6 @@ local M = {}
 local opt = {}
 
 M.startup = function()
-    map('n', 'jj', '<nop>', opt)
-    map('n', 'kk', '<nop>', opt)
-    map('n', 'hh', '<nop>', opt)
-    map('n', 'll', '<nop>', opt)
-    map('v', 'jj', '<nop>', opt)
-    map('v', 'kk', '<nop>', opt)
-    map('v', 'hh', '<nop>', opt)
-    map('v', 'll', '<nop>', opt)
-
     map('i', 'jj', '<esc>', opt)
 
     -- Move up and down DISPLAYED line
@@ -32,6 +23,9 @@ M.startup = function()
 
     -- Kill the damned Ex mode.
     map('n', 'Q', '<nop>', opt)
+
+    -- tabtab to leave terminal and go back to previous buffer
+    map('t', '<TAB><TAB>', '<C-\\><C-n><C-^>', opt)
 
 end
 

@@ -44,6 +44,7 @@ ZVM_VI_INSERT_ESCAPE_BINDKEY=jj
 ZVM_VI_EDITOR=nvim
 
 function zvm_after_init() {
+
   # autojump (brew installed)
   [ -f /usr/local/etc/profile.d/autojump.sh ] && . /usr/local/etc/profile.d/autojump.sh
 
@@ -56,3 +57,24 @@ function zvm_after_init() {
 
   export GPG_TTY=$(tty)
 }
+
+function zvm_after_select_vi_mode() {
+  case $ZVM_MODE in
+    $ZVM_MODE_INSERT)
+      PROMPT='$(kube_ps1)%2~ $(vcs_status)»%b '
+    ;; 
+    $ZVM_MODE_NORMAL)
+      PROMPT='$(kube_ps1)%2~ $(vcs_status)«%b '
+    ;;
+    $ZVM_MODE_VISUAL)
+      PROMPT='$(kube_ps1)%2~ $(vcs_status)«%b '
+    ;;
+    $ZVM_MODE_VISUAL_LINE)
+      PROMPT='$(kube_ps1)%2~ $(vcs_status)«%b '
+    ;;
+    $ZVM_MODE_REPLACE)
+      PROMPT='$(kube_ps1)%2~ $(vcs_status)«%b '
+    ;;
+  esac
+}
+

@@ -27,8 +27,9 @@ vim.bo.smartindent = true
 vim.wo.number = true
 vim.wo.signcolumn = 'yes'
 vim.wo.wrap = true
-
 vim.o.mouse = 'a'
 
 vim.g.mapleader = ','
 vim.g.auto_save = true
+
+vim.cmd [[ au TermOpen term://* setlocal nonumber norelativenumber | setfiletype terminal | startinsert ]]
