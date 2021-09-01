@@ -54,8 +54,9 @@ function zvm_after_init() {
   FZF_DEFAULT_OPTS='--height 50% --layout=reverse --border'
 
   source $ZSH/custom/plugins/fzf-tab/fzf-tab.zsh
-
-  export GPG_TTY=$(tty)
 }
 
+export GPG_TTY=$(tty)
+
 source $HOME/.zshrc.local
+
