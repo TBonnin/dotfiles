@@ -25,6 +25,7 @@ return packer.startup(function()
     use {
         'kyazdani42/nvim-tree.lua',
         requires = 'kyazdani42/nvim-web-devicons',
+        config = function() require'nvim-tree'.setup {} end,
         setup = function() require('mappings').nvimtree() end
     }
     use {
@@ -134,14 +135,6 @@ return packer.startup(function()
        'mfussenegger/nvim-dap',
        after = 'plenary.nvim',
        setup = function() require('mappings').dap() end
-    }
-
-    use {
-        'goolord/alpha-nvim',
-        requires = { 'kyazdani42/nvim-web-devicons' },
-        config = function ()
-            require'alpha'.setup(require'alpha.themes.startify'.opts)
-        end
     }
 
 end)
