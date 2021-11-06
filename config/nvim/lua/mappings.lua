@@ -27,6 +27,9 @@ M.startup = function()
     -- tabtab to leave terminal and go back to previous buffer
     map('t', '<TAB><TAB>', '<C-\\><C-n><C-^>', opt)
 
+   -- open links
+   map("n", "gx", ':exec "!open <cWORD>"<cr><cr>', opt)
+
 end
 
 M.bufferline = function()

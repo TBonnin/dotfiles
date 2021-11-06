@@ -17,7 +17,7 @@ return packer.startup(function()
         config = function() require('plugins.packer') end
     }
 
-    use { 
+    use {
         'drewtempelmeyer/palenight.vim',
         config = function() vim.cmd 'colorscheme palenight' end
     }
@@ -40,10 +40,12 @@ return packer.startup(function()
     }
 
     use {
-        'hrsh7th/nvim-compe',
-        event = 'InsertEnter',
-        config = function() require('plugins.compe') end,
-        requires = {{'hrsh7th/vim-vsnip', event = 'InsertEnter'}}
+        'hrsh7th/nvim-cmp',
+        requires = {
+            { 'hrsh7th/cmp-buffer', after = 'nvim-cmp', },
+            { 'hrsh7th/cmp-nvim-lsp', after = 'nvim-cmp', },
+        },
+        config = function() require('plugins.cmp') end,
     }
 
     use {'nvim-lua/plenary.nvim', after = 'bufferline.nvim'}
@@ -67,11 +69,6 @@ return packer.startup(function()
         'lukas-reineke/indent-blankline.nvim',
         event = 'BufRead',
         setup = function() require('plugins.indent-blankline') end
-    }
-    use {
-        'windwp/nvim-autopairs',
-        after = 'nvim-compe',
-        config = function() require('plugins.autopairs') end
     }
 
     use {
@@ -140,8 +137,11 @@ return packer.startup(function()
     }
 
     use {
-        'karb94/neoscroll.nvim',
-        event = "WinScrolled",
-        config = function() require('neoscroll').setup() end
+        'goolord/alpha-nvim',
+        requires = { 'kyazdani42/nvim-web-devicons' },
+        config = function ()
+            require'alpha'.setup(require'alpha.themes.startify'.opts)
+        end
     }
+
 end)
