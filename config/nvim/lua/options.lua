@@ -11,6 +11,7 @@ vim.o.ignorecase = true
 vim.o.smartcase = true
 vim.o.incsearch = true
 vim.o.hlsearch = false
+vim.o.cursorline = true
 
 vim.o.completeopt = 'menuone,noinsert,noselect'
 vim.opt_global.shortmess:remove("F"):append("c")

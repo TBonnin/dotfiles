@@ -28,7 +28,11 @@ M.startup = function()
     map('t', '<TAB><TAB>', '<C-\\><C-n><C-^>', opt)
 
    -- open links
-   map("n", "gx", ':exec "!open <cWORD>"<cr><cr>', opt)
+   map('n', 'gx', ':exec "!open <cWORD>"<cr><cr>', opt)
+
+   -- remap C-g/C-t to Tab/S-Tab to iterate through results while searching
+   map('c', '<Tab>', 'getcmdtype() =~ "[/?]" ? "<C-g>" : "<C-z>"', { expr = true, silent = false })
+   map("c", '<S-Tab>', 'getcmdtype() =~ "[/?]" ? "<C-t>" : "<S-Tab>"', { expr = true, silent = false })
 
 end
 
