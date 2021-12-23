@@ -2,9 +2,14 @@ local present, cmp = pcall(require, "cmp")
 if not present then return end
 
 cmp.setup({
+    snippet = {
+      expand = function(args)
+        vim.fn["vsnip#anonymous"](args.body)
+      end,
+    },
     sources = {
-        { name = "buffer" },
         { name = "nvim_lsp" },
+        { name = "buffer" },
     },
     mapping = {
         ["<cr>"] = cmp.mapping.confirm({select = true}),

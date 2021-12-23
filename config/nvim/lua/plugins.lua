@@ -43,8 +43,10 @@ return packer.startup(function()
     use {
         'hrsh7th/nvim-cmp',
         requires = {
-            { 'hrsh7th/cmp-buffer', after = 'nvim-cmp', },
-            { 'hrsh7th/cmp-nvim-lsp', after = 'nvim-cmp', },
+            { 'hrsh7th/cmp-buffer' },
+            { 'hrsh7th/cmp-nvim-lsp' },
+            { 'hrsh7th/vim-vsnip' },
+            { 'hrsh7th/cmp-vsnip' },
         },
         config = function() require('plugins.cmp') end,
     }
@@ -72,11 +74,11 @@ return packer.startup(function()
         setup = function() require('plugins.indent-blankline') end
     }
 
-    use {
-        'Pocco81/AutoSave.nvim',
-        config = function() require('plugins.autosave') end,
-        cond = function() return vim.g.auto_save == true end
-    }
+    -- use {
+    --     'Pocco81/AutoSave.nvim',
+    --     config = function() require('plugins.autosave') end,
+    --     cond = function() return vim.g.auto_save == true end
+    -- }
 
     use {
         'terrortylor/nvim-comment',
@@ -95,11 +97,9 @@ return packer.startup(function()
         config = function() require('plugins.treesitter') end
     }
 
-    use {'kabouzeid/nvim-lspinstall', event = 'BufRead'}
-
     use {
         'neovim/nvim-lspconfig',
-        after = 'nvim-lspinstall',
+        after = 'cmp-nvim-lsp',
         config = function() require('plugins.lspconfig') end
     }
 
@@ -132,9 +132,20 @@ return packer.startup(function()
     }
 
     use {
-       'mfussenegger/nvim-dap',
-       after = 'plenary.nvim',
-       setup = function() require('mappings').dap() end
+        'mfussenegger/nvim-dap',
+        after = 'plenary.nvim',
+        config = function() require('plugins.dap') end,
+        setup = function() require('mappings').dap() end,
+    }
+
+    use {
+        'windwp/nvim-autopairs',
+        config = function() require('nvim-autopairs').setup() end
+    }
+
+    use {
+        'scalameta/nvim-metals', 
+        requires = { "nvim-lua/plenary.nvim" }
     }
 
 end)

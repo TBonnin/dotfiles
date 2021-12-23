@@ -1,6 +1,5 @@
-local present1, lspconfig = pcall(require, 'lspconfig')
-local present2, lspinstall = pcall(require, 'lspinstall')
-if not (present1 or present2) then return end
+local present, lspconfig = pcall(require, 'lspconfig')
+if not (present) then return end
 
 local function on_attach(client, bufnr)
     vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
@@ -13,7 +12,7 @@ local function on_attach(client, bufnr)
 
     -- Mappings.
 
-    buf_set_keymap('n', 'T', '<Cmd>lua vim.lsp.buf.hover()<CR>', opts)
+    buf_set_keymap('n', 'T', '<cmd>lua vim.lsp.buf.hover()<CR>', opts)
     buf_set_keymap('n', '<space>rn', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
     -- buf_set_keymap('n', 'gD', '<Cmd>lua vim.lsp.buf.declaration()<CR>', opts)
     -- buf_set_keymap('n', 'gd', '<Cmd>lua vim.lsp.buf.definition()<CR>', opts)
@@ -43,72 +42,37 @@ local function on_attach(client, bufnr)
 
     -- Set some keybinds conditional on server capabilities
     if client.resolved_capabilities.document_formatting then
-        buf_set_keymap('n', '<leader>lf', '<cmd>lua vim.lsp.buf.formatting()<CR>',
-                       opts)
+        buf_set_keymap('n', '<leader>lf', '<cmd>lua vim.lsp.buf.formatting()<CR>', opts)
     elseif client.resolved_capabilities.document_range_formatting then
-        buf_set_keymap('n', '<leader>lf',
-                       '<cmd>lua vim.lsp.buf.range_formatting()<CR>', opts)
+        buf_set_keymap('n', '<leader>lf', '<cmd>lua vim.lsp.buf.range_formatting()<CR>', opts)
     end
 end
 
-local capabilities = vim.lsp.protocol.make_client_capabilities()
-capabilities.textDocument.completion.completionItem.snippetSupport = true
-
--- lspInstall + lspconfig stuff
-
-local function setup_servers()
-    lspinstall.setup()
-    local servers = lspinstall.installed_servers()
-
-    for _, lang in pairs(servers) do
-        if lang ~= 'lua' then
-            lspconfig[lang].setup {
-                on_attach = on_attach,
-                capabilities = capabilities,
-                root_dir = vim.loop.cwd
-            }
-        elseif lang == 'lua' then
-            lspconfig[lang].setup {
-                root_dir = vim.loop.cwd,
-                settings = {
-                    Lua = {
-                        diagnostics = {globals = {'vim'}},
-                        workspace = {
-                            library = {
-                                [vim.fn.expand "$VIMRUNTIME/lua"] = true,
-                                [vim.fn.expand "$VIMRUNTIME/lua/vim/lsp"] = true
-                            },
-                            maxPreload = 100000,
-                            preloadFileSize = 10000
-                        },
-                        telemetry = {enable = false}
-                    }
-                }
-            }
-        end
-    end
-
-    -- scala
-    lspconfig.metals.setup {
-        on_attach = on_attach,
-        capabilities = capabilities,
-        root_dir = vim.loop.cwd
-    }
-
+-------------
+metals_config = require("metals").bare_config()
+metals_config.init_options.statusBarProvider = "on"
+metals_config.on_attach = function(client, bufnr) 
+    on_attach(client, bufnr)
+    --require("metals").setup_dap() 
 end
+metals_config.capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities())
 
-setup_servers()
-
--- Automatically reload after `:LspInstall <server>` so we don't have to restart neovim
-lspinstall.post_install_hook = function()
-    setup_servers() -- reload installed servers
-    vim.cmd 'bufdo e'
-end
+vim.cmd [[augroup lsp]]
+vim.cmd [[au!]]
+vim.cmd [[au FileType scala,sbt lua require("metals").initialize_or_attach(metals_config)]]
+vim.cmd [[augroup end]]
+-------------
+-- local capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities())
+-- 
+-- lspconfig.metals.setup {
+--     on_attach = on_attach,
+--     capabilities = capabilities,
+--     root_dir = vim.loop.cwd
+-- }
 
 -- replace the default lsp diagnostic symbols
 function lspSymbol(name, icon)
-    vim.fn.sign_define('LspDiagnosticsSign' .. name,
-                       {text = icon, numhl = 'LspDiagnosticsDefaul' .. name})
+    vim.fn.sign_define('LspDiagnosticsSign' .. name, {text = icon, numhl = 'LspDiagnosticsDefaul' .. name})
 end
 
 lspSymbol('Error', '')

@@ -31,7 +31,7 @@ lualine.setup {
         lualine_x = {
             {
                 'diagnostics',
-                sources = {"nvim_lsp"},
+                sources = {"nvim_diagnostic"},
                 symbols = {
                     error = ' ',
                     warn = ' ',
