@@ -25,7 +25,12 @@ return packer.startup(function()
     use {
         'kyazdani42/nvim-tree.lua',
         requires = 'kyazdani42/nvim-web-devicons',
-        config = function() require'nvim-tree'.setup {} end,
+        config = function() require'nvim-tree'.setup {
+            auto_close = false,
+            view = {
+                auto_resize = true,
+            },
+        } end,
         setup = function() require('mappings').nvimtree() end
     }
     use {
