@@ -4,7 +4,14 @@ if not present then return end
 cmp.setup({
     sources = {
         { name = "buffer" },
-        { name = "nvim_lsp" },
+        -- { name = "nvim_diagnostic" },
+        { name = 'nvim_lsp' },
+        { name = 'vsnip' },
+    },
+    snippet = {
+      expand = function(args)
+        vim.fn["vsnip#anonymous"](args.body)
+      end,
     },
     mapping = {
         ["<cr>"] = cmp.mapping.confirm({select = true}),

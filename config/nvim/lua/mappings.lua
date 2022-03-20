@@ -41,7 +41,7 @@ M.bufferline = function()
     map('n', '<S-Tab>', ':BufferLineCyclePrev<CR>', opt)
 end
 
-M.nvimtree = function() map('n', '<leader>n', ':NvimTreeFindFile<CR>', opt) end
+M.neotree = function() map('n', '<leader>n', ':NeoTreeReveal<CR>', opt) end
 
 M.telescope = function()
     map('n', '<leader>f', ':Telescope live_grep<CR>', opt)

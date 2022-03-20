@@ -31,7 +31,7 @@ lualine.setup {
         lualine_x = {
             {
                 'diagnostics',
-                sources = {"nvim_lsp"},
+                sources = {"nvim_diagnostic"},
                 symbols = {
                     error = ' ',
                     warn = ' ',
@@ -53,5 +53,5 @@ lualine.setup {
         lualine_z = {}
     },
     tabline = {},
-    extensions = {'fugitive', 'nvim-tree', 'quickfix'}
+    extensions = {'fugitive', 'nvim-tree'}
 }

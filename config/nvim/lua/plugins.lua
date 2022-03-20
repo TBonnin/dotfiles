@@ -23,12 +23,6 @@ return packer.startup(function()
     }
 
     use {
-        'kyazdani42/nvim-tree.lua',
-        requires = 'kyazdani42/nvim-web-devicons',
-        config = function() require'nvim-tree'.setup {} end,
-        setup = function() require('mappings').nvimtree() end
-    }
-    use {
         'hoob3rt/lualine.nvim',
         requires = {'kyazdani42/nvim-web-devicons'},
         config = function() require('plugins.statusline') end
@@ -40,11 +34,17 @@ return packer.startup(function()
         setup = function() require('mappings').bufferline() end
     }
 
+    use { 'hrsh7th/vim-vsnip' }
+    use { 'hrsh7th/vim-vsnip-integ' }
+    
     use {
         'hrsh7th/nvim-cmp',
+        after = 'vim-vsnip',
         requires = {
-            { 'hrsh7th/cmp-buffer', after = 'nvim-cmp', },
-            { 'hrsh7th/cmp-nvim-lsp', after = 'nvim-cmp', },
+            { 'hrsh7th/cmp-buffer' },
+            { 'hrsh7th/cmp-nvim-lsp' },
+            { 'hrsh7th/vim-vsnip' },
+            { 'hrsh7th/cmp-vsnip' },
         },
         config = function() require('plugins.cmp') end,
     }
@@ -95,11 +95,9 @@ return packer.startup(function()
         config = function() require('plugins.treesitter') end
     }
 
-    use {'kabouzeid/nvim-lspinstall', event = 'BufRead'}
-
     use {
         'neovim/nvim-lspconfig',
-        after = 'nvim-lspinstall',
+        after = 'cmp-nvim-lsp',
         config = function() require('plugins.lspconfig') end
     }
 
@@ -132,9 +130,36 @@ return packer.startup(function()
     }
 
     use {
-       'mfussenegger/nvim-dap',
-       after = 'plenary.nvim',
-       setup = function() require('mappings').dap() end
+        'mfussenegger/nvim-dap',
+        after = 'plenary.nvim',
+        setup = function() require('mappings').dap() end,
+    }
+
+    use {
+        'windwp/nvim-autopairs',
+        config = function() require('nvim-autopairs').setup() end
+    }
+
+    use {
+        'scalameta/nvim-metals', 
+        requires = { "nvim-lua/plenary.nvim" }
+    }
+
+    use 'ggandor/lightspeed.nvim'
+
+    use {
+        "nvim-neo-tree/neo-tree.nvim",
+        branch = "v1.x",
+        after = 'plenary.nvim',
+        requires = { 
+          "MunifTanjim/nui.nvim" 
+        },
+        setup = function() require('mappings').neotree() end,
+        config = function ()
+            require("neo-tree").setup({
+                close_if_last_window = true,
+            })
+        end
     }
 
 end)
