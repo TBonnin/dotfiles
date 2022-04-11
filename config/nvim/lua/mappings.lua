@@ -74,4 +74,9 @@ M.dap = function()
     map('n', '<leader>do', ":lua require'dap'.step_over()<CR>", opt)
 end
 
+M.hop = function()
+    map('n', 's', ':HopChar1<CR>', opt)
+    map('v', 's', ':HopChar1<CR>', opt)
+end
+
 return M

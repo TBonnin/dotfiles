@@ -145,7 +145,17 @@ return packer.startup(function()
         requires = { "nvim-lua/plenary.nvim" }
     }
 
-    use 'ggandor/lightspeed.nvim'
+    use {
+        'echasnovski/mini.nvim',
+        config = function() require('mini.jump').setup({}) end 
+    }
+
+    use {
+        'phaazon/hop.nvim',
+        branch = 'v1',
+        config = function() require'hop'.setup() end,
+        setup = function() require('mappings').hop() end,
+    }
 
     use {
         "nvim-neo-tree/neo-tree.nvim",
