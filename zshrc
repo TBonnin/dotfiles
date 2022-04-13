@@ -39,6 +39,8 @@ source $ZSH/oh-my-zsh.sh
 # disable zsh correct feature
 unsetopt correct_all
 
+alias cat='bat'
+
 ZVM_LINE_INIT_MODE=$ZVM_MODE_INSERT
 ZVM_VI_INSERT_ESCAPE_BINDKEY=jj
 ZVM_VI_EDITOR=nvim
@@ -46,7 +48,7 @@ ZVM_VI_EDITOR=nvim
 function zvm_after_init() {
 
   # autojump (brew installed)
-  [ -f /usr/local/etc/profile.d/autojump.sh ] && . /usr/local/etc/profile.d/autojump.sh
+  [ -f /opt/homebrew/etc/profile.d/autojump.sh ] && . /opt/homebrew/etc/profile.d/autojump.sh
 
   test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
   [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
@@ -58,5 +60,24 @@ function zvm_after_init() {
 
 export GPG_TTY=$(tty)
 
-source $HOME/.zshrc.local
+function zvm_after_select_vi_mode() {
+  case $ZVM_MODE in
+    $ZVM_MODE_INSERT)
+      PROMPT='%2~ $(vcs_status)»%b '
+    ;;
+    $ZVM_MODE_NORMAL)
+      PROMPT='%2~ $(vcs_status)«%b '
+    ;;
+    $ZVM_MODE_VISUAL)
+      PROMPT='%2~ $(vcs_status)«%b '
+    ;;
+    $ZVM_MODE_VISUAL_LINE)
+      PROMPT='%2~ $(vcs_status)«%b '
+    ;;
+    $ZVM_MODE_REPLACE)
+      PROMPT='%2~ $(vcs_status)«%b '
+    ;;
+  esac
+}
 
+source $HOME/.zshrc.local

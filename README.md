@@ -8,11 +8,11 @@ Configuration files (vim, zsh, git, etc...)
 
 ## INSTALLATION
 
-    git clone git@github.com:TBonnin/dotfiles.git ~/.dotfiles
-    cd ~/.dotfiles
-    git submodule update --init
-    rake install
+```
+git clone git@github.com:TBonnin/dotfiles.git ~/.dotfiles
+cd ~/.dotfiles
+git submodule update --init
+chmod +x install.sh
+./install.sh
+```
 
-## THANK YOU NOTE
-
-Inspired by ryanb: https://github.com/ryanb/

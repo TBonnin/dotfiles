@@ -91,26 +91,7 @@ lspconfig.clangd.setup{
   on_attach = on_attach,
 }
 
--- Scala
-metals_config = require("metals").bare_config()
-metals_config.init_options.statusBarProvider = "on"
-metals_config.on_attach = function(client, bufnr) 
-    on_attach(client, bufnr)
-    --require("metals").setup_dap() 
-end
-metals_config.capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities())
-
-vim.cmd [[augroup lsp]]
-vim.cmd [[au!]]
-vim.cmd [[au FileType scala,sbt lua require("metals").initialize_or_attach(metals_config)]]
-vim.cmd [[augroup end]]
-
 require'lspconfig'.tsserver.setup{
-  capabilities = capabilities,
-  on_attach = on_attach,
-}
-
-require'lspconfig'.angularls.setup{
   capabilities = capabilities,
   on_attach = on_attach,
 }

@@ -141,11 +141,6 @@ return packer.startup(function()
     }
 
     use {
-        'scalameta/nvim-metals', 
-        requires = { "nvim-lua/plenary.nvim" }
-    }
-
-    use {
         'echasnovski/mini.nvim',
         config = function() require('mini.jump').setup({}) end 
     }
