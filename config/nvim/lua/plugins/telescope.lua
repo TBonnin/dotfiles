@@ -20,17 +20,19 @@ telescope.setup {
         initial_mode = "insert",
         selection_strategy = "reset",
         sorting_strategy = "ascending",
-        layout_strategy = "horizontal",
+        layout_strategy = "vertical",
         layout_config = {
-            horizontal = {
-                prompt_position = "top",
-                preview_width = 0.55,
-                results_width = 0.8
-            },
-            vertical = {mirror = false},
+            prompt_position = "top",
             width = 0.99,
             height = 0.99,
-            preview_cutoff = 120
+            vertical = {
+                mirror = true,
+            },
+        },
+        pickers = {
+            find_files = {
+                hidden = true,
+            },
         },
         file_sorter = require("telescope.sorters").get_fuzzy_file,
         file_ignore_patterns = {},

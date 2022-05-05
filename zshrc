@@ -32,7 +32,7 @@ COMPLETION_WAITING_DOTS="true"
 # Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
-plugins=(git github history-substring-search fzf-tab zsh-vi-mode)
+plugins=(git history-substring-search fzf-tab zsh-vi-mode)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -40,6 +40,7 @@ source $ZSH/oh-my-zsh.sh
 unsetopt correct_all
 
 alias cat='bat'
+alias gw='gh browse --branch $(git rev-parse --abbrev-ref HEAD)'
 
 ZVM_LINE_INIT_MODE=$ZVM_MODE_INSERT
 ZVM_VI_INSERT_ESCAPE_BINDKEY=jj
@@ -78,6 +79,9 @@ function zvm_after_select_vi_mode() {
       PROMPT='%2~ $(vcs_status)«%b '
     ;;
   esac
+  zvm_finalize
 }
+
+function zvm_finalize() { } # to overwrite in '~/.zshrc.local' if needed
 
 source $HOME/.zshrc.local

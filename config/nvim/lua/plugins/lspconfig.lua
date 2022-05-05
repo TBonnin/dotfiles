@@ -40,12 +40,12 @@ local function on_attach(client, bufnr)
     -- buf_set_keymap('n', '<space>q',
     --               '<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>', opts)
 
-    -- Set some keybinds conditional on server capabilities
-    if client.resolved_capabilities.document_formatting then
-        buf_set_keymap('n', '<leader>lf', '<cmd>lua vim.lsp.buf.formatting()<CR>', opts)
-    elseif client.resolved_capabilities.document_range_formatting then
-        buf_set_keymap('n', '<leader>lf', '<cmd>lua vim.lsp.buf.range_formatting()<CR>', opts)
-    end
+  if client.resolved_capabilities.document_formatting then
+    vim.cmd [[augroup Format]]
+    vim.cmd [[autocmd! * <buffer>]]
+    vim.cmd [[autocmd BufWritePre <buffer> lua vim.lsp.buf.formatting_seq_sync()]]
+    vim.cmd [[augroup END]]
+  end
 end
 
 -- replace the default lsp diagnostic symbols
@@ -80,7 +80,6 @@ end
 -- 
 
 local capabilities = vim.lsp.protocol.make_client_capabilities()
-capabilities = require('cmp_nvim_lsp').update_capabilities(capabilities)
 
 lspconfig.rust_analyzer.setup{
   capabilities = capabilities,

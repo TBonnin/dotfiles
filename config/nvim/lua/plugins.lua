@@ -28,28 +28,7 @@ return packer.startup(function()
         config = function() require('plugins.statusline') end
     }
 
-    use {
-        'akinsho/bufferline.nvim',
-        config = function() require('plugins.bufferline') end,
-        setup = function() require('mappings').bufferline() end
-    }
-
-    use { 'hrsh7th/vim-vsnip' }
-    use { 'hrsh7th/vim-vsnip-integ' }
-    
-    use {
-        'hrsh7th/nvim-cmp',
-        after = 'vim-vsnip',
-        requires = {
-            { 'hrsh7th/cmp-buffer' },
-            { 'hrsh7th/cmp-nvim-lsp' },
-            { 'hrsh7th/vim-vsnip' },
-            { 'hrsh7th/cmp-vsnip' },
-        },
-        config = function() require('plugins.cmp') end,
-    }
-
-    use {'nvim-lua/plenary.nvim', after = 'bufferline.nvim'}
+    use { 'nvim-lua/plenary.nvim' }
 
     use {
         'nvim-telescope/telescope.nvim',
@@ -67,21 +46,9 @@ return packer.startup(function()
     }
 
     use {
-        'lukas-reineke/indent-blankline.nvim',
-        event = 'BufRead',
-        setup = function() require('plugins.indent-blankline') end
-    }
-
-    use {
         'Pocco81/AutoSave.nvim',
         config = function() require('plugins.autosave') end,
         cond = function() return vim.g.auto_save == true end
-    }
-
-    use {
-        'terrortylor/nvim-comment',
-        config = function() require('nvim_comment').setup() end,
-        setup = function() require('mappings').comment() end
     }
 
     use {
@@ -97,7 +64,6 @@ return packer.startup(function()
 
     use {
         'neovim/nvim-lspconfig',
-        after = 'cmp-nvim-lsp',
         config = function() require('plugins.lspconfig') end
     }
 
@@ -119,10 +85,7 @@ return packer.startup(function()
         config = function() require('gitsigns').setup() end
     }
 
-    use {
-        'tpope/vim-fugitive',
-        setup = function() require('mappings').fugitive() end
-    }
+    use { 'tpope/vim-fugitive' }
 
     use {
         'tpope/vim-sleuth',
@@ -130,31 +93,21 @@ return packer.startup(function()
     }
 
     use {
-        'mfussenegger/nvim-dap',
-        after = 'plenary.nvim',
-        setup = function() require('mappings').dap() end,
-    }
-
-    use {
-        'windwp/nvim-autopairs',
-        config = function() require('nvim-autopairs').setup() end
-    }
-
-    use {
         'echasnovski/mini.nvim',
-        config = function() require('mini.jump').setup({}) end 
+        setup = function() require('mappings').mini() end,
+        config = function() require('plugins.mini') end,
     }
 
     use {
         'phaazon/hop.nvim',
         branch = 'v1',
-        config = function() require'hop'.setup() end,
+        config = function() require('hop').setup() end,
         setup = function() require('mappings').hop() end,
     }
 
     use {
         "nvim-neo-tree/neo-tree.nvim",
-        branch = "v1.x",
+        branch = "v2.x",
         after = 'plenary.nvim',
         requires = { 
           "MunifTanjim/nui.nvim" 

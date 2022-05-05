@@ -9,11 +9,15 @@ local function lsp_clients()
     if #clients == 0 then
       return
     end
-    local status = {}
+    local values = {}
+    local keys = {}
     for _, client in pairs(clients) do
-        table.insert(status, client.name)
+        if keys[client] == nil then
+            table.insert(values, client.name)
+            keys[client.name] = true
+        end
     end
-    return "LSP[" .. table.concat(status, " | ") .. "]"
+    return "LSP[" .. table.concat(values, " | ") .. "]"
 end
 
 lualine.setup {
@@ -42,7 +46,7 @@ lualine.setup {
             'filetype'
         },
         lualine_y = {lsp_clients},
-        lualine_z = {'location'}
+        lualine_z = {'%l:%c(%p%%)'}
     },
     inactive_sections = {
         lualine_a = {},

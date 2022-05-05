@@ -1,19 +1,22 @@
 #!/usr/bin/env bash
+set -o xtrace
 
 # symbolic link dotfiles
 DIR="$( cd "$( dirname "$0" )" && pwd )"
-for files in "$DIR"/*
+for source in "$DIR"/*
 do
-  basename=$(basename "$files")
+  basename=$(basename "$source")
   [ "$basename" = "README.md" ] && continue
   [ "$basename" = "install.sh" ] && continue
-  echo "Linking $basename"
-  ln -s "$files" "$HOME/.$basename"
+  target="$HOME/.$basename"
+  [ ! -e "$target" ] && echo "Linking $basename" && ln -s "$source" "$target"
 done
+exit 0
 
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 
 brew install git
+brew install gh
 
 brew install --cask iterm2
 
