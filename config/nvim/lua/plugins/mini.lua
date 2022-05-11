@@ -1,5 +1,7 @@
 require('mini.jump').setup({}) 
 
+require('mini.pairs').setup({})
+
 require('mini.completion').setup({}) 
 
 require('mini.comment').setup({})

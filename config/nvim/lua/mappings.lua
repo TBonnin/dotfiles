@@ -7,6 +7,19 @@ end
 local M = {}
 local opt = {}
 
+function vim.getVisualSelection()
+    vim.cmd('noau normal! "vy"')
+    local text = vim.fn.getreg('v')
+    vim.fn.setreg('v', {})
+    text = string.gsub(text, "\n", "")
+    if #text > 0 then
+        return text
+    else
+        return ''
+    end
+end
+
+
 M.startup = function()
     map('i', 'jj', '<esc>', opt)
 
@@ -39,18 +52,22 @@ end
 M.neotree = function() map('n', '<leader>n', ':Neotree reveal<CR>', opt) end
 
 M.telescope = function()
+
     map('n', '<leader>r', ':Telescope resume<CR>', opt)
     map('n', '<leader>f', ':Telescope live_grep<CR>', opt)
-    map('n', '<leader>s', ':Telescope grep_string<CR>', opt)
     map('n', '<leader>t', ':Telescope find_files <CR>', opt)
-    map('n', '<leader>w', ':Telescope buffers<CR>', opt)
     map('n', '<leader>o', ':Telescope oldfiles<CR>', opt)
+    map('n', '<leader>w', ':Telescope buffers<CR>', opt)
     map('n', '<leader>c', ':Telescope command_history<CR>', opt)
     map('n', '""', ':Telescope registers<CR>', opt)
     map('n', 'gd', ":Telescope lsp_definitions<CR>", opt)
     map('n', 'gr', ":Telescope lsp_references<CR>", opt)
     map('n', '<leader>a', ":lua require('telescope.builtin').lsp_code_actions({layout_config={width=0.6,height=0.6}})<CR>", opt)
-    map('n', '<leader>d', ":Telescope lsp_workspace_diagnostics<CR>", opt)
+
+    vim.keymap.set('v', '<leader>f', function()
+        local text = vim.getVisualSelection()
+        require('telescope.builtin').live_grep({ default_text = text })
+    end, opt)
 end
 
 M.hop = function()

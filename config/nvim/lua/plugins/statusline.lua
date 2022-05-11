@@ -12,7 +12,7 @@ local function lsp_clients()
     local values = {}
     local keys = {}
     for _, client in pairs(clients) do
-        if keys[client] == nil then
+        if keys[client.name] == nil then
             table.insert(values, client.name)
             keys[client.name] = true
         end

@@ -49,14 +49,16 @@ local function on_attach(client, bufnr)
 end
 
 -- replace the default lsp diagnostic symbols
-function lspSymbol(name, icon)
-    vim.fn.sign_define('LspDiagnosticsSign' .. name, {text = icon, numhl = 'LspDiagnosticsDefaul' .. name})
+local signs = {
+    Error = " ",
+    Warning = " ",
+    Information = " ",
+    Hint = " ",
+}
+for type, icon in pairs(signs) do
+    local hl = "DiagnosticSign" .. type
+    vim.fn.sign_define(hl, {text = icon, texthl = hl, numhl = hl})
 end
-
-lspSymbol('Error', '')
-lspSymbol('Warning', '')
-lspSymbol('Information', '')
-lspSymbol('Hint', '')
 
 vim.lsp.handlers['textDocument/publishDiagnostics'] =
     vim.lsp.with(vim.lsp.diagnostic.on_publish_diagnostics, {
@@ -82,20 +84,16 @@ end
 local capabilities = vim.lsp.protocol.make_client_capabilities()
 
 lspconfig.rust_analyzer.setup{
-  capabilities = capabilities,
-  on_attach = on_attach,
-}
-lspconfig.clangd.setup{
-  capabilities = capabilities,
-  on_attach = on_attach,
+    capabilities = capabilities,
+    on_attach = on_attach,
 }
 
 require'lspconfig'.tsserver.setup{
-  capabilities = capabilities,
-  on_attach = on_attach,
+    capabilities = capabilities,
+    on_attach = on_attach,
 }
 
 require'lspconfig'.pylsp.setup{
-  capabilities = capabilities,
-  on_attach = on_attach,
+    capabilities = capabilities,
+    on_attach = on_attach,
 }
