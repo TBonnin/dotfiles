@@ -1,0 +1,25 @@
+# Get editor completions based on the config schema
+"$schema" = 'https://starship.rs/config-schema.json'
+
+format = """$directory$character"""
+right_format = """$all"""
+
+[character]
+success_symbol = "[➜](bold green)"
+vicmd_symbol = "[❮](bold purple)"
+
+[nodejs]
+disabled = true
+
+[package]
+disabled = true
+
+[gcloud]
+disabled = true
+
+[kubernetes]
+disabled = false
+format='[$symbol$context( \($namespace\))]($style) '
+
+[git_branch]
+format = "[$symbol$branch(:$remote_branch)]($style) "

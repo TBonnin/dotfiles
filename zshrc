@@ -32,56 +32,37 @@ COMPLETION_WAITING_DOTS="true"
 # Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
-plugins=(git history-substring-search fzf-tab zsh-vi-mode)
+plugins=(
+  git 
+  fzf-tab 
+  zsh-yarn-completions
+  vi-mode
+)
 
 source $ZSH/oh-my-zsh.sh
 
 # disable zsh correct feature
 unsetopt correct_all
 
-alias cat='bat'
-alias gw='gh browse --branch $(git rev-parse --abbrev-ref HEAD)'
-
-ZVM_LINE_INIT_MODE=$ZVM_MODE_INSERT
-ZVM_VI_INSERT_ESCAPE_BINDKEY=jj
-ZVM_VI_EDITOR=nvim
-
-function zvm_after_init() {
-
-  # autojump (brew installed)
-  [ -f /opt/homebrew/etc/profile.d/autojump.sh ] && . /opt/homebrew/etc/profile.d/autojump.sh
-
-  test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
-  [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-  bindkey '^o' fzf-history-widget
-  FZF_DEFAULT_OPTS='--height 50% --layout=reverse --border'
-
-  source $ZSH/custom/plugins/fzf-tab/fzf-tab.zsh
-}
-
 export GPG_TTY=$(tty)
 
-function zvm_after_select_vi_mode() {
-  case $ZVM_MODE in
-    $ZVM_MODE_INSERT)
-      PROMPT='%2~ $(vcs_status)»%b '
-    ;;
-    $ZVM_MODE_NORMAL)
-      PROMPT='%2~ $(vcs_status)«%b '
-    ;;
-    $ZVM_MODE_VISUAL)
-      PROMPT='%2~ $(vcs_status)«%b '
-    ;;
-    $ZVM_MODE_VISUAL_LINE)
-      PROMPT='%2~ $(vcs_status)«%b '
-    ;;
-    $ZVM_MODE_REPLACE)
-      PROMPT='%2~ $(vcs_status)«%b '
-    ;;
-  esac
-  zvm_finalize
-}
+eval "$(starship init zsh)"
 
-function zvm_finalize() { } # to overwrite in '~/.zshrc.local' if needed
+set -o vi
+bindkey -M viins 'jj' vi-cmd-mode
+export VI_MODE_SET_CURSOR=true
+
+[ -f /opt/homebrew/etc/profile.d/autojump.sh ] && . /opt/homebrew/etc/profile.d/autojump.sh
+
+test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+bindkey '^o' fzf-history-widget
+FZF_DEFAULT_OPTS='--height 50% --layout=reverse --border'
+
+source $ZSH/custom/plugins/fzf-tab/fzf-tab.zsh
+
+alias lla='ls -la'
+alias cat='bat'
+alias gw='gh browse --branch $(git rev-parse --abbrev-ref HEAD)'
 
 source $HOME/.zshrc.local
