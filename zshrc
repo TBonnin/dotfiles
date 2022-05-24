@@ -33,10 +33,10 @@ COMPLETION_WAITING_DOTS="true"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 plugins=(
+  autojump
   git 
-  fzf-tab 
-  zsh-yarn-completions
   vi-mode
+  fzf
 )
 
 source $ZSH/oh-my-zsh.sh
@@ -51,8 +51,6 @@ eval "$(starship init zsh)"
 set -o vi
 bindkey -M viins 'jj' vi-cmd-mode
 export VI_MODE_SET_CURSOR=true
-
-[ -f /opt/homebrew/etc/profile.d/autojump.sh ] && . /opt/homebrew/etc/profile.d/autojump.sh
 
 test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
