@@ -33,19 +33,24 @@ local function on_attach(client, bufnr)
     -- buf_set_keymap('n', '<space>e',
     --                '<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>',
     --                opts)
-    -- buf_set_keymap('n', '[d', '<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>',
-    --                opts)
-    -- buf_set_keymap('n', ']d', '<cmd>lua vim.lsp.diagnostic.goto_next()<CR>',
-    --                opts)
+    buf_set_keymap('n', '[d', '<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>',
+                   opts)
+    buf_set_keymap('n', ']d', '<cmd>lua vim.lsp.diagnostic.goto_next()<CR>',
+                   opts)
     -- buf_set_keymap('n', '<space>q',
     --               '<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>', opts)
 
-  if client.resolved_capabilities.document_formatting then
-    vim.cmd [[augroup Format]]
-    vim.cmd [[autocmd! * <buffer>]]
-    vim.cmd [[autocmd BufWritePre <buffer> lua vim.lsp.buf.formatting_seq_sync()]]
-    vim.cmd [[augroup END]]
-  end
+    if client.name == "tsserver" then
+            client.resolved_capabilities.document_formatting = false
+            client.resolved_capabilities.document_range_formatting = false
+    end
+
+    if client.resolved_capabilities.document_formatting then
+        vim.cmd [[augroup Format]]
+        vim.cmd [[autocmd! * <buffer>]]
+        vim.cmd [[autocmd BufWritePre <buffer> lua vim.lsp.buf.formatting_seq_sync(null, 2000)]]
+        vim.cmd [[augroup END]]
+    end
 end
 
 -- replace the default lsp diagnostic symbols
@@ -83,17 +88,25 @@ end
 
 local capabilities = vim.lsp.protocol.make_client_capabilities()
 
-lspconfig.rust_analyzer.setup{
+lspconfig.rust_analyzer.setup({
     capabilities = capabilities,
     on_attach = on_attach,
-}
+})
 
-require'lspconfig'.tsserver.setup{
+require'lspconfig'.tsserver.setup({
     capabilities = capabilities,
     on_attach = on_attach,
-}
+})
 
-require'lspconfig'.pylsp.setup{
+require'lspconfig'.pylsp.setup({
     capabilities = capabilities,
     on_attach = on_attach,
-}
+})
+
+require("null-ls").setup({
+    on_attach = on_attach,
+    sources = {
+        require("null-ls").builtins.formatting.stylua,
+        require("null-ls").builtins.formatting.prettierd,
+    },
+})
