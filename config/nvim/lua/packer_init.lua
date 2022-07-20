@@ -1,26 +1,59 @@
-local is_present, _ = pcall(require, 'packerInit')
-local packer
+-----------------------------------------------------------
+-- Plugin manager configuration file
+-----------------------------------------------------------
 
-if is_present then
-    packer = require 'packer'
-else
-    return false
+-- Plugin manager: packer.nvim
+-- url: https://github.com/wbthomason/packer.nvim
+
+-- For information about installed plugins see the README:
+-- neovim-lua/README.md
+-- https://github.com/brainfucksec/neovim-lua#readme
+
+
+-- Automatically install packer
+local fn = vim.fn
+local install_path = fn.stdpath('data') .. '/site/pack/packer/start/packer.nvim'
+
+if fn.empty(fn.glob(install_path)) > 0 then
+    packer_bootstrap = fn.system({
+        'git',
+        'clone',
+        '--depth',
+        '1',
+        'https://github.com/wbthomason/packer.nvim',
+        install_path
+    })
+    vim.o.runtimepath = vim.fn.stdpath('data') .. '/site/pack/*/start/*,' .. vim.o.runtimepath
 end
 
-local use = packer.use
+-- Autocommand that reloads neovim whenever you save the packer_init.lua file
+vim.cmd [[
+    augroup packer_user_config
+        autocmd!
+        autocmd BufWritePost packer_init.lua source <afile> | PackerSync
+    augroup end
+]]
 
-return packer.startup(function()
+-- Use a protected call so we don't error out on first use
+local status_ok, packer = pcall(require, 'packer')
+if not status_ok then
+    return
+end
 
-    use {
-        'wbthomason/packer.nvim',
-        event = 'VimEnter',
-        config = function() require('plugins.packer') end
-    }
-
-    use {
-        'drewtempelmeyer/palenight.vim',
-        config = function() vim.cmd 'colorscheme palenight' end
-    }
+-- Install plugins
+return packer.startup(function(use)
+    -- Add you plugins here:
+    use 'wbthomason/packer.nvim' -- packer can manage itself
+    
+    use({
+        "catppuccin/nvim",
+	as = "catppuccin",
+        config = function() 
+            require('catppuccin').setup() 
+            vim.g.catppuccin_flavour = "macchiato" -- latte, frappe, macchiato, mocha
+            vim.cmd 'colorscheme catppuccin'
+        end,
+    })
 
     use {
         'hoob3rt/lualine.nvim',
@@ -121,4 +154,9 @@ return packer.startup(function()
         end
     }
 
+    -- Automatically set up your configuration after cloning packer.nvim
+    -- Put this at the end after all plugins
+    if packer_bootstrap then
+      require('packer').sync()
+    end
 end)
