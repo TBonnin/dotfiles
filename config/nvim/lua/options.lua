@@ -6,6 +6,7 @@ vim.o.syntax = 'on'
 vim.o.backup = false
 vim.o.hidden = true
 vim.bo.swapfile = false
+vim.o.autowriteall = true
 
 vim.o.ignorecase = true
 vim.o.smartcase = true

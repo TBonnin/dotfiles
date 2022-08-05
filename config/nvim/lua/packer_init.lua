@@ -4,7 +4,6 @@
 
 -- Plugin manager: packer.nvim
 -- url: https://github.com/wbthomason/packer.nvim
-
 -- For information about installed plugins see the README:
 -- neovim-lua/README.md
 -- https://github.com/brainfucksec/neovim-lua#readme
@@ -42,22 +41,27 @@ end
 
 -- Install plugins
 return packer.startup(function(use)
+
     -- Add you plugins here:
     use 'wbthomason/packer.nvim' -- packer can manage itself
-    
-    use({
-        "catppuccin/nvim",
-	as = "catppuccin",
-        config = function() 
-            require('catppuccin').setup() 
-            vim.g.catppuccin_flavour = "macchiato" -- latte, frappe, macchiato, mocha
-            vim.cmd 'colorscheme catppuccin'
-        end,
-    })
+
+    use {
+        "rmehri01/onenord.nvim",
+        config = function() require('onenord').setup() end,
+    }
+    -- use({
+    --     "catppuccin/nvim",
+    --     as = "catppuccin",
+    --     config = function()
+    --         require('catppuccin').setup()
+    --         vim.g.catppuccin_flavour = "macchiato" -- latte, frappe, macchiato, mocha
+    --         vim.cmd 'colorscheme catppuccin'
+    --     end,
+    -- })
 
     use {
         'hoob3rt/lualine.nvim',
-        requires = {'kyazdani42/nvim-web-devicons'},
+        requires = { 'kyazdani42/nvim-web-devicons' },
         config = function() require('plugins.statusline') end
     }
 
@@ -69,19 +73,13 @@ return packer.startup(function(use)
         config = function() require('plugins.telescope') end,
         setup = function() require('mappings').telescope() end,
         requires = {
-            {'nvim-telescope/telescope-fzf-native.nvim', run = 'make'}, {
+            { 'nvim-telescope/telescope-fzf-native.nvim', run = 'make' }, {
                 'sudormrfbin/cheatsheet.nvim',
                 event = 'VimEnter',
                 after = 'telescope.nvim',
                 config = function() require('plugins.cheatsheet') end
             }
         }
-    }
-
-    use {
-        'Pocco81/AutoSave.nvim',
-        config = function() require('plugins.autosave') end,
-        cond = function() return vim.g.auto_save == true end
     }
 
     use {
@@ -143,11 +141,11 @@ return packer.startup(function(use)
         "nvim-neo-tree/neo-tree.nvim",
         branch = "v2.x",
         after = 'plenary.nvim',
-        requires = { 
-          "MunifTanjim/nui.nvim" 
+        requires = {
+            "MunifTanjim/nui.nvim"
         },
         setup = function() require('mappings').neotree() end,
-        config = function ()
+        config = function()
             require("neo-tree").setup({
                 close_if_last_window = true,
             })
@@ -157,6 +155,6 @@ return packer.startup(function(use)
     -- Automatically set up your configuration after cloning packer.nvim
     -- Put this at the end after all plugins
     if packer_bootstrap then
-      require('packer').sync()
+        require('packer').sync()
     end
 end)

@@ -61,6 +61,6 @@ source $ZSH/custom/plugins/fzf-tab/fzf-tab.zsh
 
 alias lla='ls -la'
 alias cat='bat'
-alias gw='gh browse --branch $(git rev-parse --abbrev-ref HEAD)'
+alias ghb='gh browse --branch $(git rev-parse --abbrev-ref HEAD)'
 
 source $HOME/.zshrc.local

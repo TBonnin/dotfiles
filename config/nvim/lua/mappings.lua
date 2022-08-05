@@ -1,5 +1,5 @@
 local function map(mode, lhs, rhs, opts)
-    local options = {noremap = true, silent = true}
+    local options = { noremap = true, silent = true }
     if opts then options = vim.tbl_extend('force', options, opts) end
     vim.api.nvim_set_keymap(mode, lhs, rhs, options)
 end
@@ -18,7 +18,6 @@ function vim.getVisualSelection()
         return ''
     end
 end
-
 
 M.startup = function()
     map('i', 'jj', '<esc>', opt)
@@ -40,12 +39,12 @@ M.startup = function()
     -- tabtab to leave terminal and go back to previous buffer
     map('t', '<TAB><TAB>', '<C-\\><C-n><C-^>', opt)
 
-   -- open links
-   map('n', 'gx', ':exec "!open <cWORD>"<cr><cr>', opt)
+    -- open links
+    map('n', 'gx', ':exec "!open <cWORD>"<cr><cr>', opt)
 
-   -- remap C-g/C-t to Tab/S-Tab to iterate through results while searching
-   map('c', '<Tab>', 'getcmdtype() =~ "[/?]" ? "<C-g>" : "<C-z>"', { expr = true, silent = false })
-   map("c", '<S-Tab>', 'getcmdtype() =~ "[/?]" ? "<C-t>" : "<S-Tab>"', { expr = true, silent = false })
+    -- remap C-g/C-t to Tab/S-Tab to iterate through results while searching
+    map('c', '<Tab>', 'getcmdtype() =~ "[/?]" ? "<C-g>" : "<C-z>"', { expr = true, silent = false })
+    map("c", '<S-Tab>', 'getcmdtype() =~ "[/?]" ? "<C-t>" : "<S-Tab>"', { expr = true, silent = false })
 
 end
 
@@ -59,10 +58,11 @@ M.telescope = function()
     map('n', '<leader>o', ':Telescope oldfiles<CR>', opt)
     map('n', '<leader>w', ':Telescope buffers<CR>', opt)
     map('n', '<leader>c', ':Telescope command_history<CR>', opt)
+    map('n', '<leader>d', ':Telescope diagnostics<CR>', opt)
+    map('n', '<leader>q', ':Telescope quickfix<CR>', opt)
     map('n', '""', ':Telescope registers<CR>', opt)
     map('n', 'gd', ':Telescope lsp_definitions<CR>', opt)
-    map('n', 'gr', ':Telescope lsp_references<CR>', opt)
-    map('n', '<leader>a', ":lua require('telescope.builtin').lsp_code_actions({layout_config={width=0.6,height=0.6}})<CR>", opt)
+    map('n', 'gr', ":lua require('telescope.builtin').lsp_references({fname_width=40})<CR>", opt)
 
     vim.keymap.set('v', '<leader>f', function()
         local text = vim.getVisualSelection()
@@ -76,7 +76,7 @@ M.hop = function()
 end
 
 M.mini = function()
-    map('i', '<Tab>',   'pumvisible() ? "<C-n>" : "<Tab>"', { noremap = true, expr = true })
+    map('i', '<Tab>', 'pumvisible() ? "<C-n>" : "<Tab>"', { noremap = true, expr = true })
     map('i', '<S-Tab>', 'pumvisible() ? "<C-p>" : "<S-Tab>"', { noremap = true, expr = true })
 end
 
