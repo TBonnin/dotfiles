@@ -69,18 +69,34 @@ return packer.startup(function(use)
 
     use {
         'nvim-telescope/telescope.nvim',
-        after = 'plenary.nvim',
+        after = { 'plenary.nvim' },
         config = function() require('plugins.telescope') end,
         setup = function() require('mappings').telescope() end,
         requires = {
-            { 'nvim-telescope/telescope-fzf-native.nvim', run = 'make' }, {
+            { 'nvim-telescope/telescope-fzf-native.nvim', run = 'make' },
+            { 'nvim-telescope/telescope-ui-select.nvim' },
+            {
                 'sudormrfbin/cheatsheet.nvim',
                 event = 'VimEnter',
                 after = 'telescope.nvim',
                 config = function() require('plugins.cheatsheet') end
-            }
+            },
         }
     }
+
+    use {
+        'mfussenegger/nvim-dap',
+        event = 'BufReadPre',
+        requires = {
+            'leoluz/nvim-dap-go',
+            'rcarriga/nvim-dap-ui',
+            'theHamsta/nvim-dap-virtual-text',
+            'nvim-telescope/telescope-dap.nvim',
+        },
+        config = function() require('plugins.dap') end,
+        setup = function() require('mappings').dap() end,
+    }
+
 
     use {
         'ethanholz/nvim-lastplace',
@@ -89,6 +105,7 @@ return packer.startup(function(use)
 
     use {
         'nvim-treesitter/nvim-treesitter',
+        'nvim-treesitter/nvim-treesitter-context',
         event = 'BufRead',
         config = function() require('plugins.treesitter') end
     }
@@ -131,13 +148,6 @@ return packer.startup(function(use)
     }
 
     use {
-        'phaazon/hop.nvim',
-        branch = 'v1',
-        config = function() require('hop').setup() end,
-        setup = function() require('mappings').hop() end,
-    }
-
-    use {
         "nvim-neo-tree/neo-tree.nvim",
         branch = "v2.x",
         after = 'plenary.nvim',
@@ -150,6 +160,41 @@ return packer.startup(function(use)
                 close_if_last_window = true,
             })
         end
+    }
+
+    use {
+        'phaazon/hop.nvim',
+        branch = 'v2',
+        config = function()
+            require 'hop'.setup {}
+        end,
+        setup = function() require('mappings').hop() end,
+    }
+
+    use {
+        'declancm/cinnamon.nvim',
+        config = function() require('cinnamon').setup({
+                extra_keymaps = true,
+                override_keymaps = true,
+                max_length = 250,
+                scroll_limit = 50,
+                horizontal_scroll = false,
+            })
+        end
+    }
+
+    use {
+        'github/copilot.vim',
+        config = function()
+            vim.g.copilot_filetypes = {
+                ['*'] = false,
+                ['typescript'] = true,
+                ['javascript'] = true,
+                ['lua'] = true,
+                ['html'] = true,
+                ['go'] = true,
+            }
+        end,
     }
 
     -- Automatically set up your configuration after cloning packer.nvim

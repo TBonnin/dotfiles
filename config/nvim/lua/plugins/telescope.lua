@@ -1,13 +1,11 @@
-local present, telescope = pcall(require, "telescope")
-if not present then return end
-
-telescope.setup {
+local telescope = require('telescope')
+telescope.setup({
     defaults = {
         mappings = {
             i = {
                 ["<C-j>"] = require("telescope.actions").move_selection_next,
                 ["<C-k>"] = require("telescope.actions").move_selection_previous,
-                ["<esc>"] = require("telescope.actions").close
+                ["<esc>"] = require("telescope.actions").close,
             }
         },
         sorting_strategy = "ascending",
@@ -29,6 +27,11 @@ telescope.setup {
         path_display = { "truncate" },
         set_env = { ["COLORTERM"] = "truecolor" },
     },
-}
-
+    extensions = {
+        ["ui-select"] = {
+            require("telescope.themes").get_dropdown({})
+        }
+    },
+})
 telescope.load_extension('fzf')
+telescope.load_extension('ui-select')

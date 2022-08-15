@@ -55,11 +55,14 @@ M.telescope = function()
     map('n', '<leader>r', ':Telescope resume<CR>', opt)
     map('n', '<leader>f', ':Telescope live_grep<CR>', opt)
     map('n', '<leader>t', ':Telescope find_files <CR>', opt)
-    map('n', '<leader>o', ':Telescope oldfiles<CR>', opt)
-    map('n', '<leader>w', ':Telescope buffers<CR>', opt)
+    map('n', '<leader>o',
+        ':lua require("telescope.builtin").oldfiles({ sort_mru = true, ignore_current_buffer = true })<CR>', opt)
+    map('n', '<leader>w',
+        ':lua require("telescope.builtin").buffers({ sort_mru = true, ignore_current_buffer = true })<CR>', opt)
     map('n', '<leader>c', ':Telescope command_history<CR>', opt)
-    map('n', '<leader>d', ':Telescope diagnostics<CR>', opt)
+    map('n', '<leader>e', ':Telescope diagnostics<CR>', opt)
     map('n', '<leader>q', ':Telescope quickfix<CR>', opt)
+    map('n', '<leader>h', ':Telescope help_tags<CR>', opt)
     map('n', '""', ':Telescope registers<CR>', opt)
     map('n', 'gd', ':Telescope lsp_definitions<CR>', opt)
     map('n', 'gr', ":lua require('telescope.builtin').lsp_references({fname_width=40})<CR>", opt)
@@ -70,14 +73,24 @@ M.telescope = function()
     end, opt)
 end
 
-M.hop = function()
-    map('n', 's', ':HopChar1<CR>', opt)
-    map('v', 's', ':HopChar1<CR>', opt)
+M.dap = function()
+    map('n', '<leader>db', ":lua require('dap').toggle_breakpoint()<CR>", opt)
+    map('n', '<leader>dn', ":lua require('dap').continue()<CR>", opt)
+    map('n', '<leader>dt', ":lua require('dap').terminate()<CR>", opt)
+    map('n', '<leader>di', ":lua require('dap').step_into()<CR>", opt)
+    map('n', '<leader>ds', ":lua require('dap').step_over()<CR>", opt)
+    map('n', '<leader>do', ":lua require('dap').step_out()<CR>", opt)
+    map('n', '<leader>du', ":lua require('dapui').toggle()<CR>", opt)
 end
 
 M.mini = function()
     map('i', '<Tab>', 'pumvisible() ? "<C-n>" : "<Tab>"', { noremap = true, expr = true })
     map('i', '<S-Tab>', 'pumvisible() ? "<C-p>" : "<S-Tab>"', { noremap = true, expr = true })
+end
+
+M.hop = function()
+    map('n', 's', ':HopChar1<CR>', opt)
+    map('v', 's', ':HopChar1<CR>', opt)
 end
 
 return M
