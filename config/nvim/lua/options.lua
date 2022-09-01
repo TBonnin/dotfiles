@@ -40,5 +40,5 @@ vim.g.auto_save = true
 vim.o.updatetime = 200
 
 vim.cmd [[ au TermOpen term://* setlocal nonumber norelativenumber | setfiletype terminal | startinsert ]]
-vim.cmd [[ au TermClose * bd!|q "]]
+vim.cmd [[ au TermClose * bd! "]]
 vim.cmd [[ au VimEnter * silent! source ~/.vimrc.local.lua | echo "Loaded local config" ]]

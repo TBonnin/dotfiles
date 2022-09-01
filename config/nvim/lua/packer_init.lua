@@ -45,19 +45,15 @@ return packer.startup(function(use)
     -- Add you plugins here:
     use 'wbthomason/packer.nvim' -- packer can manage itself
 
-    use {
-        "rmehri01/onenord.nvim",
-        config = function() require('onenord').setup() end,
-    }
-    -- use({
-    --     "catppuccin/nvim",
-    --     as = "catppuccin",
-    --     config = function()
-    --         require('catppuccin').setup()
-    --         vim.g.catppuccin_flavour = "macchiato" -- latte, frappe, macchiato, mocha
-    --         vim.cmd 'colorscheme catppuccin'
-    --     end,
-    -- })
+    use({
+        'catppuccin/nvim',
+        as = 'catppuccin',
+        config = function()
+            require('catppuccin').setup()
+            vim.g.catppuccin_flavour = 'macchiato' -- latte, frappe, macchiato, mocha
+            vim.cmd 'colorscheme catppuccin'
+        end,
+    })
 
     use {
         'hoob3rt/lualine.nvim',
@@ -65,34 +61,33 @@ return packer.startup(function(use)
         config = function() require('plugins.statusline') end
     }
 
-    use { 'nvim-lua/plenary.nvim' }
+    use 'nvim-lua/plenary.nvim'
+
+    use 'frazrepo/vim-rainbow'
 
     use {
         'nvim-telescope/telescope.nvim',
-        after = { 'plenary.nvim' },
         config = function() require('plugins.telescope') end,
         setup = function() require('mappings').telescope() end,
         requires = {
+            'plenary.nvim',
             { 'nvim-telescope/telescope-fzf-native.nvim', run = 'make' },
-            { 'nvim-telescope/telescope-ui-select.nvim' },
             {
                 'sudormrfbin/cheatsheet.nvim',
                 event = 'VimEnter',
-                after = 'telescope.nvim',
                 config = function() require('plugins.cheatsheet') end
             },
+            'nvim-telescope/telescope-ui-select.nvim',
         }
     }
 
     use {
         'mfussenegger/nvim-dap',
+        'leoluz/nvim-dap-go',
+        'rcarriga/nvim-dap-ui',
+        'theHamsta/nvim-dap-virtual-text',
+        'nvim-telescope/telescope-dap.nvim',
         event = 'BufReadPre',
-        requires = {
-            'leoluz/nvim-dap-go',
-            'rcarriga/nvim-dap-ui',
-            'theHamsta/nvim-dap-virtual-text',
-            'nvim-telescope/telescope-dap.nvim',
-        },
         config = function() require('plugins.dap') end,
         setup = function() require('mappings').dap() end,
     }
@@ -112,8 +107,14 @@ return packer.startup(function(use)
 
     use {
         'neovim/nvim-lspconfig',
-        requires = { 'jose-elias-alvarez/null-ls.nvim' },
-        config = function() require('plugins.lspconfig') end,
+        requires = {
+            'jose-elias-alvarez/null-ls.nvim',
+            'ray-x/lsp_signature.nvim',
+        },
+        config = function()
+            require('plugins.signature')
+            require('plugins.lspconfig')
+        end,
     }
 
     use {
@@ -123,14 +124,8 @@ return packer.startup(function(use)
     }
 
     use {
-        'ray-x/lsp_signature.nvim',
-        after = 'nvim-lspconfig',
-        config = function() require('plugins.signature') end
-    }
-
-    use {
         'lewis6991/gitsigns.nvim',
-        after = 'plenary.nvim',
+        requires = 'plenary.nvim',
         config = function() require('gitsigns').setup() end
     }
 
@@ -148,15 +143,15 @@ return packer.startup(function(use)
     }
 
     use {
-        "nvim-neo-tree/neo-tree.nvim",
-        branch = "v2.x",
-        after = 'plenary.nvim',
+        'nvim-neo-tree/neo-tree.nvim',
+        branch = 'v2.x',
         requires = {
-            "MunifTanjim/nui.nvim"
+            'plenary.nvim',
+            'MunifTanjim/nui.nvim',
         },
         setup = function() require('mappings').neotree() end,
         config = function()
-            require("neo-tree").setup({
+            require('neo-tree').setup({
                 close_if_last_window = true,
             })
         end
@@ -195,6 +190,18 @@ return packer.startup(function(use)
                 ['go'] = true,
             }
         end,
+    }
+
+    use { 'numToStr/FTerm.nvim',
+        config = function()
+            require('FTerm').setup({
+                dimensions = {
+                    height = 0.9,
+                    width = 0.9,
+                },
+            })
+        end,
+        setup = function() require('mappings').fterm() end,
     }
 
     -- Automatically set up your configuration after cloning packer.nvim

@@ -94,17 +94,22 @@ lspconfig.rust_analyzer.setup({
     on_attach = on_attach,
 })
 
-require 'lspconfig'.tsserver.setup({
+lspconfig.tsserver.setup({
     capabilities = capabilities,
     on_attach = on_attach,
 })
 
-require 'lspconfig'.pylsp.setup({
+lspconfig.pylsp.setup({
     capabilities = capabilities,
     on_attach = on_attach,
 })
 
-require 'lspconfig'.gopls.setup({
+lspconfig.gopls.setup({
+    capabilities = capabilities,
+    on_attach = on_attach,
+})
+
+lspconfig.sumneko_lua.setup({
     capabilities = capabilities,
     on_attach = on_attach,
 })
@@ -116,12 +121,6 @@ require("null-ls").setup({
         require("null-ls").builtins.formatting.prettierd,
         require("null-ls").builtins.completion.tags,
     },
-})
-
-
-require 'lspconfig'.sumneko_lua.setup({
-    capabilities = capabilities,
-    on_attach = on_attach,
 })
 
 -- Show line diagnostics automatically in hover window

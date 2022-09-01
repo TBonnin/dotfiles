@@ -37,7 +37,7 @@ M.startup = function()
     map('n', 'Q', '<nop>', opt)
 
     -- tabtab to leave terminal and go back to previous buffer
-    map('t', '<TAB><TAB>', '<C-\\><C-n><C-^>', opt)
+    map('t', '<TAB><TAB>', '<C-\\><C-n>', opt)
 
     -- open links
     map('n', 'gx', ':exec "!open <cWORD>"<cr><cr>', opt)
@@ -91,6 +91,11 @@ end
 M.hop = function()
     map('n', 's', ':HopChar1<CR>', opt)
     map('v', 's', ':HopChar1<CR>', opt)
+end
+
+M.fterm = function()
+    map('n', '<leader>,', ":lua require('FTerm').toggle()<CR>", opt)
+    map('t', '<leader>,', "<C-\\><C-n><CMD>lua require('FTerm').toggle()<CR>", opt)
 end
 
 return M
