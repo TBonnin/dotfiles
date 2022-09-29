@@ -1,11 +1,5 @@
 require('mini.jump').setup()
 
-require('mini.jump2d').setup({
-    mappings = {
-        start_jumping = '',
-    },
-})
-
 require('mini.pairs').setup()
 
 require('mini.completion').setup()

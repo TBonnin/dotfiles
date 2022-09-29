@@ -49,7 +49,17 @@ return packer.startup(function(use)
         'catppuccin/nvim',
         as = 'catppuccin',
         config = function()
-            require('catppuccin').setup()
+            require('catppuccin').setup({
+                compile = {
+                    enabled = false,
+                    path = vim.fn.stdpath("cache") .. "/catppuccin",
+                },
+                dim_inactive = {
+                    enabled = true,
+                    shade = "dark",
+                    percentage = 0.25,
+                },
+            })
             vim.g.catppuccin_flavour = 'macchiato' -- latte, frappe, macchiato, mocha
             vim.cmd 'colorscheme catppuccin'
         end,
@@ -72,8 +82,7 @@ return packer.startup(function(use)
         requires = {
             'plenary.nvim',
             { 'nvim-telescope/telescope-fzf-native.nvim', run = 'make' },
-            {
-                'sudormrfbin/cheatsheet.nvim',
+            { 'sudormrfbin/cheatsheet.nvim',
                 event = 'VimEnter',
                 config = function() require('plugins.cheatsheet') end
             },
@@ -83,10 +92,12 @@ return packer.startup(function(use)
 
     use {
         'mfussenegger/nvim-dap',
-        'leoluz/nvim-dap-go',
-        'rcarriga/nvim-dap-ui',
-        'theHamsta/nvim-dap-virtual-text',
-        'nvim-telescope/telescope-dap.nvim',
+        requires = {
+            'leoluz/nvim-dap-go',
+            'rcarriga/nvim-dap-ui',
+            'theHamsta/nvim-dap-virtual-text',
+            'nvim-telescope/telescope-dap.nvim',
+        },
         event = 'BufReadPre',
         config = function() require('plugins.dap') end,
         setup = function() require('mappings').dap() end,
@@ -129,7 +140,10 @@ return packer.startup(function(use)
         config = function() require('gitsigns').setup() end
     }
 
-    use { 'tpope/vim-fugitive' }
+    use {
+        'tpope/vim-fugitive',
+        requires = 'tpope/vim-rhubarb',
+    }
 
     use {
         'tpope/vim-sleuth',
@@ -161,7 +175,7 @@ return packer.startup(function(use)
         'phaazon/hop.nvim',
         branch = 'v2',
         config = function()
-            require 'hop'.setup {}
+            require 'hop'.setup({})
         end,
         setup = function() require('mappings').hop() end,
     }
@@ -192,16 +206,34 @@ return packer.startup(function(use)
         end,
     }
 
-    use { 'numToStr/FTerm.nvim',
+    use {
+        'numToStr/FTerm.nvim',
         config = function()
             require('FTerm').setup({
+                blend = 5,
                 dimensions = {
-                    height = 0.9,
-                    width = 0.9,
+                    height = 1.0,
+                    width = 1.0,
                 },
             })
         end,
         setup = function() require('mappings').fterm() end,
+    }
+
+
+    use {
+        'sindrets/diffview.nvim',
+        requires = 'nvim-lua/plenary.nvim',
+        config = function()
+            require('FTerm').setup({
+                view = {
+                    merge_tool = {
+                        layout = "diff3_mixed", -- see ':h diffview-config-view.x.layout'.
+                        disable_diagnostics = true,
+                    },
+                },
+            })
+        end,
     }
 
     -- Automatically set up your configuration after cloning packer.nvim

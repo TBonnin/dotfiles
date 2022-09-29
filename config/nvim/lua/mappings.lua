@@ -33,8 +33,9 @@ M.startup = function()
     -- split line at cursor
     map('n', 'K', 'i<CR><esc>', opt)
 
-    -- Kill the damned Ex mode.
+    -- Kill the Ex mode and command history
     map('n', 'Q', '<nop>', opt)
+    map('n', 'q:', '<nop>', opt)
 
     -- tabtab to leave terminal and go back to previous buffer
     map('t', '<TAB><TAB>', '<C-\\><C-n>', opt)
@@ -45,7 +46,6 @@ M.startup = function()
     -- remap C-g/C-t to Tab/S-Tab to iterate through results while searching
     map('c', '<Tab>', 'getcmdtype() =~ "[/?]" ? "<C-g>" : "<C-z>"', { expr = true, silent = false })
     map("c", '<S-Tab>', 'getcmdtype() =~ "[/?]" ? "<C-t>" : "<S-Tab>"', { expr = true, silent = false })
-
 end
 
 M.neotree = function() map('n', '<leader>n', ':Neotree reveal<CR>', opt) end
@@ -63,6 +63,7 @@ M.telescope = function()
     map('n', '<leader>e', ':Telescope diagnostics<CR>', opt)
     map('n', '<leader>q', ':Telescope quickfix<CR>', opt)
     map('n', '<leader>h', ':Telescope help_tags<CR>', opt)
+    map('n', '<leader>s', ':Telescope lsp_document_symbols<CR>', opt)
     map('n', '""', ':Telescope registers<CR>', opt)
     map('n', 'gd', ':Telescope lsp_definitions<CR>', opt)
     map('n', 'gr', ":lua require('telescope.builtin').lsp_references({fname_width=40})<CR>", opt)
