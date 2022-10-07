@@ -26,6 +26,11 @@ M.startup = function()
     map('n', 'k', 'gk', opt)
     map('n', 'j', 'gj', opt)
 
+    map('n', '(', '7k', opt)
+    map('n', ')', '7j', opt)
+    map('v', '(', '7k', opt)
+    map('v', ')', '7j', opt)
+
     -- turn off highlighted results (nohlsearch) when pressing Enter.
     -- just pressing n or N will turn the highlight back again
     map('n', '<CR>', ':noh<CR>', opt)
@@ -46,9 +51,12 @@ M.startup = function()
     -- remap C-g/C-t to Tab/S-Tab to iterate through results while searching
     map('c', '<Tab>', 'getcmdtype() =~ "[/?]" ? "<C-g>" : "<C-z>"', { expr = true, silent = false })
     map("c", '<S-Tab>', 'getcmdtype() =~ "[/?]" ? "<C-t>" : "<S-Tab>"', { expr = true, silent = false })
+
+    -- search on screen only
+    map("n", '\\', "'/\\%(\\%>'.(line('w0')-1).'l\\%<'.(line('w$')+1).'l\\)\\&'", { expr = true, silent = true })
 end
 
-M.neotree = function() map('n', '<leader>n', ':Neotree reveal<CR>', opt) end
+M.neotree = function() map('n', '<leader>1', ':Neotree reveal<CR>', opt) end
 
 M.telescope = function()
 
@@ -90,8 +98,8 @@ M.mini = function()
 end
 
 M.hop = function()
-    map('n', 's', ':HopChar1<CR>', opt)
-    map('v', 's', ':HopChar1<CR>', opt)
+    map('n', 's', ':HopPattern<CR>', opt)
+    map('v', 's', ':HopPattern<CR>', opt)
 end
 
 M.fterm = function()

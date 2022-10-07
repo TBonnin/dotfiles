@@ -45,6 +45,13 @@ return packer.startup(function(use)
     -- Add you plugins here:
     use 'wbthomason/packer.nvim' -- packer can manage itself
 
+    use {
+        'nvim-treesitter/nvim-treesitter',
+        'nvim-treesitter/nvim-treesitter-context',
+        run = function() require('nvim-treesitter.install').update({ with_sync = true }) end,
+        config = function() require('plugins.treesitter') end,
+    }
+
     use({
         'catppuccin/nvim',
         as = 'catppuccin',
@@ -107,13 +114,6 @@ return packer.startup(function(use)
     use {
         'ethanholz/nvim-lastplace',
         config = function() require('plugins.lastplace') end
-    }
-
-    use {
-        'nvim-treesitter/nvim-treesitter',
-        'nvim-treesitter/nvim-treesitter-context',
-        event = 'BufRead',
-        config = function() require('plugins.treesitter') end
     }
 
     use {
@@ -182,13 +182,17 @@ return packer.startup(function(use)
 
     use {
         'declancm/cinnamon.nvim',
-        config = function() require('cinnamon').setup({
+        config = function()
+            require('cinnamon').setup({
+                always_scroll = false,
                 extra_keymaps = true,
                 override_keymaps = true,
                 max_length = 250,
                 scroll_limit = 50,
                 horizontal_scroll = false,
             })
+            vim.keymap.set('n', 'n', "<Cmd>lua Scroll('n')<CR>")
+            vim.keymap.set('n', 'N', "<Cmd>lua Scroll('N')<CR>")
         end
     }
 
@@ -235,6 +239,20 @@ return packer.startup(function(use)
             })
         end,
     }
+
+    use { 'ja-ford/delaytrain.nvim',
+        config = function()
+            require('delaytrain').setup {
+                delay_ms = 1500,
+                grace_period = 3,
+                keys = {
+                    ['nv'] = { 'h', 'j', 'k', 'l', 'w', 'e', 'b', "W", "B" },
+                },
+            }
+        end,
+    }
+
+    use 'skywind3000/asyncrun.vim'
 
     -- Automatically set up your configuration after cloning packer.nvim
     -- Put this at the end after all plugins
