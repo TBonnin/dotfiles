@@ -54,6 +54,9 @@
     uncommit = reset --soft HEAD^
     d = diff HEAD
     rpull = pull --rebase
+    cof = "!checkout_fzf() { git branch | fzf | xargs git checkout; }; checkout_fzf"
+    res = "!restore_fzf() { git diff --name-only --staged | fzf | xargs git restore --staged; }; restore_fzf"
+    a = "!add_fzf() { git diff --name-only | fzf | xargs git add ; }; add_fzf"
 
 [diff]  
     tool = vimdiff

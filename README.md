@@ -1,10 +1,8 @@
-Thomas Bonnin Dot Files
-====================================
+# Thomas Bonnin Dot Files
 
 ## DESCRIPTION
 
 Configuration files (vim, zsh, git, etc...)
-
 
 ## INSTALLATION
 
@@ -15,4 +13,3 @@ git submodule update --init
 chmod +x install.sh
 ./install.sh
 ```
-

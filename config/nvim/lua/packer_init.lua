@@ -72,6 +72,8 @@ return packer.startup(function(use)
         end,
     })
 
+    use 'stevearc/dressing.nvim'
+
     use {
         'hoob3rt/lualine.nvim',
         requires = { 'kyazdani42/nvim-web-devicons' },
@@ -140,10 +142,31 @@ return packer.startup(function(use)
         config = function() require('gitsigns').setup() end
     }
 
+    use 'tpope/vim-fugitive'
+
     use {
-        'tpope/vim-fugitive',
-        requires = 'tpope/vim-rhubarb',
+        'ruifm/gitlinker.nvim',
+        requires = 'nvim-lua/plenary.nvim',
+        config = function()
+            require('gitlinker').setup({ mappings = nil })
+            vim.api.nvim_create_user_command(
+                'Gb',
+                function()
+                    require('gitlinker').get_repo_url({ action_callback = require('gitlinker.actions').open_in_browser })
+                end,
+                {}
+            )
+            vim.api.nvim_create_user_command(
+                'Gbl',
+                function()
+                    require('gitlinker').get_buf_range_url('n',
+                        { action_callback = require('gitlinker.actions').open_in_browser })
+                end,
+                {}
+            )
+        end,
     }
+
 
     use {
         'tpope/vim-sleuth',
@@ -164,20 +187,8 @@ return packer.startup(function(use)
             'MunifTanjim/nui.nvim',
         },
         setup = function() require('mappings').neotree() end,
-        config = function()
-            require('neo-tree').setup({
-                close_if_last_window = true,
-            })
+        config = function() require('neo-tree').setup({})
         end
-    }
-
-    use {
-        'phaazon/hop.nvim',
-        branch = 'v2',
-        config = function()
-            require 'hop'.setup({})
-        end,
-        setup = function() require('mappings').hop() end,
     }
 
     use {
@@ -206,6 +217,7 @@ return packer.startup(function(use)
                 ['lua'] = true,
                 ['html'] = true,
                 ['go'] = true,
+                ['python'] = true,
             }
         end,
     }
@@ -240,19 +252,25 @@ return packer.startup(function(use)
         end,
     }
 
-    use { 'ja-ford/delaytrain.nvim',
-        config = function()
-            require('delaytrain').setup {
-                delay_ms = 1500,
-                grace_period = 3,
-                keys = {
-                    ['nv'] = { 'h', 'j', 'k', 'l', 'w', 'e', 'b', "W", "B" },
-                },
-            }
-        end,
+    use {
+        'https://gitlab.com/madyanov/svart.nvim',
+        setup = function() require('mappings').svart() end,
     }
 
     use 'skywind3000/asyncrun.vim'
+
+    use {
+        'gabrielpoca/replacer.nvim',
+        config = function()
+            vim.api.nvim_create_user_command(
+                'Replacer',
+                function()
+                    require("replacer").run()
+                end,
+                {}
+            )
+        end,
+    }
 
     -- Automatically set up your configuration after cloning packer.nvim
     -- Put this at the end after all plugins

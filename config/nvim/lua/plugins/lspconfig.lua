@@ -26,15 +26,15 @@ local function on_attach(client, bufnr)
     -- buf_set_keymap('n', '<space>wa', '<cmd>lua vim.lsp.buf.add_workspace_folder()<CR>', opts)
     -- buf_set_keymap('n', '<space>wr', '<cmd>lua vim.lsp.buf.remove_workspace_folder()<CR>', opts)
     -- buf_set_keymap('n', '<space>wl', '<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>', opts)
-    -- buf_set_keymap('n', '<space>e', '<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>', opts)
+    buf_set_keymap('n', '<space>e', '<cmd>lua vim.diagnostic.open_float({border = "single"})<CR>', opts)
     -- buf_set_keymap('n', '<space>q', '<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>', opts)
 
     if client.name == "tsserver" then
-        client.resolved_capabilities.document_formatting = false
-        client.resolved_capabilities.document_range_formatting = false
+        client.server_capabilities.documentFormattingProvider = false
+        client.server_capabilities.documentRangeFormattingProvider = false
     end
 
-    if client.resolved_capabilities.document_formatting then
+    if client.server_capabilities.documentFormattingProvider then
         vim.cmd [[augroup Format]]
         vim.cmd [[autocmd! * <buffer>]]
         vim.cmd [[autocmd BufWritePre <buffer> silent! lua vim.lsp.buf.formatting_seq_sync(null, 2000)]]
@@ -54,26 +54,14 @@ for type, icon in pairs(signs) do
     vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = hl })
 end
 
-vim.lsp.handlers['textDocument/publishDiagnostics'] =
-vim.lsp.with(vim.lsp.diagnostic.on_publish_diagnostics, {
-    -- virtual_text = { prefix = '', spacing = 0 },
+vim.diagnostic.config({
     virtual_text = false,
     signs = true,
-    underline = true,
-    -- set this to true if you want diagnostics to show in insert mode
-    update_in_insert = false,
+    update_in_insert = false, -- diagnostics to show in insert mode
+    float = {
+        border = 'single',
+    },
 })
-
-vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(
-    vim.lsp.handlers.hover,
-    { border = "single", }
-)
-
-vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(
-    vim.lsp.handlers.signature_help,
-    { border = "single" }
-)
-
 
 -- suppress error messages from lang servers
 vim.notify = function(msg, log_level, _opts)
@@ -143,5 +131,5 @@ require("null-ls").setup({
     },
 })
 
--- Show line diagnostics automatically in hover window
-vim.cmd [[autocmd CursorHold,CursorHoldI * lua vim.diagnostic.open_float({scope="line", border="single", focusable=false})]]
+vim.api.nvim_create_autocmd("CursorMoved",
+    { pattern = "*", command = 'lua vim.diagnostic.open_float({scope="line", border="single", focusable=false})', })

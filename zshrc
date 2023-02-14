@@ -37,6 +37,8 @@ plugins=(
   git 
   vi-mode
   fzf
+  zsh-yarn-completions
+  gatsby
 )
 
 source $ZSH/oh-my-zsh.sh
@@ -63,3 +65,7 @@ alias lla='ls -la'
 alias cat='bat'
 
 source $HOME/.zshrc.local
+
+# Hishtory Config:
+export PATH="$PATH:/Users/thomas/.hishtory"
+source /Users/thomas/.hishtory/config.zsh

@@ -18,7 +18,6 @@ vim.o.splitright = true
 vim.o.splitbelow = true
 
 vim.o.completeopt = 'menuone,noinsert,noselect'
-vim.opt_global.shortmess:remove("F"):append("c")
 
 vim.o.tabstop = 2
 vim.o.softtabstop = 2
@@ -40,6 +39,10 @@ vim.g.auto_save = true
 
 vim.o.updatetime = 200
 
-vim.cmd [[ au TermOpen term://* setlocal nonumber norelativenumber | setfiletype terminal | startinsert ]]
-vim.cmd [[ au TermClose * bd! "]]
-vim.cmd [[ au BufWritePost * :AsyncRun ./z/rsync ]]
+vim.api.nvim_create_autocmd("TermOpen", {
+  pattern = "term://*",
+  command = "setlocal nonumber norelativenumber | setfiletype terminal | startinsert",
+})
+vim.api.nvim_create_autocmd("TermClose", { pattern = "*", command = "bd!", })
+
+vim.api.nvim_create_autocmd("BufWritePost", { pattern = "*", command = "AsyncRun ./z/rsync", })

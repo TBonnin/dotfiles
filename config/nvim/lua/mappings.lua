@@ -26,11 +26,6 @@ M.startup = function()
     map('n', 'k', 'gk', opt)
     map('n', 'j', 'gj', opt)
 
-    map('n', '(', '7k', opt)
-    map('n', ')', '7j', opt)
-    map('v', '(', '7k', opt)
-    map('v', ')', '7j', opt)
-
     -- turn off highlighted results (nohlsearch) when pressing Enter.
     -- just pressing n or N will turn the highlight back again
     map('n', '<CR>', ':noh<CR>', opt)
@@ -97,9 +92,9 @@ M.mini = function()
     map('i', '<S-Tab>', 'pumvisible() ? "<C-p>" : "<S-Tab>"', { noremap = true, expr = true })
 end
 
-M.hop = function()
-    map('n', 's', ':HopPattern<CR>', opt)
-    map('v', 's', ':HopPattern<CR>', opt)
+M.svart = function()
+    map('n', 's', ':noh<CR>:Svart<CR>', opt)
+    map('n', 'gs', ':noh<CR>:SvartRepeat<CR>', opt)
 end
 
 M.fterm = function()
