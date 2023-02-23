@@ -53,10 +53,13 @@
     l = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative
     uncommit = reset --soft HEAD^
     d = diff HEAD
-    rpull = pull --rebase
+    rp = pull --rebase
     cof = "!checkout_fzf() { git branch | fzf | xargs git checkout; }; checkout_fzf"
-    res = "!restore_fzf() { git diff --name-only --staged | fzf | xargs git restore --staged; }; restore_fzf"
-    a = "!add_fzf() { git diff --name-only | fzf | xargs git add ; }; add_fzf"
+    res = "!restore_fzf() { git diff --name-only --staged | fzf | xargs git restore --staged; git status; }; restore_fzf"
+    a = "!add_fzf() { git status --short | awk '{print $2}' | fzf | xargs git add; git status; }; add_fzf"
+    com = "!checkout_main() { git co main 2>/dev/null || git co master; }; checkout_main"
+    ap = add -p
+    br = "!browse() { git config remote.origin.url | xargs open; }; browse"
 
 [diff]  
     tool = vimdiff
