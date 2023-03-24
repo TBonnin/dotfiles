@@ -37,7 +37,7 @@ plugins=(
   git 
   vi-mode
   fzf
-  zsh-yarn-completions
+  yarn-autocompletions
   gatsby
 )
 
@@ -57,6 +57,7 @@ export VI_MODE_SET_CURSOR=true
 test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 bindkey '^o' fzf-history-widget
+bindkey '^g' fzf-cd-widget
 FZF_DEFAULT_OPTS='--height 50% --layout=reverse --border'
 
 source $ZSH/custom/plugins/fzf-tab/fzf-tab.zsh

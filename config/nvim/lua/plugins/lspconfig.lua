@@ -26,7 +26,7 @@ local function on_attach(client, bufnr)
     -- buf_set_keymap('n', '<space>wa', '<cmd>lua vim.lsp.buf.add_workspace_folder()<CR>', opts)
     -- buf_set_keymap('n', '<space>wr', '<cmd>lua vim.lsp.buf.remove_workspace_folder()<CR>', opts)
     -- buf_set_keymap('n', '<space>wl', '<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>', opts)
-    buf_set_keymap('n', '<space>e', '<cmd>lua vim.diagnostic.open_float({border = "single"})<CR>', opts)
+    -- buf_set_keymap('n', '<space>e', '<cmd>lua vim.diagnostic.open_float({border = "single"})<CR>', opts)
     -- buf_set_keymap('n', '<space>q', '<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>', opts)
 
     if client.name == "tsserver" then
@@ -54,14 +54,27 @@ for type, icon in pairs(signs) do
     vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = hl })
 end
 
+-- set border for floating windows
+
+local border = 'single'
 vim.diagnostic.config({
     virtual_text = false,
     signs = true,
     update_in_insert = false, -- diagnostics to show in insert mode
     float = {
-        border = 'single',
+        border = border,
     },
 })
+vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(
+  vim.lsp.handlers.hover, {
+    border = border
+  }
+)
+vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(
+  vim.lsp.handlers.signature_help, {
+    border = border
+  }
+)
 
 -- suppress error messages from lang servers
 vim.notify = function(msg, log_level, _opts)
@@ -97,7 +110,7 @@ lspconfig.gopls.setup({
     on_attach = on_attach,
 })
 
-lspconfig.sumneko_lua.setup({
+lspconfig.lua_ls.setup({
     capabilities = capabilities,
     on_attach = on_attach,
     settings = {
@@ -126,7 +139,7 @@ require("null-ls").setup({
     on_attach = on_attach,
     sources = {
         require("null-ls").builtins.formatting.stylua,
-        require("null-ls").builtins.formatting.prettierd,
+        require("null-ls").builtins.formatting.prettier,
         require("null-ls").builtins.completion.tags,
     },
 })

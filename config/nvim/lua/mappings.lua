@@ -68,6 +68,7 @@ M.telescope = function()
     map('n', '<leader>h', ':Telescope help_tags<CR>', opt)
     map('n', '<leader>s', ':Telescope lsp_document_symbols<CR>', opt)
     map('n', '""', ':Telescope registers<CR>', opt)
+    map('n', 'mm', ':Telescope marks<CR>', opt)
     map('n', 'gd', ':Telescope lsp_definitions<CR>', opt)
     map('n', 'gr', ":lua require('telescope.builtin').lsp_references({fname_width=40})<CR>", opt)
 
