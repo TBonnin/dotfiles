@@ -1,60 +1,20 @@
------------------------------------------------------------
--- Plugin manager configuration file
------------------------------------------------------------
-
--- Plugin manager: packer.nvim
--- url: https://github.com/wbthomason/packer.nvim
--- For information about installed plugins see the README:
--- neovim-lua/README.md
--- https://github.com/brainfucksec/neovim-lua#readme
-
-
--- Automatically install packer
-local fn = vim.fn
-local install_path = fn.stdpath('data') .. '/site/pack/packer/start/packer.nvim'
-
-if fn.empty(fn.glob(install_path)) > 0 then
-    packer_bootstrap = fn.system({
-        'git',
-        'clone',
-        '--depth',
-        '1',
-        'https://github.com/wbthomason/packer.nvim',
-        install_path
-    })
-    vim.o.runtimepath = vim.fn.stdpath('data') .. '/site/pack/*/start/*,' .. vim.o.runtimepath
+local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
+if not vim.loop.fs_stat(lazypath) then
+  vim.fn.system({
+    "git",
+    "clone",
+    "--filter=blob:none",
+    "https://github.com/folke/lazy.nvim.git",
+    "--branch=stable",
+    lazypath,
+  })
 end
+vim.opt.rtp:prepend(lazypath)
 
--- Autocommand that reloads neovim whenever you save the packer_init.lua file
-vim.cmd [[
-    augroup packer_user_config
-        autocmd!
-        autocmd BufWritePost packer_init.lua source <afile> | PackerSync
-    augroup end
-]]
-
--- Use a protected call so we don't error out on first use
-local status_ok, packer = pcall(require, 'packer')
-if not status_ok then
-    return
-end
-
--- Install plugins
-return packer.startup(function(use)
-
-    -- Add you plugins here:
-    use 'wbthomason/packer.nvim' -- packer can manage itself
-
-    use {
-        'nvim-treesitter/nvim-treesitter',
-        'nvim-treesitter/nvim-treesitter-context',
-        run = function() require('nvim-treesitter.install').update({ with_sync = true }) end,
-        config = function() require('plugins.treesitter') end,
-    }
-
-    use({
+return require('lazy').setup({
+    'nvim-lua/plenary.nvim',
+    {
         'catppuccin/nvim',
-        as = 'catppuccin',
         config = function()
             require('catppuccin').setup({
                 compile = {
@@ -70,38 +30,35 @@ return packer.startup(function(use)
             vim.g.catppuccin_flavour = 'macchiato' -- latte, frappe, macchiato, mocha
             vim.cmd 'colorscheme catppuccin'
         end,
-    })
-
-    use 'stevearc/dressing.nvim'
-
-    use {
-        'hoob3rt/lualine.nvim',
-        requires = { 'kyazdani42/nvim-web-devicons' },
-        config = function() require('plugins.statusline') end
-    }
-
-    use 'nvim-lua/plenary.nvim'
-
-    use 'frazrepo/vim-rainbow'
-
-    use {
+    },
+    {
         'nvim-telescope/telescope.nvim',
         config = function() require('plugins.telescope') end,
-        setup = function() require('mappings').telescope() end,
-        requires = {
-            'plenary.nvim',
-            { 'nvim-telescope/telescope-fzf-native.nvim', run = 'make' },
+        init = function() require('mappings').telescope() end,
+        dependencies = {
+            { 'nvim-telescope/telescope-fzf-native.nvim', build = 'make' },
             { 'sudormrfbin/cheatsheet.nvim',
                 event = 'VimEnter',
                 config = function() require('plugins.cheatsheet') end
             },
             'nvim-telescope/telescope-ui-select.nvim',
         }
-    }
-
-    use {
+    },
+    {
+        'nvim-treesitter/nvim-treesitter',
+        'nvim-treesitter/nvim-treesitter-context',
+        build = function() require('nvim-treesitter.install').update({ with_sync = true }) end,
+        config = function() require('plugins.treesitter') end,
+    },
+    {
+        'hoob3rt/lualine.nvim',
+        dependencies = { 'kyazdani42/nvim-web-devicons' },
+        config = function() require('plugins.statusline') end
+    },
+    'frazrepo/vim-rainbow',
+    {
         'mfussenegger/nvim-dap',
-        requires = {
+        dependencies = {
             'leoluz/nvim-dap-go',
             'rcarriga/nvim-dap-ui',
             'theHamsta/nvim-dap-virtual-text',
@@ -109,18 +66,15 @@ return packer.startup(function(use)
         },
         event = 'BufReadPre',
         config = function() require('plugins.dap') end,
-        setup = function() require('mappings').dap() end,
-    }
-
-
-    use {
+        init = function() require('mappings').dap() end,
+    },
+    {
         'ethanholz/nvim-lastplace',
         config = function() require('plugins.lastplace') end
-    }
-
-    use {
+    },
+    {
         'neovim/nvim-lspconfig',
-        requires = {
+        dependencies = {
             'jose-elias-alvarez/null-ls.nvim',
             'ray-x/lsp_signature.nvim',
         },
@@ -128,25 +82,18 @@ return packer.startup(function(use)
             require('plugins.signature')
             require('plugins.lspconfig')
         end,
-    }
-
-    use {
+    },
+    {
         'onsails/lspkind-nvim',
         event = 'BufEnter',
         config = function() require('lspkind').init() end
-    }
-
-    use {
+    },
+    {
         'lewis6991/gitsigns.nvim',
-        requires = 'plenary.nvim',
         config = function() require('gitsigns').setup() end
-    }
-
-    use 'tpope/vim-fugitive'
-
-    use {
+    },
+    {
         'ruifm/gitlinker.nvim',
-        requires = 'nvim-lua/plenary.nvim',
         config = function()
             require('gitlinker').setup({ mappings = nil })
             vim.api.nvim_create_user_command(
@@ -165,33 +112,27 @@ return packer.startup(function(use)
                 {}
             )
         end,
-    }
-
-
-    use {
+    },
+    {
         'tpope/vim-sleuth',
         event = 'BufEnter',
-    }
-
-    use {
+    },
+    {
         'echasnovski/mini.nvim',
-        setup = function() require('mappings').mini() end,
+        init = function() require('mappings').mini() end,
         config = function() require('plugins.mini') end,
-    }
-
-    use {
+    },
+    {
         'nvim-neo-tree/neo-tree.nvim',
         branch = 'v2.x',
-        requires = {
-            'plenary.nvim',
+        dependencies = {
             'MunifTanjim/nui.nvim',
         },
-        setup = function() require('mappings').neotree() end,
+        init = function() require('mappings').neotree() end,
         config = function() require('neo-tree').setup({})
         end
-    }
-
-    use {
+    },
+    {
         'declancm/cinnamon.nvim',
         config = function()
             require('cinnamon').setup({
@@ -205,9 +146,8 @@ return packer.startup(function(use)
             vim.keymap.set('n', 'n', "<Cmd>lua Scroll('n')<CR>")
             vim.keymap.set('n', 'N', "<Cmd>lua Scroll('N')<CR>")
         end
-    }
-
-    use {
+    },
+    {
         'github/copilot.vim',
         config = function()
             vim.g.copilot_filetypes = {
@@ -220,9 +160,8 @@ return packer.startup(function(use)
                 ['python'] = true,
             }
         end,
-    }
-
-    use {
+    },
+    {
         'numToStr/FTerm.nvim',
         config = function()
             require('FTerm').setup({
@@ -233,13 +172,10 @@ return packer.startup(function(use)
                 },
             })
         end,
-        setup = function() require('mappings').fterm() end,
-    }
-
-
-    use {
+        init = function() require('mappings').fterm() end,
+    },
+    {
         'sindrets/diffview.nvim',
-        requires = 'nvim-lua/plenary.nvim',
         config = function()
             require('FTerm').setup({
                 view = {
@@ -250,16 +186,13 @@ return packer.startup(function(use)
                 },
             })
         end,
-    }
-
-    use {
+    },
+    {
         'https://gitlab.com/madyanov/svart.nvim',
-        setup = function() require('mappings').svart() end,
-    }
-
-    use 'skywind3000/asyncrun.vim'
-
-    use {
+        init = function() require('mappings').svart() end,
+    },
+    'skywind3000/asyncrun.vim',
+    {
         'gabrielpoca/replacer.nvim',
         config = function()
             vim.api.nvim_create_user_command(
@@ -270,11 +203,9 @@ return packer.startup(function(use)
                 {}
             )
         end,
+    },
+}, {
+    ui = {
+        border = "rounded", -- accepts same border values as |nvim_open_win()|.
     }
-
-    -- Automatically set up your configuration after cloning packer.nvim
-    -- Put this at the end after all plugins
-    if packer_bootstrap then
-        require('packer').sync()
-    end
-end)
+})
