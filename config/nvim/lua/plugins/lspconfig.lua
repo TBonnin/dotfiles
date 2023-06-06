@@ -89,6 +89,7 @@ end
 --
 
 local capabilities = vim.lsp.protocol.make_client_capabilities()
+capabilities.offsetEncoding = { "utf-16" } -- https://github.com/jose-elias-alvarez/null-ls.nvim/issues/428
 
 lspconfig.rust_analyzer.setup({
     capabilities = capabilities,
@@ -100,12 +101,17 @@ lspconfig.tsserver.setup({
     on_attach = on_attach,
 })
 
-lspconfig.pylsp.setup({
+lspconfig.pyright.setup({
     capabilities = capabilities,
     on_attach = on_attach,
 })
 
 lspconfig.gopls.setup({
+    capabilities = capabilities,
+    on_attach = on_attach,
+})
+
+lspconfig.clangd.setup({
     capabilities = capabilities,
     on_attach = on_attach,
 })

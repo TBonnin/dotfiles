@@ -35,7 +35,7 @@ brew install bat
 brew install ripgrep
 brew install gpg
 brew install starship
-brew install mos
+# brew install mos
 brew install jq
 brew install --cask iterm2
 brew install --cask firefox
@@ -49,18 +49,17 @@ brew install node
 npm install -g typescript-language-server typescript
 
 brew install --cask docker
-brew install kubectl
-brew install k9s
-brew install --cask google-chrome
-brew install --cask google-cloud-sdk
-brew install --cask slack
-brew install --cask zoom
-brew install --cask postico
-brew install libpq
-brew link --force libpq
+# brew install kubectl
+# brew install k9s
+# brew install --cask google-chrome
+# brew install --cask google-cloud-sdk
+# brew install --cask slack
+# brew install --cask zoom
+# brew install --cask postico
+# brew install libpq
+# brew link --force libpq
 brew install direnv
 brew install entr
-# superpowered
 
 brew install fzf && $(brew --prefix)/opt/fzf/install --all
 git clone https://github.com/Aloxaf/fzf-tab ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/fzf-tab
@@ -69,4 +68,4 @@ curl https://hishtory.dev/install.py | python3 -
 
 curl https://github.com/ryanoasis/nerd-fonts/raw/master/patched-fonts/JetBrainsMono/Ligatures/Medium/complete/JetBrains%20Mono%20Nerd%20Font%20Complete%20Mono%20Medium.ttf -L > ~/Desktop/f.ttf && open ~/Desktop/f.ttf
 
-brew install neovim && nvim -c ":lua require 'plugins' require('packer').sync()"
+brew install neovim

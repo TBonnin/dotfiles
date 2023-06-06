@@ -15,6 +15,7 @@ return require('lazy').setup({
     'nvim-lua/plenary.nvim',
     {
         'catppuccin/nvim',
+        name = 'catppuccin',
         config = function()
             require('catppuccin').setup({
                 compile = {
@@ -158,6 +159,8 @@ return require('lazy').setup({
                 ['html'] = true,
                 ['go'] = true,
                 ['python'] = true,
+                ['rust'] = true,
+                ['cpp'] = true,
             }
         end,
     },

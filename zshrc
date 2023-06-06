@@ -37,8 +37,6 @@ plugins=(
   git 
   vi-mode
   fzf
-  yarn-autocompletions
-  gatsby
 )
 
 source $ZSH/oh-my-zsh.sh
