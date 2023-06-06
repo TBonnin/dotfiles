@@ -49,6 +49,7 @@ unsetopt correct_all
 export GPG_TTY=$(tty)
 
 eval "$(starship init zsh)"
+eval "$(direnv hook zsh)"
 
 set -o vi
 bindkey -M viins 'jj' vi-cmd-mode

@@ -58,6 +58,8 @@ brew install --cask zoom
 brew install --cask postico
 brew install libpq
 brew link --force libpq
+brew install direnv
+brew install entr
 # superpowered
 
 brew install fzf && $(brew --prefix)/opt/fzf/install --all

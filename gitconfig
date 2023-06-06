@@ -55,7 +55,8 @@
     d = diff HEAD
     rp = pull --rebase
     cof = "!checkout_fzf() { git branch | fzf | xargs git checkout; }; checkout_fzf"
-    res = "!restore_fzf() { git diff --name-only --staged | fzf | xargs git restore --staged; git status; }; restore_fzf"
+    res = "!restore_fzf() { git diff HEAD --name-only | fzf | xargs git restore; git status; }; restore_fzf"
+    uns = "!unstage_fzf() { git diff --staged --name-only | fzf | xargs git restore --staged; git status; }; unstage_fzf"
     a = "!add_fzf() { git status --short | awk '{print $2}' | fzf | xargs git add; git status; }; add_fzf"
     com = "!checkout_main() { git co main 2>/dev/null || git co master; }; checkout_main"
     ap = add -p

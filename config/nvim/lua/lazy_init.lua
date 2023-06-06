@@ -46,10 +46,10 @@ return require('lazy').setup({
     },
     {
         'nvim-treesitter/nvim-treesitter',
-        'nvim-treesitter/nvim-treesitter-context',
         build = function() require('nvim-treesitter.install').update({ with_sync = true }) end,
         config = function() require('plugins.treesitter') end,
     },
+    'nvim-treesitter/nvim-treesitter-context',
     {
         'hoob3rt/lualine.nvim',
         dependencies = { 'kyazdani42/nvim-web-devicons' },
@@ -202,6 +202,38 @@ return require('lazy').setup({
                 end,
                 {}
             )
+        end,
+    },
+    {
+        'windwp/nvim-autopairs',
+        config = function() require("nvim-autopairs").setup() end,
+    },
+    {
+        "Bryley/neoai.nvim",
+        dependencies = {
+            "MunifTanjim/nui.nvim",
+        },
+        cmd = {
+            "NeoAI",
+            "NeoAIOpen",
+            "NeoAIClose",
+            "NeoAIToggle",
+            "NeoAIContext",
+            "NeoAIContextOpen",
+            "NeoAIContextClose",
+            "NeoAIInject",
+            "NeoAIInjectCode",
+            "NeoAIInjectContext",
+            "NeoAIInjectContextCode",
+        },
+        keys = {
+            { "<leader>as", desc = "summarize text" },
+            { "<leader>ag", desc = "generate git message" },
+        },
+        config = function()
+            require("neoai").setup({
+                model = "gpt-4",
+            })
         end,
     },
 }, {

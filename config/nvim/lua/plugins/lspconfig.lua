@@ -37,7 +37,7 @@ local function on_attach(client, bufnr)
     if client.server_capabilities.documentFormattingProvider then
         vim.cmd [[augroup Format]]
         vim.cmd [[autocmd! * <buffer>]]
-        vim.cmd [[autocmd BufWritePre <buffer> silent! lua vim.lsp.buf.formatting_seq_sync(null, 2000)]]
+        vim.cmd [[autocmd BufWritePre <buffer> silent! lua vim.lsp.buf.format({async = false})]]
         vim.cmd [[augroup END]]
     end
 end

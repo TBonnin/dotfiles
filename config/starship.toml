@@ -12,6 +12,9 @@ vicmd_symbol = "[❮](bold purple)"
 [nodejs]
 disabled = true
 
+[golang]
+disabled = true
+
 [package]
 disabled = true
 
@@ -19,7 +22,7 @@ disabled = true
 disabled = true
 
 [kubernetes]
-disabled = true
+disabled = false
 format='[$symbol$context( \($namespace\))]($style) '
 
 [git_branch]

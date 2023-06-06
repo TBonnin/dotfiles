@@ -6,7 +6,7 @@ telescope.setup({
                 ["<C-j>"] = require("telescope.actions").move_selection_next,
                 ["<C-k>"] = require("telescope.actions").move_selection_previous,
                 ["<esc>"] = require("telescope.actions").close,
-                ["kj"] = require("telescope.actions").close,
+                ["<C-f>"] = require("telescope.actions").to_fuzzy_refine,
             }
         },
         sorting_strategy = "ascending",
