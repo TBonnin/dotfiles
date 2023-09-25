@@ -42,6 +42,8 @@ brew install --cask firefox
 brew install --cask alfred
 brew install --cask rectangle
 brew install --cask 1password
+brew install --cask mullvadvpn
+brew install --cask resilio-sync
 
 brew install go
 brew install gopls
