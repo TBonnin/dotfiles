@@ -60,6 +60,7 @@ brew install --cask docker
 # brew link --force libpq
 brew install direnv
 brew install entr
+brew install stylua
 
 brew install fzf && $(brew --prefix)/opt/fzf/install --all
 git clone https://github.com/Aloxaf/fzf-tab ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/fzf-tab

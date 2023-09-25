@@ -31,11 +31,6 @@ local function on_attach(client, bufnr)
 	-- buf_set_keymap('n', '<space>e', '<cmd>lua vim.diagnostic.open_float({border = "single"})<CR>', opts)
 	-- buf_set_keymap('n', '<space>q', '<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>', opts)
 
-	if client.name == "tsserver" then
-		client.server_capabilities.documentFormattingProvider = false
-		client.server_capabilities.documentRangeFormattingProvider = false
-	end
-
 	if client.server_capabilities.documentFormattingProvider then
 		vim.cmd([[augroup Format]])
 		vim.cmd([[autocmd! * <buffer>]])
@@ -89,7 +84,6 @@ end
 --
 
 local capabilities = vim.lsp.protocol.make_client_capabilities()
-capabilities.offsetEncoding = { "utf-16" } -- https://github.com/jose-elias-alvarez/null-ls.nvim/issues/428
 
 lspconfig.rust_analyzer.setup({
 	capabilities = capabilities,
@@ -138,21 +132,6 @@ lspconfig.lua_ls.setup({
 				enable = false,
 			},
 		},
-	},
-})
-
-lspconfig.solargraph.setup({
-	capabilities = capabilities,
-	on_attach = on_attach,
-	-- cmd = { "bundle", "exec", "solargraph", "stdio" },
-})
-
-require("null-ls").setup({
-	on_attach = on_attach,
-	sources = {
-		require("null-ls").builtins.formatting.stylua,
-		require("null-ls").builtins.formatting.prettier,
-		require("null-ls").builtins.completion.tags,
 	},
 })
 

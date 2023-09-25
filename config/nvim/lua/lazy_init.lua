@@ -69,7 +69,6 @@ return require("lazy").setup({
 			require("plugins.statusline")
 		end,
 	},
-	"frazrepo/vim-rainbow",
 	{
 		"mfussenegger/nvim-dap",
 		dependencies = {
@@ -95,7 +94,6 @@ return require("lazy").setup({
 	{
 		"neovim/nvim-lspconfig",
 		dependencies = {
-			"jose-elias-alvarez/null-ls.nvim",
 			"ray-x/lsp_signature.nvim",
 		},
 		config = function()
@@ -185,7 +183,6 @@ return require("lazy").setup({
 				["python"] = true,
 				["rust"] = true,
 				["cpp"] = true,
-				["ruby"] = true,
 				["sh"] = true,
 			}
 		end,
@@ -229,30 +226,23 @@ return require("lazy").setup({
 	},
 	"skywind3000/asyncrun.vim",
 	{
-		"gabrielpoca/replacer.nvim",
+		"nvimdev/guard.nvim",
+    dependencies = {
+        "nvimdev/guard-collection",
+    },
 		config = function()
-			vim.api.nvim_create_user_command("Replacer", function()
-				require("replacer").run()
-			end, {})
+			local ft = require("guard.filetype")
+
+			ft("lua"):fmt("stylua")
+			ft("go"):fmt("lsp")
+
+			require("guard").setup({ fmt_on_save = true })
 		end,
 	},
 	{
 		"windwp/nvim-autopairs",
 		config = function()
 			require("nvim-autopairs").setup()
-		end,
-	},
-	{
-		"sindrets/diffview.nvim",
-		config = function()
-			require("FTerm").setup({
-				view = {
-					merge_tool = {
-						layout = "diff3_mixed", -- see ':h diffview-config-view.x.layout'.
-						disable_diagnostics = true,
-					},
-				},
-			})
 		end,
 	},
 }, {
