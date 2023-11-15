@@ -227,9 +227,9 @@ return require("lazy").setup({
 	"skywind3000/asyncrun.vim",
 	{
 		"nvimdev/guard.nvim",
-    dependencies = {
-        "nvimdev/guard-collection",
-    },
+		dependencies = {
+			"nvimdev/guard-collection",
+		},
 		config = function()
 			local ft = require("guard.filetype")
 

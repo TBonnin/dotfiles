@@ -35,10 +35,12 @@ brew install bat
 brew install ripgrep
 brew install gpg
 brew install starship
-# brew install mos
+brew install mos
+brew install --cask karabiner-elements
 brew install jq
 brew install --cask iterm2
 brew install --cask firefox
+brew install --cask google-chrome
 brew install --cask alfred
 brew install --cask rectangle
 brew install --cask 1password
