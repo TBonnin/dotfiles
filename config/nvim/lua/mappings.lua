@@ -41,9 +41,6 @@ M.startup = function()
 	map("n", "Q", "<nop>", opt)
 	map("n", "q:", "<nop>", opt)
 
-	-- tabtab to leave terminal and go back to previous buffer
-	map("t", "<TAB><TAB>", "<C-\\><C-n>", opt)
-
 	-- open links
 	map("n", "gx", ':exec "!open <cWORD>"<cr><cr>', opt)
 
@@ -104,11 +101,6 @@ end
 M.mini = function()
 	map("i", "<Tab>", 'pumvisible() ? "<C-n>" : "<Tab>"', { noremap = true, expr = true })
 	map("i", "<S-Tab>", 'pumvisible() ? "<C-p>" : "<S-Tab>"', { noremap = true, expr = true })
-end
-
-M.svart = function()
-	map("n", "s", ":noh<CR>:Svart<CR>", opt)
-	map("n", "gs", ":noh<CR>:SvartRepeat<CR>", opt)
 end
 
 M.fterm = function()

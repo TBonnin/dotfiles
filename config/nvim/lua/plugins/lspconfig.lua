@@ -30,22 +30,10 @@ local function on_attach(client, bufnr)
 	-- buf_set_keymap('n', '<space>wl', '<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>', opts)
 	-- buf_set_keymap('n', '<space>e', '<cmd>lua vim.diagnostic.open_float({border = "single"})<CR>', opts)
 	-- buf_set_keymap('n', '<space>q', '<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>', opts)
-
-	if client.server_capabilities.documentFormattingProvider then
-		vim.cmd([[augroup Format]])
-		vim.cmd([[autocmd! * <buffer>]])
-		vim.cmd([[autocmd BufWritePre <buffer> silent! lua vim.lsp.buf.format({async = false})]])
-		vim.cmd([[augroup END]])
-	end
 end
 
 -- replace the default lsp diagnostic symbols
-local signs = {
-	Error = " ",
-	Warn = " ",
-	Info = " ",
-	Hint = " ",
-}
+local signs = { Error = " ", Warn = " ", Hint = " ", Info = " " }
 for type, icon in pairs(signs) do
 	local hl = "DiagnosticSign" .. type
 	vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = hl })

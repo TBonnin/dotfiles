@@ -1,7 +1,7 @@
 vim.o.errorbells = false
 
 vim.o.termguicolors = true
-vim.o.syntax = 'on'
+vim.o.syntax = "on"
 
 vim.o.backup = false
 vim.o.hidden = true
@@ -17,7 +17,7 @@ vim.o.cursorline = true
 vim.o.splitright = true
 vim.o.splitbelow = true
 
-vim.o.completeopt = 'menuone,noinsert,noselect'
+vim.o.completeopt = "menuone,noinsert,noselect"
 
 vim.o.tabstop = 2
 vim.o.softtabstop = 2
@@ -30,19 +30,17 @@ vim.bo.smartindent = true
 
 vim.wo.number = true
 vim.wo.relativenumber = true
-vim.wo.signcolumn = 'yes'
+vim.wo.signcolumn = "yes"
 vim.wo.wrap = true
-vim.o.mouse = 'a'
+vim.o.mouse = "a"
 
-vim.g.mapleader = ','
+vim.g.mapleader = ","
 vim.g.auto_save = true
 
 vim.o.updatetime = 200
 
 vim.api.nvim_create_autocmd("TermOpen", {
-  pattern = "term://*",
-  command = "setlocal nonumber norelativenumber | setfiletype terminal | startinsert",
+	pattern = "term://*",
+	command = "setlocal nonumber norelativenumber | setfiletype terminal | startinsert",
 })
-vim.api.nvim_create_autocmd("TermClose", { pattern = "*", command = "bd!", })
-
-vim.api.nvim_create_autocmd("BufWritePost", { pattern = "*", command = "AsyncRun ./z/rsync", })
+vim.api.nvim_create_autocmd("TermClose", { pattern = "*", command = "bd!" })

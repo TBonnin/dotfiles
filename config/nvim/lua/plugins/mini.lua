@@ -4,6 +4,8 @@ require("mini.comment").setup({})
 
 require("mini.tabline").setup({})
 
+require("mini.pairs").setup({})
+
 local indentscope = require("mini.indentscope")
 indentscope.setup({
 	draw = {

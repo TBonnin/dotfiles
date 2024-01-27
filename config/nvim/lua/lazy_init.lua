@@ -157,6 +157,7 @@ return require("lazy").setup({
 	},
 	{
 		"declancm/cinnamon.nvim",
+		enabled = false,
 		config = function()
 			require("cinnamon").setup({
 				always_scroll = false,
@@ -206,7 +207,13 @@ return require("lazy").setup({
 		"folke/flash.nvim",
 		event = "VeryLazy",
 		---@type Flash.Config
-		opts = {},
+		opts = {
+			modes = {
+				search = {
+					enabled = false,
+				},
+			},
+		},
 		keys = {
 			{
 				"s",
@@ -224,7 +231,6 @@ return require("lazy").setup({
 			},
 		},
 	},
-	"skywind3000/asyncrun.vim",
 	{
 		"nvimdev/guard.nvim",
 		dependencies = {
@@ -232,17 +238,12 @@ return require("lazy").setup({
 		},
 		config = function()
 			local ft = require("guard.filetype")
-
 			ft("lua"):fmt("stylua")
-			ft("go"):fmt("lsp")
-
-			require("guard").setup({ fmt_on_save = true })
-		end,
-	},
-	{
-		"windwp/nvim-autopairs",
-		config = function()
-			require("nvim-autopairs").setup()
+			ft("typescript,javascript,typescriptreact"):fmt("prettier")
+			require("guard").setup({
+				fmt_on_save = true,
+				lsp_as_default_formatter = true,
+			})
 		end,
 	},
 }, {
