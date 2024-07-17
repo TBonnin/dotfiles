@@ -70,22 +70,6 @@ return require("lazy").setup({
 		end,
 	},
 	{
-		"mfussenegger/nvim-dap",
-		dependencies = {
-			"leoluz/nvim-dap-go",
-			"rcarriga/nvim-dap-ui",
-			"theHamsta/nvim-dap-virtual-text",
-			"nvim-telescope/telescope-dap.nvim",
-		},
-		event = "BufReadPre",
-		config = function()
-			require("plugins.dap")
-		end,
-		init = function()
-			require("mappings").dap()
-		end,
-	},
-	{
 		"ethanholz/nvim-lastplace",
 		config = function()
 			require("plugins.lastplace")
@@ -118,10 +102,10 @@ return require("lazy").setup({
 		"ruifm/gitlinker.nvim",
 		config = function()
 			require("gitlinker").setup({ mappings = nil })
-			vim.api.nvim_create_user_command("Gb", function()
+			vim.api.nvim_create_user_command("Gh", function()
 				require("gitlinker").get_repo_url({ action_callback = require("gitlinker.actions").open_in_browser })
 			end, {})
-			vim.api.nvim_create_user_command("Gbl", function()
+			vim.api.nvim_create_user_command("Ghl", function()
 				require("gitlinker").get_buf_range_url(
 					"n",
 					{ action_callback = require("gitlinker.actions").open_in_browser }

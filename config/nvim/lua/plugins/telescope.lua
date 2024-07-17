@@ -26,7 +26,7 @@ telescope.setup({
 				["<C-k>"] = require("telescope.actions").move_selection_previous,
 				["<esc>"] = require("telescope.actions").close,
 				["<C-f>"] = require("telescope.actions").to_fuzzy_refine,
-				["<C-p>"] = pickers.cycle,
+				["<C-o>"] = pickers.cycle,
 			},
 		},
 		sorting_strategy = "ascending",

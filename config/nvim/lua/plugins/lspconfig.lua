@@ -15,10 +15,30 @@ local function on_attach(client, bufnr)
 	-- Mappings.
 
 	buf_set_keymap("n", "Y", "<cmd>lua vim.lsp.buf.hover()<CR>", opts)
-	buf_set_keymap("n", "<space>rn", "<cmd>lua vim.lsp.buf.rename()<CR>", opts)
-	buf_set_keymap("n", "<leader>a", "<cmd>lua vim.lsp.buf.code_action()<CR>", opts)
-	buf_set_keymap("n", "[d", "<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>", opts)
-	buf_set_keymap("n", "]d", "<cmd>lua vim.lsp.diagnostic.goto_next()<CR>", opts)
+	buf_set_keymap(
+		"n",
+		"<space>rn",
+		"<cmd>lua vim.lsp.buf.rename()<CR>",
+		{ noremap = true, silent = true, desc = "Rename" }
+	)
+	buf_set_keymap(
+		"n",
+		"<leader>a",
+		"<cmd>lua vim.lsp.buf.code_action()<CR>",
+		{ noremap = true, silent = true, desc = "Code Action" }
+	)
+	buf_set_keymap(
+		"n",
+		"[d",
+		"<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>",
+		{ noremap = true, silent = true, desc = "Previous Diagnostic" }
+	)
+	buf_set_keymap(
+		"n",
+		"]d",
+		"<cmd>lua vim.lsp.diagnostic.goto_next()<CR>",
+		{ noremap = true, silent = true, desc = "Next Diagnostic" }
+	)
 	-- buf_set_keymap('n', 'gD', '<Cmd>lua vim.lsp.buf.declaration()<CR>', opts)
 	-- buf_set_keymap('n', 'gd', '<Cmd>lua vim.lsp.buf.definition()<CR>', opts)
 	-- buf_set_keymap('n', 'gr', '<cmd>lua vim.lsp.buf.references()<CR>', opts)

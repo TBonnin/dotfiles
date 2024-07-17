@@ -42,7 +42,7 @@ M.startup = function()
 	map("n", "q:", "<nop>", opt)
 
 	-- open links
-	map("n", "gx", ':exec "!open <cWORD>"<cr><cr>', opt)
+	map("n", "gx", ':exec "!open <cWORD>"<cr><cr>', { desc = "Open" })
 
 	-- remap C-g/C-t to Tab/S-Tab to iterate through results while searching
 	map("c", "<Tab>", 'getcmdtype() =~ "[/?]" ? "<C-g>" : "<C-z>"', { expr = true, silent = false })
@@ -53,49 +53,39 @@ M.startup = function()
 end
 
 M.neotree = function()
-	map("n", "<leader>1", ":Neotree reveal<CR>", opt)
+	map("n", "<leader>1", ":Neotree reveal<CR>", { desc = "Show file in tree" })
 end
 
 M.telescope = function()
-	map("n", "<leader>r", ":Telescope resume<CR>", opt)
-	map("n", "<leader>f", ":Telescope live_grep<CR>", opt)
-	map("n", "<leader>t", ":Telescope find_files <CR>", opt)
+	map("n", "<leader>r", ":Telescope resume<CR>", { desc = "Telescope Resume" })
+	map("n", "<leader>f", ":Telescope live_grep<CR>", { desc = "Grep" })
+	map("n", "<leader>t", ":Telescope find_files <CR>", { desc = "Find Files" })
 	map(
 		"n",
 		"<leader>o",
 		':lua require("telescope.builtin").oldfiles({ sort_mru = true, ignore_current_buffer = true })<CR>',
-		opt
+		{ desc = "Oldfiles" }
 	)
 	map(
 		"n",
 		"<leader>w",
 		':lua require("telescope.builtin").buffers({ sort_mru = true, ignore_current_buffer = true })<CR>',
-		opt
+		{ desc = "Buffers" }
 	)
-	map("n", "<leader>c", ":Telescope command_history<CR>", opt)
-	map("n", "<leader>e", ":Telescope diagnostics<CR>", opt)
-	map("n", "<leader>q", ":Telescope quickfix<CR>", opt)
-	map("n", "<leader>h", ":Telescope help_tags<CR>", opt)
-	map("n", "<leader>s", ":Telescope lsp_document_symbols<CR>", opt)
-	map("n", '""', ":Telescope registers<CR>", opt)
-	map("n", "mm", ":Telescope marks<CR>", opt)
-	map("n", "gd", ":Telescope lsp_definitions<CR>", opt)
-	map("n", "gr", ":lua require('telescope.builtin').lsp_references({fname_width=40})<CR>", opt)
+	map("n", "<leader>c", ":Telescope command_history<CR>", { desc = "Command History" })
+	map("n", "<leader>e", ":Telescope diagnostics<CR>", { desc = "Diagnostics" })
+	map("n", "<leader>q", ":Telescope quickfix<CR>", { desc = "Quickfix" })
+	map("n", "<leader>h", ":Telescope help_tags<CR>", { desc = "Help Tags" })
+	map("n", "<leader>s", ":Telescope lsp_document_symbols<CR>", { desc = "Document Symbols" })
+	map("n", '""', ":Telescope registers<CR>", { desc = "Registers" })
+	map("n", "mm", ":Telescope marks<CR>", { desc = "Marks" })
+	map("n", "gd", ":Telescope lsp_definitions<CR>", { desc = "Definitions" })
+	map("n", "gr", ":lua require('telescope.builtin').lsp_references({fname_width=40})<CR>", { desc = "References" })
 
 	vim.keymap.set("v", "<leader>f", function()
 		local text = vim.getVisualSelection()
 		require("telescope.builtin").live_grep({ default_text = text })
-	end, opt)
-end
-
-M.dap = function()
-	map("n", "<leader>db", ":lua require('dap').toggle_breakpoint()<CR>", opt)
-	map("n", "<leader>dn", ":lua require('dap').continue()<CR>", opt)
-	map("n", "<leader>dt", ":lua require('dap').terminate()<CR>", opt)
-	map("n", "<leader>di", ":lua require('dap').step_into()<CR>", opt)
-	map("n", "<leader>ds", ":lua require('dap').step_over()<CR>", opt)
-	map("n", "<leader>do", ":lua require('dap').step_out()<CR>", opt)
-	map("n", "<leader>du", ":lua require('dapui').toggle()<CR>", opt)
+	end, { desc = "Grep" })
 end
 
 M.mini = function()
@@ -104,7 +94,7 @@ M.mini = function()
 end
 
 M.fterm = function()
-	map("n", "<leader>,", ":lua require('FTerm').toggle()<CR>", opt)
+	map("n", "<leader>,", ":lua require('FTerm').toggle()<CR>", { desc = "Toggle Terminal" })
 	map("t", "<leader>,", "<C-\\><C-n><CMD>lua require('FTerm').toggle()<CR>", opt)
 end
 

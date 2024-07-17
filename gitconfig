@@ -60,6 +60,7 @@
     a = "!add_fzf() { git status --short | awk '{print $2}' | fzf | xargs git add; git status; }; add_fzf"
     com = "!checkout_main() { git co main 2>/dev/null || git co master; }; checkout_main"
     ap = add -p
+    ai = add -i
     br = "!browse() { git config remote.origin.url | xargs open; }; browse"
 
 [diff]  
