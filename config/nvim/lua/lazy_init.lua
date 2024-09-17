@@ -169,6 +169,7 @@ return require("lazy").setup({
 				["rust"] = true,
 				["cpp"] = true,
 				["sh"] = true,
+				["terraform"] = true,
 			}
 		end,
 	},
@@ -223,12 +224,65 @@ return require("lazy").setup({
 		config = function()
 			local ft = require("guard.filetype")
 			ft("lua"):fmt("stylua")
-			ft("typescript,javascript,typescriptreact"):fmt("prettier")
+			ft("typescript,javascript,typescriptreact"):fmt("prettier"):extra("--tab-width 4")
 			require("guard").setup({
 				fmt_on_save = true,
 				lsp_as_default_formatter = true,
 			})
 		end,
+	},
+	{
+		"sindrets/diffview.nvim",
+		config = function()
+			require("diffview").setup({
+				view = {
+					merge_tool = {
+						layout = "diff3_mixed", -- see ':h diffview-config-view.x.layout'.
+						disable_diagnostics = true,
+					},
+				},
+			})
+		end,
+	},
+	{
+		"yetone/avante.nvim",
+		event = "VeryLazy",
+		lazy = false,
+		version = false, -- set this if you want to always pull the latest change
+		opts = {
+			mappings = {
+				ask = "aa",
+			},
+		},
+		build = "make",
+		dependencies = {
+			"stevearc/dressing.nvim",
+			"nvim-lua/plenary.nvim",
+			"MunifTanjim/nui.nvim",
+			--- optional
+			"nvim-tree/nvim-web-devicons", -- or echasnovski/mini.icons
+			{
+				-- support for image pasting
+				"HakonHarnes/img-clip.nvim",
+				event = "VeryLazy",
+				opts = {
+					default = {
+						embed_image_as_base64 = false,
+						prompt_for_file_name = false,
+						drag_and_drop = {
+							insert_mode = true,
+						},
+					},
+				},
+			},
+			{
+				"MeanderingProgrammer/render-markdown.nvim",
+				opts = {
+					file_types = { "markdown", "Avante" },
+				},
+				ft = { "markdown", "Avante" },
+			},
+		},
 	},
 }, {
 	ui = {

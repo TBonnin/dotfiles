@@ -2,6 +2,15 @@ vim.o.errorbells = false
 
 vim.o.termguicolors = true
 vim.o.syntax = "on"
+-- Hide tabline even when extension like lualine overrides it
+-- vim.o.showtabline = 0
+vim.api.nvim_create_autocmd("BufReadPre", {
+	group = vim.api.nvim_create_augroup("showtabline", { clear = true }),
+	callback = function()
+		vim.opt.showtabline = 0
+	end,
+	desc = "Hide tabline (set showtabline=0)",
+})
 
 vim.o.backup = false
 vim.o.hidden = true

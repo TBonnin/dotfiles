@@ -6,7 +6,7 @@ local pickers = {
 	builtin.find_files,
 	builtin.buffers,
 	builtin.live_grep,
-	builtin.lsp_document_symbols,
+	-- builtin.lsp_document_symbols,
 	index = 1,
 }
 pickers.cycle = function()

@@ -17,7 +17,7 @@ local function on_attach(client, bufnr)
 	buf_set_keymap("n", "Y", "<cmd>lua vim.lsp.buf.hover()<CR>", opts)
 	buf_set_keymap(
 		"n",
-		"<space>rn",
+		"<leader>n",
 		"<cmd>lua vim.lsp.buf.rename()<CR>",
 		{ noremap = true, silent = true, desc = "Rename" }
 	)
@@ -98,7 +98,7 @@ lspconfig.rust_analyzer.setup({
 	on_attach = on_attach,
 })
 
-lspconfig.tsserver.setup({
+lspconfig.ts_ls.setup({
 	capabilities = capabilities,
 	on_attach = on_attach,
 })
