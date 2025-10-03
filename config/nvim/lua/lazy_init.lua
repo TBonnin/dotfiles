@@ -33,6 +33,10 @@ return require("lazy").setup({
 		end,
 	},
 	{
+		"stevearc/dressing.nvim",
+		opts = {},
+	},
+	{
 		"nvim-telescope/telescope.nvim",
 		config = function()
 			require("plugins.telescope")
@@ -224,11 +228,26 @@ return require("lazy").setup({
 		config = function()
 			local ft = require("guard.filetype")
 			ft("lua"):fmt("stylua")
-			ft("typescript,javascript,typescriptreact"):fmt("prettier"):extra("--tab-width 4")
-			require("guard").setup({
-				fmt_on_save = true,
-				lsp_as_default_formatter = true,
+			ft("go"):fmt("gofmt")
+			ft("typescript,javascript,typescriptreact"):fmt("prettier")
+			ft("html"):fmt({
+				cmd = "prettier",
+				args = {
+					"--parser",
+					"vue",
+					"--print-width",
+					"120",
+					"--tab-width",
+					"2",
+					"--bracket-same-line",
+					"true",
+				},
+				stdin = true,
 			})
+			vim.g.guard_config = {
+				fmt_on_save = true,
+				lsp_as_default_formatter = false,
+			}
 		end,
 	},
 	{
@@ -237,7 +256,7 @@ return require("lazy").setup({
 			require("diffview").setup({
 				view = {
 					merge_tool = {
-						layout = "diff3_mixed", -- see ':h diffview-config-view.x.layout'.
+						layout = "diff1_plain", -- see ':h diffview-config-view.x.layout'.
 						disable_diagnostics = true,
 					},
 				},

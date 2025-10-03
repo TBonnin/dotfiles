@@ -28,5 +28,8 @@ symbol='aws'
 disabled = false
 format='[$symbol$context(\($namespace\))]($style) '
 
+[direnv]
+disabled = true
+
 [git_branch]
 format = "[$symbol$branch(:$remote_branch)]($style) "
