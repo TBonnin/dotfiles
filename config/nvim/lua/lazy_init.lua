@@ -37,23 +37,29 @@ return require("lazy").setup({
 		opts = {},
 	},
 	{
-		"nvim-telescope/telescope.nvim",
-		config = function()
-			require("plugins.telescope")
-		end,
-		init = function()
-			require("mappings").telescope()
-		end,
-		dependencies = {
-			{ "nvim-telescope/telescope-fzf-native.nvim", build = "make" },
-			{
-				"sudormrfbin/cheatsheet.nvim",
-				event = "VimEnter",
-				config = function()
-					require("plugins.cheatsheet")
-				end,
+		"folke/snacks.nvim",
+		keys = require("mappings").snacks(),
+		opts = {
+			picker = {
+				win = {
+					input = {
+						keys = {
+							["<C-k>"] = { "list_up", mode = { "i", "n" } },
+							["<C-j>"] = { "list_down", mode = { "i", "n" } },
+							["<esc>"] = { "close", mode = { "i", "n" } },
+						},
+					},
+				},
+				layout = {
+					fullscreen = true,
+					preset = "vertical",
+				},
+				formatters = {
+					file = {
+						filename_first = false,
+					},
+				},
 			},
-			"nvim-telescope/telescope-ui-select.nvim",
 		},
 	},
 	{
@@ -71,22 +77,13 @@ return require("lazy").setup({
 		dependencies = { "kyazdani42/nvim-web-devicons" },
 		config = function()
 			require("plugins.statusline")
+			require("treesitter-context").setup()
 		end,
 	},
 	{
 		"ethanholz/nvim-lastplace",
 		config = function()
 			require("plugins.lastplace")
-		end,
-	},
-	{
-		"neovim/nvim-lspconfig",
-		dependencies = {
-			"ray-x/lsp_signature.nvim",
-		},
-		config = function()
-			require("plugins.signature")
-			require("plugins.lspconfig")
 		end,
 	},
 	{
@@ -109,7 +106,7 @@ return require("lazy").setup({
 			vim.api.nvim_create_user_command("Gh", function()
 				require("gitlinker").get_repo_url({ action_callback = require("gitlinker.actions").open_in_browser })
 			end, {})
-			vim.api.nvim_create_user_command("Ghl", function()
+			vim.api.nvim_create_user_command("Ghb", function()
 				require("gitlinker").get_buf_range_url(
 					"n",
 					{ action_callback = require("gitlinker.actions").open_in_browser }

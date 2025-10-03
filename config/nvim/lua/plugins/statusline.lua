@@ -5,7 +5,7 @@ if not present then
 end
 
 local function lsp_clients()
-	local clients = vim.lsp.get_active_clients()
+	local clients = vim.lsp.get_clients()
 	if #clients == 0 then
 		return "no lsp"
 	end

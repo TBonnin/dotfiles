@@ -1,4 +1,4 @@
-options = require("options")
-mappings = require("mappings").startup()
-abbrev = require("abbrev")
-packer = require("lazy_init")
+require("options")
+require("mappings").startup()
+require("lazy_init")
+require("lsp")

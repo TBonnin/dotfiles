@@ -1,4 +1,10 @@
 require("mini.completion").setup({})
+vim.api.nvim_create_autocmd("FileType", {
+	pattern = "snacks_picker_input",
+	callback = function(args)
+		vim.b[args.buf].minicompletion_disable = true
+	end,
+})
 
 require("mini.comment").setup({})
 
@@ -18,6 +24,9 @@ local miniclue = require("mini.clue")
 miniclue.setup({
 	window = {
 		delay = 400,
+		config = {
+			width = "auto",
+		},
 	},
 	triggers = {
 		-- Leader triggers

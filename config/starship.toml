@@ -21,11 +21,19 @@ disabled = true
 [gcloud]
 disabled = true
 
+[terraform]
+disabled = true
+
+[docker_context]
+disabled = true
+
 [aws]
-symbol='aws'
+format = '[$symbol\(($profile)\)]($style)'
+symbol = "aws"
+style = "#FF9900" # orange
 
 [kubernetes]
-disabled = false
+disabled = true
 format='[$symbol$context(\($namespace\))]($style) '
 
 [direnv]
