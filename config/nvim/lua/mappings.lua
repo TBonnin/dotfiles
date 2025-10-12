@@ -61,10 +61,18 @@ M.snacks = function()
 					title = "Find Files",
 					multi = { "buffers", "recent", "files" },
 					format = "file", -- use `file` format for all sources
+					sort = { fields = { "source_id:asc", "idx", "score:desc", "#text" } },
 					matcher = {
 						cwd_bonus = true, -- boost cwd matches
-						frecency = true, -- use frecency boosting
+						-- frecency = true, -- use frecency boosting
+						history_bonus = true, -- boost matches from history
 						sort_empty = true, -- sort even when the filter is empty
+					},
+					formatters = {
+						file = {
+							filename_first = false,
+							truncate = 80,
+						},
 					},
 					transform = "unique_file",
 				})
