@@ -10,18 +10,18 @@ vim.api.nvim_create_autocmd("UIEnter", {
 	end,
 })
 
--- Replace diagnostic symbols
-local signs = { Error = "✘", Warn = "▲", Hint = "⚑", Info = "" }
-for type, icon in pairs(signs) do
-	local hl = "DiagnosticSign" .. type
-	vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = hl }) -- TODO: deprecated
-end
-
 -- Global diagnostics config
 local border = "single"
 vim.diagnostic.config({
 	virtual_text = false,
-	signs = true,
+	signs = {
+		text = {
+			[vim.diagnostic.severity.ERROR] = "✘",
+			[vim.diagnostic.severity.WARN] = "▲",
+			[vim.diagnostic.severity.HINT] = "⚑",
+			[vim.diagnostic.severity.INFO] = "",
+		},
+	},
 	update_in_insert = false,
 	float = { border = border },
 })
@@ -41,15 +41,8 @@ vim.api.nvim_create_autocmd("CursorHold", {
 	end,
 })
 
--- Set capabilities for all lsp servers
-vim.lsp.config("*", {
-	capabilities = vim.lsp.protocol.make_client_capabilities(),
-})
-
 vim.api.nvim_create_autocmd("LspAttach", {
 	callback = function(args)
-		vim.api.nvim_set_option_value("omnifunc", "v:lua.vim.lsp.omnifunc", { buf = args.buf })
-
 		-- Mappings.
 		local opts = { buffer = args.buf, silent = true }
 		vim.keymap.set("n", "Y", vim.lsp.buf.hover, vim.tbl_extend("force", opts, { desc = "Hover docs" }))

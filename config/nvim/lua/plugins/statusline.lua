@@ -9,15 +9,6 @@ local function lsp_clients()
 	if #clients == 0 then
 		return "no lsp"
 	end
-	-- local values = {}
-	-- local keys = {}
-	-- for _, client in pairs(clients) do
-	--     if keys[client.name] == nil then
-	--         table.insert(values, client.name)
-	--         keys[client.name] = true
-	--     end
-	-- end
-	-- return "LSP[" .. table.concat(values, "|") .. "]"
 	return "lsp(" .. #clients .. ")"
 end
 

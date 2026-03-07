@@ -1,4 +1,4 @@
 require("options")
 require("mappings").startup()
-require("lazy_init")
+require("plugins")
 require("lsp")

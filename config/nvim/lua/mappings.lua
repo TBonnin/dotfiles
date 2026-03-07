@@ -1,40 +1,52 @@
 local function map(mode, lhs, rhs, opts)
-	local options = { noremap = true, silent = true }
+	local options = { silent = true }
 	if opts then
 		options = vim.tbl_extend("force", options, opts)
 	end
-	vim.api.nvim_set_keymap(mode, lhs, rhs, options)
+	vim.keymap.set(mode, lhs, rhs, options)
 end
 
 local M = {}
-local opt = {}
 
 M.startup = function()
-	map("i", "jj", "<esc>", opt)
+	map("i", "jj", "<esc>")
 
 	-- Move up and down DISPLAYED line
-	map("n", "k", "gk", opt)
-	map("n", "j", "gj", opt)
+	map("n", "k", "gk")
+	map("n", "j", "gj")
 
 	-- turn off highlighted results (nohlsearch) when pressing Enter.
 	-- just pressing n or N will turn the highlight back again
 	-- in quickfix window, pressing Enter will jump to the error, so undefine the mapping there
-	map("n", "<CR>", ":noh<CR>", opt)
+	map("n", "<CR>", ":noh<CR>")
 	vim.api.nvim_create_autocmd("FileType", { pattern = "qf", command = [[nnoremap <buffer> <CR> <CR>]] })
 
 	-- split line at cursor
-	map("n", "K", "i<CR><esc>", opt)
+	map("n", "K", "i<CR><esc>")
 
 	-- Kill the Ex mode and command history
-	map("n", "Q", "<nop>", opt)
-	map("n", "q:", "<nop>", opt)
+	map("n", "Q", "<nop>")
+	map("n", "q:", "<nop>")
 
 	-- open links
 	map("n", "gx", ':exec "!open <cWORD>"<cr><cr>', { desc = "Open" })
 
-	-- remap C-g/C-t to Tab/S-Tab to iterate through results while searching
-	map("c", "<Tab>", 'getcmdtype() =~ "[/?]" ? "<C-g>" : "<C-z>"', { expr = true, silent = false })
-	map("c", "<S-Tab>", 'getcmdtype() =~ "[/?]" ? "<C-t>" : "<S-Tab>"', { expr = true, silent = false })
+	-- -- remap C-g/C-t to Tab/S-Tab to iterate through results while searching
+	map("c", "<Tab>", function()
+		local type = vim.fn.getcmdtype()
+		if type == "/" or type == "?" then
+			return vim.api.nvim_replace_termcodes("<C-g>", true, true, true)
+		end
+		return vim.api.nvim_replace_termcodes("<C-z>", true, true, true)
+	end, { expr = true, silent = false })
+
+	map("c", "<S-Tab>", function()
+		local type = vim.fn.getcmdtype()
+		if type == "/" or type == "?" then
+			return vim.api.nvim_replace_termcodes("<C-t>", true, true, true)
+		end
+		return vim.api.nvim_replace_termcodes("<S-Tab>", true, true, true)
+	end, { expr = true, silent = false })
 
 	-- search on screen only
 	map("n", "\\", "'/\\%(\\%>'.(line('w0')-1).'l\\%<'.(line('w$')+1).'l\\)\\&'", { expr = true, silent = true })
@@ -46,6 +58,14 @@ end
 
 M.snacks = function()
 	return {
+		{
+			"<leader>,",
+			function()
+				Snacks.terminal.toggle()
+			end,
+			desc = "Terminal",
+			mode = { "n", "t" },
+		},
 		{
 			"<leader>r",
 			function()
@@ -191,13 +211,24 @@ M.snacks = function()
 end
 
 M.mini = function()
-	map("i", "<Tab>", 'pumvisible() ? "<C-n>" : "<Tab>"', { noremap = true, expr = true })
-	map("i", "<S-Tab>", 'pumvisible() ? "<C-p>" : "<S-Tab>"', { noremap = true, expr = true })
-end
+	map("i", "<Tab>", function()
+		if vim.fn.pumvisible() == 1 then
+			return vim.api.nvim_replace_termcodes("<C-n>", true, true, true)
+		end
+		local ok, suggestion = pcall(require, "copilot.suggestion")
+		if ok and suggestion.is_visible() then
+			suggestion.accept()
+			return ""
+		end
+		return vim.api.nvim_replace_termcodes("<Tab>", true, true, true)
+	end, { expr = true })
 
-M.fterm = function()
-	map("n", "<leader>,", ":lua require('FTerm').toggle()<CR>", { desc = "Toggle Terminal" })
-	map("t", "<leader>,", "<C-\\><C-n><CMD>lua require('FTerm').toggle()<CR>", opt)
+	map("i", "<S-Tab>", function()
+		if vim.fn.pumvisible() == 1 then
+			return vim.api.nvim_replace_termcodes("<C-p>", true, true, true)
+		end
+		return vim.api.nvim_replace_termcodes("<S-Tab>", true, true, true)
+	end, { expr = true })
 end
 
 return M

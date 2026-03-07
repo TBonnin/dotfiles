@@ -12,12 +12,12 @@ end
 vim.opt.rtp:prepend(lazypath)
 
 return require("lazy").setup({
-	"nvim-lua/plenary.nvim",
 	{
 		"catppuccin/nvim",
 		name = "catppuccin",
 		config = function()
 			require("catppuccin").setup({
+				flavour = "macchiato", -- latte, frappe, macchiato, mocha
 				compile = {
 					enabled = false,
 					path = vim.fn.stdpath("cache") .. "/catppuccin",
@@ -28,13 +28,8 @@ return require("lazy").setup({
 					percentage = 0.25,
 				},
 			})
-			vim.g.catppuccin_flavour = "macchiato" -- latte, frappe, macchiato, mocha
 			vim.cmd("colorscheme catppuccin")
 		end,
-	},
-	{
-		"stevearc/dressing.nvim",
-		opts = {},
 	},
 	{
 		"folke/snacks.nvim",
@@ -61,30 +56,53 @@ return require("lazy").setup({
 					},
 				},
 			},
+			terminal = {
+				win = {
+					style = "float",
+					border = "rounded",
+					width = 0,
+					height = 0.99,
+					wo = {
+						winblend = 5,
+					},
+				},
+			},
 		},
 	},
 	{
 		"nvim-treesitter/nvim-treesitter",
-		build = function()
-			require("nvim-treesitter.install").update({ with_sync = true })
-		end,
+		lazy = false,
+		build = ":TSUpdate",
 		config = function()
-			require("plugins.treesitter")
+			require("nvim-treesitter.configs").setup({
+				ensure_installed = "all",
+				sync_install = false,
+				auto_install = true,
+				modules = {},
+				ignore_install = {},
+				highlight = {
+					enable = true,
+					additional_vim_regex_highlighting = false,
+				},
+			})
 		end,
 	},
 	"nvim-treesitter/nvim-treesitter-context",
 	{
-		"hoob3rt/lualine.nvim",
-		dependencies = { "kyazdani42/nvim-web-devicons" },
+		"nvim-lualine/lualine.nvim",
+		dependencies = { "nvim-tree/nvim-web-devicons" },
 		config = function()
 			require("plugins.statusline")
-			require("treesitter-context").setup()
 		end,
 	},
 	{
 		"ethanholz/nvim-lastplace",
 		config = function()
-			require("plugins.lastplace")
+			require("nvim-lastplace").setup({
+				lastplace_ignore_buftype = { "quickfix", "nofile", "help" },
+				lastplace_ignore_filetype = { "gitcommit", "gitrebase", "svn", "hgcommit" },
+				lastplace_open_folds = true,
+			})
 		end,
 	},
 	{
@@ -95,16 +113,13 @@ return require("lazy").setup({
 		end,
 	},
 	{
-		"ruifm/gitlinker.nvim",
+		"linrongbin16/gitlinker.nvim",
 		config = function()
-			require("gitlinker").setup({ mappings = nil })
+			require("gitlinker").setup()
 
 			local git_subcommands = {
 				br = function()
-					require("gitlinker").get_buf_range_url(
-						"n",
-						{ action_callback = require("gitlinker.actions").open_in_browser }
-					)
+					require("gitlinker").link({ action = require("gitlinker.actions").system })
 				end,
 			}
 
@@ -138,9 +153,11 @@ return require("lazy").setup({
 	},
 	{
 		"nvim-neo-tree/neo-tree.nvim",
-		branch = "v2.x",
+		branch = "v3.x",
 		dependencies = {
+			"nvim-lua/plenary.nvim",
 			"MunifTanjim/nui.nvim",
+			"nvim-tree/nvim-web-devicons",
 		},
 		init = function()
 			require("mappings").neotree()
@@ -150,53 +167,35 @@ return require("lazy").setup({
 		end,
 	},
 	{
-		"declancm/cinnamon.nvim",
-		enabled = false,
+		"zbirenbaum/copilot.lua",
+		dependencies = { "copilotlsp-nvim/copilot-lsp" }, -- (optional) for NES functionality
+		cmd = "Copilot",
+		event = "InsertEnter",
 		config = function()
-			require("cinnamon").setup({
-				always_scroll = false,
-				extra_keymaps = true,
-				override_keymaps = true,
-				max_length = 250,
-				scroll_limit = 50,
-				horizontal_scroll = false,
-			})
-			vim.keymap.set("n", "n", "<Cmd>lua Scroll('n')<CR>")
-			vim.keymap.set("n", "N", "<Cmd>lua Scroll('N')<CR>")
-		end,
-	},
-	{
-		"github/copilot.vim",
-		config = function()
-			vim.g.copilot_filetypes = {
-				["*"] = false,
-				["typescript"] = true,
-				["javascript"] = true,
-				["lua"] = true,
-				["html"] = true,
-				["go"] = true,
-				["python"] = true,
-				["rust"] = true,
-				["cpp"] = true,
-				["sh"] = true,
-				["terraform"] = true,
-				["yaml"] = true,
-			}
-		end,
-	},
-	{
-		"numToStr/FTerm.nvim",
-		config = function()
-			require("FTerm").setup({
-				blend = 5,
-				dimensions = {
-					height = 1.0,
-					width = 1.0,
+			require("copilot").setup({
+				filetypes = {
+					["*"] = false,
+					typescript = true,
+					javascript = true,
+					lua = true,
+					html = true,
+					go = true,
+					python = true,
+					rust = true,
+					cpp = true,
+					sh = true,
+					terraform = true,
+					yaml = true,
+				},
+				suggestion = {
+					enabled = true,
+					auto_trigger = true,
+					keymap = {
+						accept = false,
+						dismiss = "<C-]>",
+					},
 				},
 			})
-		end,
-		init = function()
-			require("mappings").fterm()
 		end,
 	},
 	{
