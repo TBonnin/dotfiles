@@ -59,14 +59,31 @@ M.snacks = function()
 				Snacks.keys = {}
 				Snacks.picker.smart({
 					title = "Find Files",
-					multi = { "buffers", "recent", "files" },
+					multi = { "buffers", "recent", "git_files", "files" },
 					format = "file", -- use `file` format for all sources
-					sort = { fields = { "source_id:asc", "idx", "score:desc", "#text" } },
+					transform = (function()
+						local current_buf = vim.api.nvim_get_current_buf()
+						return function(item, ctx)
+							if
+								require("snacks.picker.transform").unique_file(item, ctx) == false
+								or item.buf == current_buf
+							then
+								return false
+							end
+							item.buf_lastused = item.info and item.info.lastused or 0
+						end
+					end)(),
+
+					sort = { fields = { "buf_lastused:desc", "score:desc", "#text", "idx" } },
 					matcher = {
-						cwd_bonus = true, -- boost cwd matches
-						-- frecency = true, -- use frecency boosting
-						history_bonus = true, -- boost matches from history
+						fuzzy = true, -- use fuzzy matching
 						sort_empty = true, -- sort even when the filter is empty
+						ignorecase = true, -- use ignorecase
+						smartcase = false, -- use smartcase
+						filename_bonus = true, -- boost filename matches
+						cwd_bonus = true, -- boost cwd matches
+						history_bonus = true, -- boost matches from history
+						frecency = true, -- use frecency boosting
 					},
 					formatters = {
 						file = {
@@ -74,7 +91,6 @@ M.snacks = function()
 							truncate = 80,
 						},
 					},
-					transform = "unique_file",
 				})
 			end,
 			desc = "Find Files",

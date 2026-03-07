@@ -94,24 +94,32 @@ return require("lazy").setup({
 		end,
 	},
 	{
-		"lewis6991/gitsigns.nvim",
-		config = function()
-			require("gitsigns").setup()
-		end,
-	},
-	{
 		"ruifm/gitlinker.nvim",
 		config = function()
 			require("gitlinker").setup({ mappings = nil })
-			vim.api.nvim_create_user_command("Gh", function()
-				require("gitlinker").get_repo_url({ action_callback = require("gitlinker.actions").open_in_browser })
-			end, {})
-			vim.api.nvim_create_user_command("Ghb", function()
-				require("gitlinker").get_buf_range_url(
-					"n",
-					{ action_callback = require("gitlinker.actions").open_in_browser }
-				)
-			end, {})
+
+			local git_subcommands = {
+				br = function()
+					require("gitlinker").get_buf_range_url(
+						"n",
+						{ action_callback = require("gitlinker.actions").open_in_browser }
+					)
+				end,
+			}
+
+			vim.api.nvim_create_user_command("Git", function(opts)
+				local fn = git_subcommands[opts.args]
+				if fn then
+					fn()
+				else
+					vim.notify("Unknown subcommand: " .. opts.args, vim.log.levels.WARN)
+				end
+			end, {
+				nargs = "?",
+				complete = function()
+					return vim.tbl_keys(git_subcommands)
+				end,
+			})
 		end,
 	},
 	{
@@ -171,6 +179,7 @@ return require("lazy").setup({
 				["cpp"] = true,
 				["sh"] = true,
 				["terraform"] = true,
+				["yaml"] = true,
 			}
 		end,
 	},
