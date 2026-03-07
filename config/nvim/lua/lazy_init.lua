@@ -47,6 +47,7 @@ return require("lazy").setup({
 							["<C-k>"] = { "list_up", mode = { "i", "n" } },
 							["<C-j>"] = { "list_down", mode = { "i", "n" } },
 							["<esc>"] = { "close", mode = { "i", "n" } },
+							["<C-f>"] = { "toggle_grep", mode = { "i", "n" } },
 						},
 					},
 				},
@@ -227,34 +228,28 @@ return require("lazy").setup({
 		},
 	},
 	{
-		"nvimdev/guard.nvim",
-		dependencies = {
-			"nvimdev/guard-collection",
-		},
-		config = function()
-			local ft = require("guard.filetype")
-			ft("lua"):fmt("stylua")
-			ft("go"):fmt("gofmt")
-			ft("typescript,javascript,typescriptreact"):fmt("prettier")
-			ft("html"):fmt({
-				cmd = "prettier",
-				args = {
-					"--parser",
-					"vue",
-					"--print-width",
-					"120",
-					"--tab-width",
-					"2",
-					"--bracket-same-line",
-					"true",
+		"stevearc/conform.nvim",
+		event = { "BufWritePre" },
+		cmd = { "ConformInfo" },
+		opts = {
+			formatters_by_ft = {
+				lua = { "stylua" },
+				go = { "gofmt" },
+				javascript = { "prettier" },
+				typescript = { "prettier" },
+				typescriptreact = { "prettier" },
+				html = { "djlint" },
+			},
+			format_on_save = {
+				timeout_ms = 500,
+				lsp_fallback = true,
+			},
+			formatters = {
+				djlint = {
+					args = { "--reformat", "-" },
 				},
-				stdin = true,
-			})
-			vim.g.guard_config = {
-				fmt_on_save = true,
-				lsp_as_default_formatter = false,
-			}
-		end,
+			},
+		},
 	},
 	{
 		"sindrets/diffview.nvim",

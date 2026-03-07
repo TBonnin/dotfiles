@@ -128,8 +128,8 @@ vim.lsp.enable({
 	"terraformls",
 	"ts_ls",
 	"lua_ls",
+	"gopls",
 	-- "pyright",
 	-- "rust_analyzer",
-	-- "gopls",
 	-- "clangd",
 })
