@@ -8,8 +8,6 @@ vim.api.nvim_create_autocmd("FileType", {
 
 require("mini.comment").setup({})
 
-require("mini.tabline").setup({})
-
 require("mini.pairs").setup({})
 
 local indentscope = require("mini.indentscope")
