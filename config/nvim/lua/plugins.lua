@@ -35,6 +35,7 @@ return require("lazy").setup({
 		"folke/snacks.nvim",
 		keys = require("mappings").snacks(),
 		opts = {
+			input = {},
 			picker = {
 				win = {
 					input = {
@@ -72,22 +73,19 @@ return require("lazy").setup({
 	{
 		"nvim-treesitter/nvim-treesitter",
 		lazy = false,
+		branch = "main",
 		build = ":TSUpdate",
 		config = function()
-			require("nvim-treesitter.configs").setup({
-				ensure_installed = "all",
-				sync_install = false,
-				auto_install = true,
-				modules = {},
-				ignore_install = {},
+			require("nvim-treesitter.config").setup({
 				highlight = {
 					enable = true,
 					additional_vim_regex_highlighting = false,
 				},
 			})
 		end,
+		"nvim-treesitter/nvim-treesitter-context",
 	},
-	"nvim-treesitter/nvim-treesitter-context",
+
 	{
 		"nvim-lualine/lualine.nvim",
 		dependencies = { "nvim-tree/nvim-web-devicons" },
@@ -195,6 +193,7 @@ return require("lazy").setup({
 						dismiss = "<C-]>",
 					},
 				},
+				panel = { enabled = false },
 			})
 		end,
 	},
@@ -239,8 +238,7 @@ return require("lazy").setup({
 				typescriptreact = { "prettier" },
 				html = { "djlint" },
 			},
-			format_on_save = {
-				timeout_ms = 500,
+			format_after_save = {
 				lsp_fallback = true,
 			},
 			formatters = {

@@ -7,6 +7,7 @@ vim.api.nvim_create_autocmd("UIEnter", {
 		pcall(vim.keymap.del, "n", "grn")
 		pcall(vim.keymap.del, "n", "grr")
 		pcall(vim.keymap.del, "n", "grt")
+		pcall(vim.keymap.del, "n", "grx")
 	end,
 })
 
