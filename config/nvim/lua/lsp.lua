@@ -111,6 +111,17 @@ vim.lsp.config.rust_analyzer = {
 vim.lsp.config.gopls = {
 	cmd = { "gopls" },
 	filetypes = { "go", "gomod", "gowork", "gotmpl" },
+	settings = {
+		gopls = {
+			hints = {
+				assignVariableTypes = true,
+				parameterNames = true,
+				functionTypeParameters = true,
+				constantValues = true,
+				rangeVariableTypes = true,
+			},
+		},
+	},
 }
 
 vim.lsp.config.clangd = {
