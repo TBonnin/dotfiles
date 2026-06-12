@@ -71,21 +71,11 @@ return require("lazy").setup({
 		},
 	},
 	{
-		"nvim-treesitter/nvim-treesitter",
-		lazy = false,
-		branch = "main",
-		build = ":TSUpdate",
-		config = function()
-			require("nvim-treesitter.config").setup({
-				highlight = {
-					enable = true,
-					additional_vim_regex_highlighting = false,
-				},
-			})
-		end,
-		"nvim-treesitter/nvim-treesitter-context",
+		"Bekaboo/dropbar.nvim",
+		dependencies = {
+			"nvim-tree/nvim-web-devicons",
+		},
 	},
-
 	{
 		"nvim-lualine/lualine.nvim",
 		dependencies = { "nvim-tree/nvim-web-devicons" },
@@ -171,6 +161,9 @@ return require("lazy").setup({
 		event = "InsertEnter",
 		config = function()
 			require("copilot").setup({
+				server_opts_overrides = {
+					on_error = function() end,
+				},
 				filetypes = {
 					["*"] = false,
 					typescript = true,
